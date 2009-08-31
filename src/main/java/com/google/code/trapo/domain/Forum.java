@@ -22,12 +22,9 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.validator.NotEmpty;
-
-import com.google.code.trapo.validators.Unique;
 
 /**
  * @author Bamboozle Who
@@ -36,19 +33,14 @@ import com.google.code.trapo.validators.Unique;
  */
 @SuppressWarnings("serial")
 @Entity
-@Table(
-	name = "forums", 
-	uniqueConstraints = @UniqueConstraint(
-		columnNames = { "name" }
-	)
-)
+@Table(name = "forums")
 public class Forum implements Serializable, Comparable<Forum> {
 
 	@Id
 	@GeneratedValue(generator = "system-uuid")
 	@GenericGenerator(name = "system-uuid", strategy = "uuid")
 	private String id;
-	@NotEmpty @Unique
+	@NotEmpty
 	private String name;
 	@NotEmpty
 	private String description;
@@ -61,6 +53,7 @@ public class Forum implements Serializable, Comparable<Forum> {
 	
 	public Forum(String name) {
 		this.name = name;
+		this.createdAt = new Date();
 	}
 	
 	public Forum withName(String name) {

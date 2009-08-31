@@ -21,7 +21,6 @@ import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.stereotype.Repository;
-import org.springframework.util.Assert;
 
 import com.google.code.trapo.domain.Forum;
 
@@ -50,6 +49,7 @@ public class ForumRepository {
 		return (Forum) template().get(Forum.class, id);
 	}
 	
+	@SuppressWarnings("unchecked")
 	public Forum byName(String name) {
 		
 		HibernateTemplate template = template();
@@ -57,7 +57,9 @@ public class ForumRepository {
 		
 		List<Forum> forums = template.findByNamedParam("from Forum f where f.name = :name", "name", name);
 		
-		Assert.notEmpty(forums, "Could not find any forum with name " + name);
+		if(forums.isEmpty()) {
+			return null;
+		}
 		
 		return forums.iterator().next();
 		
@@ -68,7 +70,6 @@ public class ForumRepository {
 		return template;
 	}
 
-	@SuppressWarnings("unchecked")
 	public List<Forum> listAll() {
 		return template().loadAll(Forum.class);
 	}

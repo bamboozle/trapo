@@ -50,7 +50,7 @@ public class ForumRepositoryTests {
 		Forum forum = new Forum("A Mock forum");
 		forum.setDescription("My new java forum");
 		forum.setCreatedAt(new Date());
-		forumRepository.save(forum);
+		forumRepository.save(forum.open());
 	}
 	
 	@Test
@@ -59,15 +59,17 @@ public class ForumRepositoryTests {
 		assertThat(forum.getName(), equalTo("A Mock forum"));
 	}
 	
-	@Test(expected = IllegalArgumentException.class)
-	public void should_raise_a_exception_when_there_is_no_forum_with_the_given_name() {
-		forumRepository.byName("there is no forum with this name");
+	@Test
+	public void should_return_null_when_there_is_no_forum_with_the_given_name() {
+		Forum forum = forumRepository.byName("there is no forum with this name");
+		assertThat(forum, nullValue());
 	}
 	
 	@Test
 	public final void should_save_a_forum_in_database() {
 
 		Forum forum = new Forum().withName("Trapo").open();
+		forum.setDescription("the forum's description");
 		forumRepository.save(forum);
 		
 		assertThat(forum.getId(), notNullValue());
@@ -78,6 +80,7 @@ public class ForumRepositoryTests {
 	public final void should_update_a_forum_to_the_database() {
 		
 		Forum forum = new Forum().withName("A New Forum").open();
+		forum.setDescription("the new forum's description");
 		forumRepository.save(forum);
 		
 		forum.withName("A New Name");
