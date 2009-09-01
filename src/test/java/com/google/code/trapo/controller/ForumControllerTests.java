@@ -15,11 +15,17 @@
  */
 package com.google.code.trapo.controller;
 
+import static java.util.Arrays.asList;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
+import java.util.List;
+
+import org.hamcrest.CoreMatchers;
 import org.junit.Test;
 import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
@@ -73,6 +79,46 @@ public class ForumControllerTests {
 		
 		assertThat(model.containsAttribute("forum"), is(true));
 		
+	}
+	
+	@Test @SuppressWarnings("unchecked")
+	public void should_return_all_forums_when_listing() {
+		
+		Model model = this.model();
+		ForumRepository repository = mock(ForumRepository.class);
+		when(repository.listAll()).thenReturn(asList(forum(), forum(), forum()));
+		
+		ForumsController controller = new ForumsController();
+		controller.setForumRepository(repository);
+		
+		controller.list(model);
+		
+		List<Forum> forums = (List<Forum>) model.asMap().get("forums");
+		
+		assertThat(forums.size(), CoreMatchers.equalTo(3));
+		assertThat(model.containsAttribute("forums"), is(true));
+		
+	}
+	
+	@Test
+	public void should_redirect_to_list_page_when_listing_all_forums() {
+		
+		ForumsController controller = new ForumsController();
+		controller.setForumRepository(this.repository());
+		
+		String result = controller.list(model());
+		assertThat(result, equalTo("forums/list"));
+		
+	}
+	
+	@Test
+	public void should_redirect_to_create_page_when_asking_to_create_a_new_forum() {
+		
+		ForumsController controller = new ForumsController();
+		controller.setForumRepository(this.repository());
+		
+		String result = controller.create();
+		assertThat(result, equalTo("forums/create"));
 	}
 	
 	private Forum forum() {

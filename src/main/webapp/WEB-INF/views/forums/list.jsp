@@ -12,10 +12,13 @@
     <title>Forums List</title>
   </head>
   <body>
+    <ul id="forums_menu">
+      <li><a href="<c:url value="/forum/create" />">Create a new Forum</a></li>
+    </ul>
     <c:forEach items="${forums}" var="forum">
     <p>
-      <a href="/trapo/forum/${forum.name}">${forum.name}</a> <br />
-      ${forum.description} <br />    
+      <a href="<c:url value="/forum/" /><c:out value="${forum.name}" escapeXml="true" />">${forum.name}</a> <br />
+      ${forum.description} <br />
     </p>
     </c:forEach>
   </body>
