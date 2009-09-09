@@ -74,8 +74,7 @@ public class ForumsController {
 	public String edit(@PathVariable String name, Model model) {
 		Forum forum = forumRepository.byName(name);
 		if(forum == null) {
-			model.addAttribute("message", format("Forum %s was not found.", name));
-			return "forums/list";
+			return redirectsToList(name, model);
 		}
 		model.addAttribute("forum", forum);
 		return "forums/edit";
@@ -92,10 +91,8 @@ public class ForumsController {
 	public String close(@PathVariable String name, Model model) {
 		
 		Forum forum = forumRepository.byName(name);
-		
 		if(forum == null) {
-			model.addAttribute("message", format("Forum %s was not found.", name));
-			return "forums/list";
+			return redirectsToList(name, model);
 		}
 		
 		forum.close();
@@ -107,11 +104,16 @@ public class ForumsController {
 			)
 		);
 		
-		return "forums/list";
+		return "forums/show";
 	}
 	
 	protected void setForumRepository(ForumRepository forumRepository) {
 		this.forumRepository = forumRepository;
+	}
+	
+	private String redirectsToList(String name, Model model) {
+		model.addAttribute("message", format("Forum %s was not found.", name));
+		return "forums/list";
 	}
 	
 	private String decode(String string) {

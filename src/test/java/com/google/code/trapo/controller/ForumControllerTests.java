@@ -140,29 +140,30 @@ public class ForumControllerTests {
 	@Test
 	public void should_redirect_to_list_when_trying_to_edit_a_forum_that_not_exists() {
 		
-		ForumRepository repository = mock(ForumRepository.class);
-		when(repository.byName("to edit")).thenReturn(null);
-		ForumsController controller = new ForumsController();
-		controller.setForumRepository(repository);
+		ForumsController controller = editingControllerForNonExistentForum();
 		
 		String result = controller.edit("to edit", model());
-		
 		assertThat(result, equalTo("forums/list"));
 	}
 	
 	@Test
 	public void should_put_a_message_in_model_when_trying_edit_a_forum_that_not_exists() {
 		
-		ForumRepository repository = mock(ForumRepository.class);
-		when(repository.byName("to edit")).thenReturn(null);
-		ForumsController controller = new ForumsController();
-		controller.setForumRepository(repository);
-		
 		Model model = model();
+		
+		ForumsController controller = editingControllerForNonExistentForum();
 		controller.edit("to edit", model);
 		
 		assertThat((String)model.asMap().get("message"), equalTo("Forum to edit was not found."));
 		
+	}
+
+	private ForumsController editingControllerForNonExistentForum() {
+		ForumRepository repository = mock(ForumRepository.class);
+		when(repository.byName("to edit")).thenReturn(null);
+		ForumsController controller = new ForumsController();
+		controller.setForumRepository(repository);
+		return controller;
 	}
 	
 	@Test
@@ -170,7 +171,6 @@ public class ForumControllerTests {
 		
 		ForumRepository forumRepository = mock(ForumRepository.class);
 		when(forumRepository.byName("to edit")).thenReturn(forum());
-		
 		ForumsController controller = new ForumsController();
 		controller.setForumRepository(forumRepository);
 		
@@ -185,7 +185,6 @@ public class ForumControllerTests {
 		
 		ForumRepository forumRepository = mock(ForumRepository.class);
 		when(forumRepository.byName("to edit")).thenReturn(forum);
-		
 		ForumsController controller = new ForumsController();
 		controller.setForumRepository(forumRepository);
 		
