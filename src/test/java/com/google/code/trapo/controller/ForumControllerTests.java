@@ -51,7 +51,6 @@ public class ForumControllerTests {
 		String result = controller.save(forum(), model());
 		
 		assertThat(result, equalTo("forums/show"));
-		
 	}
 	
 	@Test
@@ -78,7 +77,6 @@ public class ForumControllerTests {
 		controller.save(forum(), model);
 		
 		assertThat(model.containsAttribute("forum"), is(true));
-		
 	}
 	
 	@Test @SuppressWarnings("unchecked")
@@ -97,7 +95,6 @@ public class ForumControllerTests {
 		
 		assertThat(forums.size(), CoreMatchers.equalTo(3));
 		assertThat(model.containsAttribute("forums"), is(true));
-		
 	}
 	
 	@Test
@@ -108,7 +105,6 @@ public class ForumControllerTests {
 		
 		String result = controller.list(model());
 		assertThat(result, equalTo("forums/list"));
-		
 	}
 	
 	@Test
@@ -155,25 +151,11 @@ public class ForumControllerTests {
 		controller.edit("to edit", model);
 		
 		assertThat((String)model.asMap().get("message"), equalTo("Forum to edit was not found."));
-		
-	}
-
-	private ForumsController editingControllerForNonExistentForum() {
-		ForumRepository repository = mock(ForumRepository.class);
-		when(repository.byName("to edit")).thenReturn(null);
-		ForumsController controller = new ForumsController();
-		controller.setForumRepository(repository);
-		return controller;
 	}
 	
 	@Test
 	public void should_redirects_to_edit_page_when_editing_a_existent_forum() {
-		
-		ForumRepository forumRepository = mock(ForumRepository.class);
-		when(forumRepository.byName("to edit")).thenReturn(forum());
-		ForumsController controller = new ForumsController();
-		controller.setForumRepository(forumRepository);
-		
+		ForumsController controller = editingControllerToExistentForum(forum());
 		assertThat(controller.edit("to edit", model()), equalTo("forums/edit"));
 	}
 	
@@ -183,14 +165,18 @@ public class ForumControllerTests {
 		Forum forum = forum();
 		Model model = model();
 		
+		ForumsController controller = editingControllerToExistentForum(forum);
+		controller.edit("to edit", model);
+		
+		assertThat((Forum)model.asMap().get("forum"), equalTo(forum));
+	}
+
+	private ForumsController editingControllerToExistentForum(Forum forum) {
 		ForumRepository forumRepository = mock(ForumRepository.class);
 		when(forumRepository.byName("to edit")).thenReturn(forum);
 		ForumsController controller = new ForumsController();
 		controller.setForumRepository(forumRepository);
-		
-		controller.edit("to edit", model);
-		
-		assertThat((Forum)model.asMap().get("forum"), equalTo(forum));
+		return controller;
 	}
 	
 	private Forum forum() {
@@ -214,6 +200,14 @@ public class ForumControllerTests {
 			}
 		});
 		return repository;
+	}
+	
+	private ForumsController editingControllerForNonExistentForum() {
+		ForumRepository repository = mock(ForumRepository.class);
+		when(repository.byName("to edit")).thenReturn(null);
+		ForumsController controller = new ForumsController();
+		controller.setForumRepository(repository);
+		return controller;
 	}
 	
 	private Model model() {
