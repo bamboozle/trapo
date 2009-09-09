@@ -15,6 +15,7 @@
  */
 package com.google.code.trapo.controller;
 
+import static java.lang.String.format;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 import java.io.UnsupportedEncodingException;
@@ -67,6 +68,46 @@ public class ForumsController {
 	@RequestMapping("/forum/create")
 	public String create() {
 		return "forums/create";
+	}
+	
+	@RequestMapping("/forum/edit/{name}")
+	public String edit(@PathVariable String name, Model model) {
+		Forum forum = forumRepository.byName(name);
+		if(forum == null) {
+			model.addAttribute("message", format("Forum %s was not found.", name));
+			return "forums/list";
+		}
+		model.addAttribute("forum", forum);
+		return "forums/edit";
+	}
+	
+	@RequestMapping(value = "/forum/update", method = POST)
+	public String update(Forum forum, Model model) {
+		forumRepository.update(forum);
+		model.addAttribute("forum", forum);
+		return "forums/show";
+	}
+	
+	@RequestMapping("/forum/close/{name}")
+	public String close(@PathVariable String name, Model model) {
+		
+		Forum forum = forumRepository.byName(name);
+		
+		if(forum == null) {
+			model.addAttribute("message", format("Forum %s was not found.", name));
+			return "forums/list";
+		}
+		
+		forum.close();
+		
+		model.addAttribute("forum", forum)
+			 .addAttribute(
+				"message", 
+				format("Forum %s was successfully closed.", name
+			)
+		);
+		
+		return "forums/list";
 	}
 	
 	protected void setForumRepository(ForumRepository forumRepository) {

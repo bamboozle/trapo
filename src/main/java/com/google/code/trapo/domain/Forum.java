@@ -64,6 +64,11 @@ public class Forum implements Serializable, Comparable<Forum> {
 		this.open = true;
 		return this;
 	}
+	
+	public Forum close() {
+		this.open = false;
+		return this;
+	}
 
 	public int compareTo(Forum forum) {
 		if (forum == null) {

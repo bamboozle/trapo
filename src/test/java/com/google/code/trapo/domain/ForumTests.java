@@ -93,6 +93,15 @@ public class ForumTests {
 	}
 	
 	@Test
+	public final void should_close_a_forum_when_calling_close() {
+		
+		Forum forum = new Forum().open();
+		
+		forum.close();
+		assertThat(forum.isOpen(), is(false));
+	}
+	
+	@Test
 	public final void should_create_a_forum_with_a_name_and_open_it() {
 		
 		Forum forum = new Forum().withName("A Forum")

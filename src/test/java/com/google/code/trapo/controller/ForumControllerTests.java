@@ -137,6 +137,63 @@ public class ForumControllerTests {
 		assertThat(model.containsAttribute("forum"), is(true));
 	}
 	
+	@Test
+	public void should_redirect_to_list_when_trying_to_edit_a_forum_that_not_exists() {
+		
+		ForumRepository repository = mock(ForumRepository.class);
+		when(repository.byName("to edit")).thenReturn(null);
+		ForumsController controller = new ForumsController();
+		controller.setForumRepository(repository);
+		
+		String result = controller.edit("to edit", model());
+		
+		assertThat(result, equalTo("forums/list"));
+	}
+	
+	@Test
+	public void should_put_a_message_in_model_when_trying_edit_a_forum_that_not_exists() {
+		
+		ForumRepository repository = mock(ForumRepository.class);
+		when(repository.byName("to edit")).thenReturn(null);
+		ForumsController controller = new ForumsController();
+		controller.setForumRepository(repository);
+		
+		Model model = model();
+		controller.edit("to edit", model);
+		
+		assertThat((String)model.asMap().get("message"), equalTo("Forum to edit was not found."));
+		
+	}
+	
+	@Test
+	public void should_redirects_to_edit_page_when_editing_a_existent_forum() {
+		
+		ForumRepository forumRepository = mock(ForumRepository.class);
+		when(forumRepository.byName("to edit")).thenReturn(forum());
+		
+		ForumsController controller = new ForumsController();
+		controller.setForumRepository(forumRepository);
+		
+		assertThat(controller.edit("to edit", model()), equalTo("forums/edit"));
+	}
+	
+	@Test
+	public void should_put_forum_in_model_when_editing_a_existent_forum() {
+		
+		Forum forum = forum();
+		Model model = model();
+		
+		ForumRepository forumRepository = mock(ForumRepository.class);
+		when(forumRepository.byName("to edit")).thenReturn(forum);
+		
+		ForumsController controller = new ForumsController();
+		controller.setForumRepository(forumRepository);
+		
+		controller.edit("to edit", model);
+		
+		assertThat((Forum)model.asMap().get("forum"), equalTo(forum));
+	}
+	
 	private Forum forum() {
 		Forum forum = new Forum();
 		forum.setName("my new name");
