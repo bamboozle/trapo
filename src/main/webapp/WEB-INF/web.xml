@@ -50,7 +50,7 @@
 
   <filter-mapping>
     <filter-name>httpMethodFilter</filter-name>
-    <servlet-name>petclinic</servlet-name>
+    <servlet-name>trapo</servlet-name>
   </filter-mapping>
 
   <session-config>
@@ -62,5 +62,5 @@
     <!-- Displays a stack trace -->
     <location>/WEB-INF/views/uncaughtException.jsp</location>
   </error-page>
-
+  
 </web-app>

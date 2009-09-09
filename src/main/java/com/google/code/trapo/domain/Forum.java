@@ -44,7 +44,7 @@ public class Forum implements Serializable, Comparable<Forum> {
 	private String name;
 	@NotEmpty
 	private String description;
-	private Date createdAt;
+	private Date createdAt = new Date();
 	private boolean open;
 
 	public Forum() {
@@ -53,7 +53,6 @@ public class Forum implements Serializable, Comparable<Forum> {
 	
 	public Forum(String name) {
 		this.name = name;
-		this.createdAt = new Date();
 	}
 	
 	public Forum withName(String name) {

@@ -121,6 +121,22 @@ public class ForumControllerTests {
 		assertThat(result, equalTo("forums/create"));
 	}
 	
+	@Test
+	public void should_find_a_forum_by_name() {
+		
+		Forum forum = forum();
+		Model model = model();
+		
+		ForumsController controller = new ForumsController();
+		ForumRepository repository = mock(ForumRepository.class);
+		when(repository.byName("my new forum")).thenReturn(forum);
+		controller.setForumRepository(repository);
+		
+		controller.show("my new forum", model);
+		
+		assertThat(model.containsAttribute("forum"), is(true));
+	}
+	
 	private Forum forum() {
 		Forum forum = new Forum();
 		forum.setName("my new name");

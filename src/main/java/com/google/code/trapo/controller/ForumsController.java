@@ -17,12 +17,15 @@ package com.google.code.trapo.controller;
 
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.google.code.trapo.domain.Forum;
@@ -54,6 +57,13 @@ public class ForumsController {
 		return "forums/list";
 	}
 	
+	@RequestMapping({"/forum/{name}"})
+	public String show(@PathVariable String name, Model model) {
+		Forum forum = forumRepository.byName(decode(name));
+		model.addAttribute("forum", forum);
+		return "forums/show";
+	}
+	
 	@RequestMapping("/forum/create")
 	public String create() {
 		return "forums/create";
@@ -61,6 +71,14 @@ public class ForumsController {
 	
 	protected void setForumRepository(ForumRepository forumRepository) {
 		this.forumRepository = forumRepository;
+	}
+	
+	private String decode(String string) {
+		try {
+			return URLDecoder.decode(string, "utf-8");
+		} catch (UnsupportedEncodingException e) {
+			return string;
+		}
 	}
 
 }
