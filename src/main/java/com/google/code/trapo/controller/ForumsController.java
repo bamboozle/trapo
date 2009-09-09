@@ -96,13 +96,7 @@ public class ForumsController {
 		}
 		
 		forum.close();
-		
-		model.addAttribute("forum", forum)
-			 .addAttribute(
-				"message", 
-				format("Forum %s was successfully closed.", name
-			)
-		);
+		model.addAttribute("forum", forum);
 		
 		return "forums/show";
 	}
@@ -113,7 +107,7 @@ public class ForumsController {
 	
 	private String redirectsToList(String name, Model model) {
 		model.addAttribute("message", format("Forum %s was not found.", name));
-		return "forums/list";
+		return this.list(model);
 	}
 	
 	private String decode(String string) {
