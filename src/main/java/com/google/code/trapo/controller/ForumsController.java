@@ -60,7 +60,7 @@ public class ForumsController {
 	
 	@RequestMapping({"/forum/{name}"})
 	public String show(@PathVariable String name, Model model) {
-		Forum forum = forumRepository.byName(decode(name));
+		Forum forum = forum(name);
 		model.addAttribute("forum", forum);
 		return "forums/show";
 	}
@@ -72,33 +72,12 @@ public class ForumsController {
 	
 	@RequestMapping("/forum/edit/{name}")
 	public String edit(@PathVariable String name, Model model) {
-		Forum forum = forumRepository.byName(name);
+		Forum forum = forum(name);
 		if(forum == null) {
 			return redirectsToList(name, model);
 		}
 		model.addAttribute("forum", forum);
 		return "forums/edit";
-	}
-	
-	@RequestMapping(value = "/forum/update", method = POST)
-	public String update(Forum forum, Model model) {
-		forumRepository.update(forum);
-		model.addAttribute("forum", forum);
-		return "forums/show";
-	}
-	
-	@RequestMapping("/forum/close/{name}")
-	public String close(@PathVariable String name, Model model) {
-		
-		Forum forum = forumRepository.byName(name);
-		if(forum == null) {
-			return redirectsToList(name, model);
-		}
-		
-		forum.close();
-		model.addAttribute("forum", forum);
-		
-		return "forums/show";
 	}
 	
 	protected void setForumRepository(ForumRepository forumRepository) {
@@ -116,6 +95,11 @@ public class ForumsController {
 		} catch (UnsupportedEncodingException e) {
 			return string;
 		}
+	}
+	
+	private Forum forum(String name) {
+		Forum forum = forumRepository.byName(decode(name));
+		return forum;
 	}
 
 }

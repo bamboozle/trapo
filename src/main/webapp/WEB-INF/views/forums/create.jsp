@@ -12,9 +12,9 @@
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <c:set var="update" value="${forum.id != null}" />
+    <c:set var="updating" value="${forum.id != null}" />
     <c:choose>
-      <c:when test="${update}">
+      <c:when test="${updating}">
         <title>Updating forum ${forum.name}</title>
       </c:when>
       <c:otherwise>
@@ -25,7 +25,7 @@
   <body>
     <fieldset id="forum_form">
       <c:choose>
-        <c:when test="${update}">
+        <c:when test="${updating}">
           <legend>Updating forum ${forum.name}</legend>
         </c:when>
         <c:otherwise>
