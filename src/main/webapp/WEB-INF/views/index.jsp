@@ -1,7 +1,10 @@
-<%@ page 
+<%@ page
+  session="false" 
   language="java" 
-  contentType="text/html; charset=UTF-8" 
+  contentType="text/html; charset=UTF-8"
   pageEncoding="UTF-8"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
   <head>
@@ -25,6 +28,7 @@
       </c:if>
     </div>
     <div id="main">
+      <c:forEach items="${forums}" var="forum" >
       <div class="forum">
         <a href="forum/${forum.name}" class="forum_name">${forum.name}</a>
         <p class="forum_stats">${forum.topicsCount}, ${forum.postsCount}</p>
@@ -33,6 +37,7 @@
           <a href="users/user">user name</a>
         </div>
       </div>
+      </c:forEach>
     </div>
     <div id="footer">
       <p id="copyright">2009</p>
