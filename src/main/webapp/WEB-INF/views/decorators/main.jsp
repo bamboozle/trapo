@@ -10,21 +10,30 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title><decorator:title default="Trapo" /></title>
+    <link rel="stylesheet" type="text/css" href="<c:url value="/css/trapo.css" />" media="screen" />
     <decorator:head />
   </head>
   <body>
+    <div id="header">
+      <h1>Trapo Forum</h1>
+      <p>A Forum powered by Trapo</p>
+    </div>
     <div id="navigation">
-      <ul>
+      <ul id="menu">
         <li><a href="<c:url value="/forums/" />">Forums</a></li>
         <li><a href="<c:url value="/tags/" />">Tags</a></li>
         <li><a href="<c:url value="/search/" />">Advanced Search</a></li>
-        <c:if test="${user != null}">
-        <li><a href="<c:url value="/profile/" />">Profile</a></li>
-        <li><a href="<c:url value="/logout/" />">Logout</a></li>
-        </c:if>
-        <c:if test="${user == null}">
-        <li><a href="<c:url value="/login/" />">Login</a></li>
-        </c:if>
+      </ul>
+      <ul id="preferences">
+        <c:choose>
+          <c:when test="${user != null}">
+            <li><a href="<c:url value="/profile/" />">Profile</a></li>
+            <li><a href="<c:url value="/logout/" />">Logout</a></li>
+          </c:when>
+          <c:otherwise>
+            <li><a href="<c:url value="/login/" />">Login</a></li>
+          </c:otherwise>
+        </c:choose>
       </ul>
     </div>
     <div id="main">
