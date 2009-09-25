@@ -44,14 +44,13 @@
 
   <servlet>
     <servlet-name>trapo</servlet-name>
-    <servlet-class>com.google.code.trapo.tags.TrapoDispatcherServlet</servlet-class>
+    <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
     <load-on-startup>1</load-on-startup>
   </servlet>
   <servlet-mapping>
     <servlet-name>trapo</servlet-name>
-    <url-pattern>/</url-pattern>
+    <url-pattern>/views/*</url-pattern>
   </servlet-mapping>
-
 
   <session-config>
     <session-timeout>10</session-timeout>
@@ -59,8 +58,20 @@
 
   <error-page>
     <exception-type>java.lang.Exception</exception-type>
-    <!-- Displays a stack trace -->
-    <location>/WEB-INF/views/uncaughtException.jsp</location>
+    <location>/WEB-INF/views/exceptions.jsp</location>
   </error-page>
+  
+  <jsp-config>
+    <taglib>
+      <taglib-uri>http://trapo.posterous.com/taglib</taglib-uri>
+      <taglib-location>/WEB-INF/UrlEncoder.tld</taglib-location>
+    </taglib>
+  </jsp-config>
+  
+  <welcome-file-list>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>forums/</welcome-file>
+  </welcome-file-list>
 
 </web-app>
