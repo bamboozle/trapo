@@ -10,7 +10,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title><sm:title default="Trapo" /></title>
-    <link rel="stylesheet" type="text/css" href="<c:url value="/css/trapo.css?v=1" />" media="screen" />
+    <link rel="stylesheet" type="text/css" href="<c:url value="/css/trapo.css" />" media="screen" />
     <sm:head />
   </head>
   <body>
@@ -18,31 +18,27 @@
       <h1>Trapo Forum</h1>
       <p>A Forum powered by Trapo</p>
     </div>
-    <div id="navigation">
-      <ul id="menu">
-        <li><a href="<c:url value="/views/forums/" />">Forums</a></li>
-        <li><a href="<c:url value="/views/tags/" />">Tags</a></li>
-        <li><a href="<c:url value="/views/search/" />">Advanced Search</a></li>
-      </ul>
-      <ul id="preferences">
-        <c:choose>
-          <c:when test="${user != null}">
-            <li><a href="<c:url value="/views/profile/" />">Profile</a></li>
-            <li><a href="<c:url value="/views/logout/" />">Logout</a></li>
-          </c:when>
-          <c:otherwise>
-            <li><a href="<c:url value="/views/login/" />">Login</a></li>
-          </c:otherwise>
-        </c:choose>
-      </ul>
-    </div>
+    <ul id="menu">
+      <li><a href="<c:url value="/view/forums/" />">Forums</a></li>
+      <li><a href="<c:url value="/view/tags/" />">Tags</a></li>
+      <li><a href="<c:url value="/view/search/" />">Advanced Search</a></li>
+      <c:choose>
+        <c:when test="${user != null}">
+          <li><a href="<c:url value="/view/profile/" />">Profile</a></li>
+          <li><a href="<c:url value="/view/logout/" />">Logout</a></li>
+        </c:when>
+        <c:otherwise>
+          <li><a href="<c:url value="/view/login/" />">Login</a></li>
+        </c:otherwise>
+      </c:choose>
+    </ul>
     <div id="main">
       <sm:body />
     </div>
     <div id="footer">
       <p id="online">Current online people:
         <c:forEach items="${users}" var="onlineUser">
-          <a href="<c:url value="/views/user/${onlineUser.login}" />">${onlineUser.name}</a>
+          <a href="<c:url value="/view/user/${onlineUser.login}" />">${onlineUser.name}</a>
         </c:forEach>
       </p>
       <p id="copyright">2009</p>

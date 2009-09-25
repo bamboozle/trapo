@@ -31,7 +31,7 @@
           <legend>Creating a new forum</legend>
         </c:otherwise>
       </c:choose>
-      <form action="/trapo/forum/save" method="post">
+      <form action="/trapo/view/forum/save" method="post">
         <c:if test="${updating}">
         <input type="hidden" name="id" value="${forum.id}" />
         </c:if>
