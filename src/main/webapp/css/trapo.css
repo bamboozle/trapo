@@ -10,9 +10,7 @@ body {
   margin: 20px;
 }
 
-
-
-#header h1, #header p {
+#header h1,#header p {
   padding: 0px;
   margin: 0px;
 }
@@ -64,4 +62,58 @@ td {
 
 #main {
   padding: 20px;
+}
+
+label {
+  display: block;
+}
+
+.help {
+  display: block;
+  color: gray;
+  font-size: 0.8em;
+}
+
+fieldset {
+  border-bottom: 0px;
+  border-left: 0px;
+  border-right: 0px;
+  margin-top: 20px;
+}
+
+legend {
+  text-transform: uppercase;
+  padding-right: 5px;
+  padding-left: 5px;
+  font-size: 1.2em;
+}
+
+input[type="text"] {
+  font-size:1.4em;
+}
+
+.cancel {
+  padding: 15px;
+  background-color: rgb(255, 255, 180);
+  text-decoration: none;
+  text-transform: lowercase;
+  font-size: 1.1em;
+  color: gray;
+}
+
+.cancel:hover {
+  color: white;
+  background-color: orange;
+}
+
+input[type="submit"] {
+  padding: 12px;
+  text-transform: lowercase;
+  font-size:1.1em;
+}
+
+#footer {
+ padding-left: 20px;
+ padding-right: 20px;
+ padding-bottom: 20px;
 }
