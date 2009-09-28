@@ -34,6 +34,9 @@
     </script>
   </head>
   <body>
+    <c:if test="${message != null}">
+      <p class="${message.type}">${message}</p>
+    </c:if>
     <div id="forum_show">
       <table cellpadding="0" cellspacing="0">
         <tr>
@@ -59,8 +62,8 @@
       <form id="sform" action="" method="post">
         <input name="id" type="hidden" value="${forum.id}">
       </form>
-      <a href="javascript:submit_form('sform', null, '<c:url value="/view/forum/edit/" />');">Edit</a>
-      <a href="javascript:submit_form('sform', 'Are you sure you want to delete the forum', '<c:url value="/view/forum/delete/" />');">Delete</a>
+      <a class="action" href="javascript:submit_form('sform', null, '<c:url value="/view/forum/edit/" />');">Edit</a>
+      <a class="action" href="javascript:submit_form('sform', 'Are you sure you want to delete the forum', '<c:url value="/view/forum/delete/" />');">Delete</a>
     </div>
   </body>
 </html>

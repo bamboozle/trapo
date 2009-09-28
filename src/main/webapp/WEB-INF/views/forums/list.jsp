@@ -17,6 +17,9 @@
       <li><a href="<c:url value="/" />">Home</a></li>
       <li><a href="<c:url value="/view/forum/create" />">Create a new Forum</a></li>
     </ul>
+    <c:if test="${message != null}">
+      <p class="${message.type}">${message}</p>
+    </c:if>
     <table>
       <tr>
         <th>Name</th>

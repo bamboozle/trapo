@@ -61,6 +61,19 @@ public class ForumsController {
 		return "forums/show";
 	}
 	
+	@RequestMapping(value = "/forum/delete/", method = POST)
+	public String delete(String id, Model model) {
+		
+		Forum forum = this.forumRepository.get(id);
+		if(forum == null) {
+			return redirectsToList("Forum to delete was not found.", model);
+		}
+		
+		forumRepository.delete(forum);
+		model.addAttribute("message", information("Forum was successfull deleted"));
+		return list(model);
+	}
+	
 	@RequestMapping({"/forums/", "/forums", "/forums/list"})
 	public String list(Model model) {
 		List<Forum> forums = forumRepository.listAll();

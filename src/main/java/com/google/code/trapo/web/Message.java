@@ -61,5 +61,14 @@ public class Message {
 	public String getText() {
 		return text;
 	}
+	
+	public Type getType() {
+		return type;
+	}
+	
+	@Override
+	public String toString() {
+		return text;
+	}
 
 }

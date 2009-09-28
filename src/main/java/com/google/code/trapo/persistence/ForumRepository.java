@@ -45,8 +45,12 @@ public class ForumRepository {
 		return forum;
 	}
 	
+	public void delete(Forum forum) {
+		template().delete(forum);
+	}
+	
 	public Forum get(String id) {
-		return (Forum) template().get(Forum.class, id);
+		return template().get(Forum.class, id);
 	}
 	
 	@SuppressWarnings("unchecked")
