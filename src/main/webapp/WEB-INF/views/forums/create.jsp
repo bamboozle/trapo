@@ -3,10 +3,8 @@
   language="java" 
   contentType="text/html; charset=UTF-8"
   pageEncoding="UTF-8"%>
-
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
   <head>
@@ -20,42 +18,49 @@
         <title>Creating a new forum</title>
       </c:otherwise>
     </c:choose>
+    <script type="text/javascript" language="javascript">
+      function areyousure(message) {
+        if(confirm(message)) {
+          return history.back(-1);
+        }
+        return false;
+      }
+    </script>
   </head>
   <body>
     <fieldset id="forum_form">
       <c:choose>
         <c:when test="${updating}">
-          <legend>Updating forum ${forum.name}</legend>
+          <c:set var="action" value="/view/forum/update/" />
         </c:when>
         <c:otherwise>
-          <legend>Creating a new forum</legend>
+          <c:set var="action" value="/view/forum/save/" />
         </c:otherwise>
       </c:choose>
-      <form action="/trapo/view/forum/save" method="post">
+      <form action="<c:url value="${action}" />" method="post">
         <c:if test="${updating}">
         <input type="hidden" name="id" value="${forum.id}" />
         </c:if>
         
         <label for="name">Name:</label>
-        <span id="help">The forum name. This field is required.</span>
         <input type="text" name="name" id="name" value="${forum.name}" />
+        <span class="help">The forum name. This field is required.</span>
         <br />
         
         <label for="description">Description:</label>
-        <span id="help">The forum name. This field is required.</span>
         <input type="text" name="description" id="description" value="${forum.description}" />
+        <span class="help">The forum description. This field is required.</span>
         <br />
         
         <c:choose>
-          <c:when test="${update}">
+          <c:when test="${updating}">
             <input type="submit" value="Update Forum" />
           </c:when>
           <c:otherwise>
             <input type="submit" value="Save Forum" />
           </c:otherwise>
         </c:choose>
-        <a class="cancel" href="javascript:;">Cancel</a>
-        
+        <a class="cancel" href="javascript:areyousure('Do you really want to cancel');">Cancel</a>
       </form>
     </fieldset>
   </body>

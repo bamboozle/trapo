@@ -9,6 +9,29 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>${forum.name} Forum - Trapo</title>
+    <script type="text/javascript" language="JavaScript">
+      function submit_form(form_id, message, action) {
+          return message != null 
+                 ? delete_forum(form_id, message, action)
+                 : do_forum_submit(form_id, action);
+      }
+
+      function delete_forum(form_id, message, action) {
+          if(confirm(message)) {
+        	  do_forum_submit(form_id, action);
+          }
+          return false;
+      }
+
+      function do_forum_submit(form_id, action) {
+
+        var _form = document.getElementById(form_id);
+        if(_form) {
+          _form.action = action;
+          _form.submit();
+        }
+      }
+    </script>
   </head>
   <body>
     <div id="forum_show">
@@ -33,8 +56,11 @@
           <td>${forum.open}</td>
         </tr>
       </table>
-      <a href="">Edit</a>
-      <a href="">Delete</a>
+      <form id="sform" action="" method="post">
+        <input name="id" type="hidden" value="${forum.id}">
+      </form>
+      <a href="javascript:submit_form('sform', null, '<c:url value="/view/forum/edit/" />');">Edit</a>
+      <a href="javascript:submit_form('sform', 'Are you sure you want to delete the forum', '<c:url value="/view/forum/delete/" />');">Delete</a>
     </div>
   </body>
 </html>
