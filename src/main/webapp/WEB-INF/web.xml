@@ -51,6 +51,10 @@
     <servlet-name>trapo</servlet-name>
     <url-pattern>/view/*</url-pattern>
   </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>trapo</servlet-name>
+    <url-pattern>*.html</url-pattern>
+  </servlet-mapping>
 
   <session-config>
     <session-timeout>10</session-timeout>
@@ -69,11 +73,11 @@
   </jsp-config>
   
   <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
     <welcome-file>forums/</welcome-file>
     <welcome-file>/views/forums/</welcome-file>
     <welcome-file>views/forums/</welcome-file>
     <welcome-file>index.jsp</welcome-file>
-    <welcome-file>index.html</welcome-file>
   </welcome-file-list>
 
 </web-app>
