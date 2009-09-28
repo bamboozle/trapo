@@ -21,6 +21,7 @@ import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
@@ -44,6 +45,35 @@ import com.google.code.trapo.web.Message;
  */
 public class ForumControllerTests {
 
+	@Test
+	public void should_update_a_existent_forum() {
+		
+		ForumRepository repository = this.repository();
+		
+		Forum forum = forum();
+		
+		ForumsController controller = new ForumsController();
+		controller.setForumRepository(repository);
+		
+		
+		String result = controller.update(forum, model());
+		assertThat(result, equalTo("forums/show"));
+		
+		verify(repository).update(forum);
+	}
+	
+	@Test
+	public void verify_that_update_method_add_a_information_message() {
+		
+		Model model = this.model();
+		ForumsController controller = new ForumsController();
+		controller.setForumRepository(this.repository());
+		controller.update(forum(), model);
+		
+		Message message = (Message)model.asMap().get("message");
+		assertThat(message, notNullValue());
+	}
+	
 	@Test
 	public void should_redirect_to_show_page_when_saving_a_new_forum() {
 		
