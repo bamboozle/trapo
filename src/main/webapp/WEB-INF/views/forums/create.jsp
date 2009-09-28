@@ -32,9 +32,11 @@
       <c:choose>
         <c:when test="${updating}">
           <c:set var="action" value="/view/forum/update/" />
+          <legend>Updating forum ${forum.name}</legend>
         </c:when>
         <c:otherwise>
           <c:set var="action" value="/view/forum/save/" />
+          <legend>Creating a new forum</legend>
         </c:otherwise>
       </c:choose>
       <form action="<c:url value="${action}" />" method="post">

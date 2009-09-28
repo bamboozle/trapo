@@ -128,8 +128,9 @@ input[type="submit"] {
 }
 
 .INFORMATION {
+  border-color: #4f6b72;
   color: #00529B;
-  background-color: #BDE5F8;
+  background-color: #CAE8EA;
   background-image: url('../images/info.png');
 }
 
