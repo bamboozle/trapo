@@ -35,6 +35,7 @@ import org.springframework.ui.Model;
 
 import com.google.code.trapo.domain.Forum;
 import com.google.code.trapo.persistence.ForumRepository;
+import com.google.code.trapo.web.Message;
 
 /**
  * @author Bamboozle Who
@@ -150,13 +151,14 @@ public class ForumControllerTests {
 		ForumsController controller = editingControllerForNonExistentForum();
 		controller.edit("to edit", model);
 		
-		assertThat((String)model.asMap().get("message"), equalTo("Forum to edit was not found."));
+		Message message = (Message)model.asMap().get("message");
+		assertThat(message.getText(), equalTo("Forum to edit was not found."));
 	}
 	
 	@Test
-	public void should_redirects_to_edit_page_when_editing_a_existent_forum() {
+	public void should_redirects_to_create_page_when_editing_a_existent_forum() {
 		ForumsController controller = editingControllerToExistentForum(forum());
-		assertThat(controller.edit("to edit", model()), equalTo("forums/edit"));
+		assertThat(controller.edit("to edit", model()), equalTo("forums/create"));
 	}
 	
 	@Test
@@ -173,7 +175,7 @@ public class ForumControllerTests {
 
 	private ForumsController editingControllerToExistentForum(Forum forum) {
 		ForumRepository forumRepository = mock(ForumRepository.class);
-		when(forumRepository.byName("to edit")).thenReturn(forum);
+		when(forumRepository.get("to edit")).thenReturn(forum);
 		ForumsController controller = new ForumsController();
 		controller.setForumRepository(forumRepository);
 		return controller;

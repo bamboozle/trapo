@@ -15,7 +15,8 @@
  */
 package com.google.code.trapo.controller;
 
-import static java.lang.String.format;
+import static com.google.code.trapo.web.Message.information;
+import static com.google.code.trapo.web.Message.warning;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 import java.io.UnsupportedEncodingException;
@@ -44,10 +45,19 @@ public class ForumsController {
 	@Autowired
 	private ForumRepository forumRepository;
 	
-	@RequestMapping(value = "/forum/save", method = POST)
+	@RequestMapping(value = "/forum/save/", method = POST)
 	public String save(Forum forum, Model model) {
 		forumRepository.save(forum);
 		model.addAttribute("forum", forum);
+		model.addAttribute("message", information("New forum was created"));
+		return "forums/show";
+	}
+	
+	@RequestMapping(value = "/forum/update/", method = POST)
+	public String update(Forum forum, Model model) {
+		forumRepository.update(forum);
+		model.addAttribute("forum", forum);
+		model.addAttribute("message", information("Forum was updated"));
 		return "forums/show";
 	}
 	
@@ -70,25 +80,31 @@ public class ForumsController {
 		return "forums/create";
 	}
 	
-	@RequestMapping("/forum/edit/{name}")
-	public String edit(@PathVariable String name, Model model) {
-		Forum forum = forum(name);
+	@RequestMapping(value = "/forum/edit/", method = POST)
+	public String edit(String id, Model model) {
+		Forum forum = this.forumRepository.get(id);
 		if(forum == null) {
-			return redirectsToList(name, model);
+			return redirectsToList("Forum to edit was not found.", model);
 		}
 		model.addAttribute("forum", forum);
-		return "forums/edit";
+		return "forums/create";
 	}
 	
 	protected void setForumRepository(ForumRepository forumRepository) {
 		this.forumRepository = forumRepository;
 	}
 	
-	private String redirectsToList(String name, Model model) {
-		model.addAttribute("message", format("Forum %s was not found.", name));
+	private String redirectsToList(String message, Model model) {
+		model.addAttribute("message", warning(message));
 		return this.list(model);
 	}
 	
+	
+	private Forum forum(String name) {
+		Forum forum = forumRepository.byName(decode(name));
+		return forum;
+	}
+
 	private String decode(String string) {
 		try {
 			return URLDecoder.decode(string, "utf-8");
@@ -96,10 +112,4 @@ public class ForumsController {
 			return string;
 		}
 	}
-	
-	private Forum forum(String name) {
-		Forum forum = forumRepository.byName(decode(name));
-		return forum;
-	}
-
 }
