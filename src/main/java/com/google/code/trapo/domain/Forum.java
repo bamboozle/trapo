@@ -15,6 +15,8 @@
  */
 package com.google.code.trapo.domain;
 
+import static org.hibernate.annotations.CacheConcurrencyStrategy.READ_WRITE;
+
 import java.io.Serializable;
 import java.util.Date;
 
@@ -23,6 +25,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.validator.NotEmpty;
 
@@ -34,6 +37,7 @@ import org.hibernate.validator.NotEmpty;
 @SuppressWarnings("serial")
 @Entity
 @Table(name = "forums")
+@Cache(usage = READ_WRITE)
 public class Forum implements Serializable, Comparable<Forum> {
 
 	@Id
