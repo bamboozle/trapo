@@ -35,6 +35,7 @@
     <div id="main">
       <sm:body />
     </div>
+    <br />
     <div id="footer">
       <p id="online">Current online people:
         <c:forEach items="${users}" var="onlineUser">

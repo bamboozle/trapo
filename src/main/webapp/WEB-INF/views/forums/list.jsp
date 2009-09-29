@@ -20,7 +20,7 @@
     <c:if test="${message != null}">
       <p class="${message.type}">${message}</p>
     </c:if>
-    <table>
+    <table cellpadding="0" cellspacing="0">
       <tr>
         <th>Name</th>
         <th>Description</th>

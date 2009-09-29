@@ -1,6 +1,6 @@
 @CHARSET "UTF-8";
 
-body {
+*,_ {
   font-family: "Trebuchet MS", Verdana, Arial, Helvetica, sans-serif;;
 }
 
@@ -25,7 +25,7 @@ body {
   display: inline;
 }
 
-#menu a, #menu a:visited {
+#menu a,#menu a:visited {
   padding: 15px;
   background-color: rgb(255, 255, 180);
   text-transform: uppercase;
@@ -42,7 +42,6 @@ body {
 
 th {
   color: rgb(230, 115, 0);
-  border-left: 1px solid orange;
   border-right: 1px solid orange;
   border-bottom: 1px solid orange;
   border-top: 1px solid orange;
@@ -51,68 +50,27 @@ th {
   text-align: left;
   padding: 6px 6px 6px 12px;
   background: rgb(255, 255, 180);
-  border-spacing: 0px; 
+  border-spacing: 0px;
+}
+
+th:first-child {
+  border-left: 1px solid orange;
 }
 
 td {
   border-right: 1px solid orange;
   border-bottom: 1px solid orange;
-  border-left: 1px solid orange;
   background: #fff;
   padding: 6px 6px 6px 12px;
   color: #4f6b72;
 }
 
+td:first-child {
+  border-left: 1px solid orange;
+}
+
 #main {
   padding: 20px;
-}
-
-label {
-  display: block;
-}
-
-.help {
-  display: block;
-  color: gray;
-  font-size: 0.8em;
-}
-
-fieldset {
-  border-bottom: 0px;
-  border-left: 0px;
-  border-right: 0px;
-  margin-top: 20px;
-}
-
-legend {
-  text-transform: uppercase;
-  padding-right: 5px;
-  padding-left: 5px;
-  font-size: 1.2em;
-}
-
-input[type="text"] {
-  font-size: 1.4em;
-}
-
-.cancel {
-  padding: 15px;
-  background-color: rgb(255, 255, 180);
-  text-decoration: none;
-  text-transform: lowercase;
-  font-size: 1.1em;
-  color: gray;
-}
-
-.cancel:hover {
-  color: white;
-  background-color: orange;
-}
-
-input[type="submit"] {
-  padding: 12px;
-  text-transform: lowercase;
-  font-size: 1.1em;
 }
 
 #footer {
@@ -121,7 +79,7 @@ input[type="submit"] {
   padding-bottom: 20px;
 }
 
-.INFORMATION, .WARNING,.ERROR {
+.INFORMATION,.WARNING,.ERROR {
   border: 1px solid;
   margin: 10px 0px;
   padding: 15px 10px 15px 50px;
@@ -147,4 +105,91 @@ input[type="submit"] {
   color: #D8000C;
   background-color: #FFBABA;
   background-image: url('../images/error.png');
+}
+
+p,h1,form {
+  border: 0;
+  margin: 0;
+  padding: 0;
+}
+
+.forum_form {
+  margin: 0 auto;
+  width: 450px;
+  padding: 14px;
+}
+
+#forms {
+  border: solid 2px rgb(255, 255, 150);
+  background: rgb(255, 255, 180);
+}
+
+#forms h1 {
+  font-size: 1.2em;
+  font-weight: bold;
+  margin-bottom: 8px;
+  text-transform: uppercase;
+}
+
+#forms p {
+  font-size: 1em;
+  color: #666666;
+  margin-bottom: 20px;
+  border-bottom: solid 1px #b7ddf2;
+  padding-bottom: 10px;
+}
+
+#forms label {
+  display: block;
+  font-weight: bold;
+  text-align: right;
+  float: left;
+}
+
+#forms .small {
+  color: #666666;
+  display: block;
+  font-size: 11px;
+  font-weight: normal;
+  text-align: right;
+  width: 140px;
+}
+
+#forms input[type='text'],#forms textarea {
+  float: left;
+  font-size: 1.2em;
+  padding: 4px 2px;
+  border: solid 1px #aacfe4;
+  width: 250px;
+  margin: 2px 0 20px 10px;
+}
+
+#forms {
+  float: left;
+  display: block;
+}
+
+.cancel {
+  padding: 15px;
+  background-color: rgb(255, 255, 180);
+  text-decoration: none;
+  text-transform: lowercase;
+  font-size: 1.1em;
+  color: gray;
+}
+
+.cancel:hover {
+  color: white;
+  background-color: orange;
+}
+
+input[type="submit"], textarea {
+  padding: 12px;
+  text-transform: lowercase;
+  font-size: 1.1em;
+}
+
+#actions {
+  float: right;
+  padding-right: 90px;
 }

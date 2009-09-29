@@ -20,7 +20,6 @@
           if(confirm(message)) {
         	  do_forum_submit(form_id, action);
           }
-          return false;
       }
 
       function do_forum_submit(form_id, action) {
@@ -34,36 +33,38 @@
     </script>
   </head>
   <body>
+    <ul id="forums_menu">
+      <li><a href="<c:url value="/" />">Home</a></li>
+      <li><a href="<c:url value="/view/forum/create" />">Create a new Forum</a></li>
+    </ul>
     <c:if test="${message != null}">
       <p class="${message.type}">${message}</p>
     </c:if>
-    <div id="forum_show">
-      <table cellpadding="0" cellspacing="0">
-        <tr>
-          <th colspan="2"><h1>${forum.name}</h1></th>
-        </tr>
-        <tr>
-          <td>Forum Name:</td>
-          <td>${forum.name}</td>
-        </tr>
-        <tr>
-          <td>Description:</td>
-          <td>${forum.description}</td>
-        </tr>
-        <tr>
-          <td>Created At:</td>
-          <td>${forum.createdAt}</td>
-        </tr>
-        <tr>
-          <td>Open:</td>
-          <td>${forum.open}</td>
-        </tr>
-      </table>
-      <form id="sform" action="" method="post">
-        <input name="id" type="hidden" value="${forum.id}">
-      </form>
-      <a class="action" href="javascript:submit_form('sform', null, '<c:url value="/view/forum/edit/" />');">Edit</a>
-      <a class="action" href="javascript:submit_form('sform', 'Are you sure you want to delete the forum', '<c:url value="/view/forum/delete/" />');">Delete</a>
-    </div>
+    <table cellpadding="0" cellspacing="0">
+      <tr>
+        <th colspan="2"><h1>${forum.name}</h1></th>
+      </tr>
+      <tr>
+        <td>Forum Name:</td>
+        <td>${forum.name}</td>
+      </tr>
+      <tr>
+        <td>Description:</td>
+        <td>${forum.description}</td>
+      </tr>
+      <tr>
+        <td>Created At:</td>
+        <td>${forum.createdAt}</td>
+      </tr>
+      <tr>
+        <td>Open:</td>
+        <td>${forum.open}</td>
+      </tr>
+    </table>
+    <form id="sform" action="" method="post">
+      <input name="id" type="hidden" value="${forum.id}">
+    </form>
+    <a class="action" href="javascript:submit_form('sform', null, '<c:url value="/view/forum/edit/" />');">Edit</a>
+    <a class="action" href="javascript:submit_form('sform', 'Are you sure you want to delete the forum', '<c:url value="/view/forum/delete/" />');">Delete</a>
   </body>
 </html>
