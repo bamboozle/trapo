@@ -10,28 +10,35 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" >
     <title><sm:title default="Trapo" /></title>
-    <link rel="stylesheet" type="text/css" href="<c:url value="/css/trapo.css" />" media="screen" >
+    <link rel="stylesheet" href="<c:url value="/css/screen.css" />" type="text/css" media="screen, projection">
+    <link rel="stylesheet" href="<c:url value="/css/print.css" />" type="text/css" media="print">
+    <!--[if lt IE 8]><link rel="stylesheet" href="<c:url value="/css/ie.css" />" type="text/css" media="screen, projection"><![endif]-->
+    <link rel="stylesheet" href="<c:url value="/css/trapo.css" />" type="text/css">
+    <script type="text/javascript" src="<c:url value="/javascript/trapo.js" />" ></script>
+    <script type="text/javascript" src="<c:url value="/javascript/jquery-1.3.2.js" />" ></script>
     <sm:head />
   </head>
-  <body>
-    <div id="header">
-      <h1>Trapo Forum</h1>
+  <body class="container">
+    <div id="header" class="span-24 last">
+      <h1><a href="<c:url value="/index.html" />">Trapo Forum</a></h1>
       <p>A Forum powered by Trapo</p>
     </div>
-    <ul id="menu">
-      <li><a href="<c:url value="/view/forums/" />">Forums</a></li>
-      <li><a href="<c:url value="/view/tags/" />">Tags</a></li>
-      <li><a href="<c:url value="/view/search/" />">Advanced Search</a></li>
-      <c:choose>
-        <c:when test="${user != null}">
-          <li><a href="<c:url value="/view/profile/" />">Profile</a></li>
-          <li><a href="<c:url value="/view/logout/" />">Logout</a></li>
-        </c:when>
-        <c:otherwise>
-          <li><a href="<c:url value="/view/login/" />">Login</a></li>
-        </c:otherwise>
-      </c:choose>
-    </ul>
+    <div id="menu" class="span-13">
+      <ul>
+        <li><a href="<c:url value="/view/forums/" />">Forums</a></li>
+        <li><a href="<c:url value="/view/tags/" />">Tags</a></li>
+        <li><a href="<c:url value="/view/search/" />">Advanced Search</a></li>
+        <c:choose>
+          <c:when test="${user != null}">
+            <li><a href="<c:url value="/view/profile/" />">Profile</a></li>
+            <li><a href="<c:url value="/view/logout/" />">Logout</a></li>
+          </c:when>
+          <c:otherwise>
+            <li><a href="<c:url value="/view/login/" />">Login</a></li>
+          </c:otherwise>
+        </c:choose>
+      </ul>
+    </div>
     <div id="main">
       <sm:body />
     </div>

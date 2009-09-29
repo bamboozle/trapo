@@ -18,15 +18,14 @@
         <title>Creating a new forum</title>
       </c:otherwise>
     </c:choose>
-    <script type="text/javascript" language="javascript">
-      function areyousure(message) {
-        if(confirm(message)) {
-          return history.back(-1);
-        }
-      }
-    </script>
   </head>
   <body>
+    <div class="span-11 last">
+      <ul id="forums_menu">
+        <li><a href="<c:url value="/" />">Home</a></li>
+        <li><a href="<c:url value="/view/forum/create" />">Create a new Forum</a></li>
+      </ul>
+    </div>
       <c:choose>
         <c:when test="${updating}">
           <c:set var="action" value="/view/forum/update/" />
@@ -62,7 +61,7 @@
               <input type="submit" value="Save Forum" />
             </c:otherwise>
           </c:choose>
-          <a class="cancel" href="javascript:areyousure('Do you really want to cancel');">Cancel</a>
+          <a class="cancel" href="javascript:areyousure('Do you really want to cancel?');">Cancel</a>
           </div>
           </form>
         </div>

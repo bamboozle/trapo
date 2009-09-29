@@ -13,26 +13,32 @@
     <title>Forums List</title>
   </head>
   <body>
-    <ul id="forums_menu">
-      <li><a href="<c:url value="/" />">Home</a></li>
-      <li><a href="<c:url value="/view/forum/create" />">Create a new Forum</a></li>
-    </ul>
-    <c:if test="${message != null}">
-      <p class="${message.type}">${message}</p>
-    </c:if>
-    <table cellpadding="0" cellspacing="0">
-      <tr>
-        <th>Name</th>
-        <th>Description</th>
-        <th>Created At</th>
-      </tr>
-      <c:forEach items="${forums}" var="forum">
-      <tr>
-        <td><a href="<c:url value="/view/forum/" /><url:encode value="${forum.name}" />">${forum.name}</a></td>
-        <td>${forum.description}</td>
-        <td>${forum.createdAt}</td>
-      </tr>
-      </c:forEach>
-    </table>
+    <div class="span-11 last">
+      <ul id="forums_menu">
+        <li><a href="<c:url value="/" />">Home</a></li>
+        <li><a href="<c:url value="/view/forum/create" />">Create a new Forum</a></li>
+      </ul>
+    </div>
+    <div class="span-24">
+      <c:if test="${message != null}">
+        <p class="${message.type}">${message}</p>
+      </c:if>
+    </div>
+    <div class="span-24">
+      <table cellpadding="0" cellspacing="0">
+        <tr>
+          <th>Name</th>
+          <th>Description</th>
+          <th>Created At</th>
+        </tr>
+        <c:forEach items="${forums}" var="forum">
+        <tr>
+          <td><a href="<c:url value="/view/forum/" /><url:encode value="${forum.name}" />">${forum.name}</a></td>
+          <td>${forum.description}</td>
+          <td>${forum.createdAt}</td>
+        </tr>
+        </c:forEach>
+      </table>
+    </div>
   </body>
 </html>
