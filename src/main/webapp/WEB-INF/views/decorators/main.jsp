@@ -12,6 +12,7 @@
     <title><sm:title default="Trapo" /></title>
     <link rel="stylesheet" href="<c:url value="/css/screen.css" />" type="text/css" media="screen, projection">
     <link rel="stylesheet" href="<c:url value="/css/print.css" />" type="text/css" media="print">
+    <link rel="stylesheet" href="<c:url value="/css/forms.css" />" type="text/css">
     <!--[if lt IE 8]><link rel="stylesheet" href="<c:url value="/css/ie.css" />" type="text/css" media="screen, projection"><![endif]-->
     <link rel="stylesheet" href="<c:url value="/css/trapo.css" />" type="text/css">
     <script type="text/javascript" src="<c:url value="/javascript/trapo.js" />" ></script>
