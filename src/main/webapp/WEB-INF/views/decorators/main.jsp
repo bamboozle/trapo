@@ -22,11 +22,11 @@
   <body class="container">
     <div id="header" class="span-24 last">
       <h1><a href="<c:url value="/index.html" />">Trapo Forum</a></h1>
-      <p>A Forum powered by Trapo</p>
+      <p>A forum powered by Trapo</p>
     </div>
     <div id="menu" class="span-13">
       <ul>
-        <li><a href="<c:url value="/view/forums/" />">Forums</a></li>
+        <li><a href="<c:url value="/index.html" />">Home</a></li>
         <li><a href="<c:url value="/view/tags/" />">Tags</a></li>
         <li><a href="<c:url value="/view/search/" />">Advanced Search</a></li>
         <c:choose>

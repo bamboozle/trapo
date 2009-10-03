@@ -15,7 +15,7 @@
   <body>
     <div class="span-11 last">
       <ul id="forums_menu">
-        <li><a href="<c:url value="/" />">Home</a></li>
+        <li><a href="<c:url value="/view/forums" />">Forums</a></li>
         <li><a href="<c:url value="/view/forum/create" />">Create a new Forum</a></li>
       </ul>
     </div>
