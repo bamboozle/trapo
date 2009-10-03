@@ -13,9 +13,11 @@
     <c:choose>
       <c:when test="${updating}">
         <title>Updating forum ${forum.name}</title>
+        <c:set var="action" value="/view/forum/update/" />
       </c:when>
       <c:otherwise>
         <title>Creating a new forum</title>
+        <c:set var="action" value="/view/forum/save/" />
       </c:otherwise>
     </c:choose>
   </head>
@@ -26,44 +28,42 @@
         <li><a href="<c:url value="/view/forum/create" />">Create a new Forum</a></li>
       </ul>
     </div>
-      <c:choose>
-        <c:when test="${updating}">
-          <c:set var="action" value="/view/forum/update/" />
-        </c:when>
-        <c:otherwise>
-          <c:set var="action" value="/view/forum/save/" />
-        </c:otherwise>
-      </c:choose>
-        <div id="forms" class="forum_form">
-          <form action="<c:url value="${action}" />" method="post">
-          <c:if test="${updating}">
-          <input type="hidden" name="id" value="${forum.id}" />
-          </c:if>
-          <h1>New Forum</h1>
-          <p>Create a new Forum</p>
+    <div class="forum_form">
+      <form id="forms" action="<c:url value="${action}" />" method="post">
+        <c:if test="${updating}">
+        <input type="hidden" name="id" value="${forum.id}" />
+        </c:if>
+        <c:choose>
+          <c:when test="${updating}">
+            <h1>Updating Forum</h1>
+          </c:when>
+          <c:otherwise>
+            <h1>New Forum</h1>
+          </c:otherwise>
+        </c:choose>
           
-          <label>Name
-          <span class="small">What is the forum name?</span>
-          </label>
-          <input type="text" name="name" id="name" value="${forum.name}" />
+        <label>Name
+        <span class="small">What is the forum name?</span>
+        </label>
+        <input type="text" name="name" id="name" value="${forum.name}" />
           
-          <label>Description
-          <span class="small">Describe your forum</span>
-          </label>
-          <textarea name="description" id="description">${forum.description}</textarea>
+        <label>Description
+        <span class="small">Describe your forum</span>
+        </label>
+        <textarea name="description" id="description">${forum.description}</textarea>
           
-          <div id="actions">          
-          <c:choose>
-            <c:when test="${updating}">
-              <input type="submit" value="Update Forum" />
-            </c:when>
-            <c:otherwise>
-              <input type="submit" value="Save Forum" />
-            </c:otherwise>
-          </c:choose>
-          <a class="cancel" href="javascript:areyousure('Do you really want to cancel?');">Cancel</a>
-          </div>
-          </form>
+        <div id="actions">          
+        <c:choose>
+          <c:when test="${updating}">
+            <input type="submit" value="Update Forum" />
+          </c:when>
+          <c:otherwise>
+            <input type="submit" value="Save Forum" />
+          </c:otherwise>
+        </c:choose>
+        <a class="cancel" href="javascript:areyousure('Do you really want to cancel?');">Cancel</a>
         </div>
+      </form>
+    </div>
   </body>
 </html>

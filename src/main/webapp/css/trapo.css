@@ -3,11 +3,17 @@
 #header {
   padding-top: 20px;
   margin-top: 10px;
-  background-color: orange;
+  background-color: #02243C;
 }
 
 #header h1,#header p {
   padding: 10px;
+  color: #F9F9F9;
+}
+
+#header a {
+  color: #F9F9F9;
+  text-decoration: none;
 }
 
 #header h1 {
@@ -31,13 +37,19 @@
 }
 
 #menu a {
-  background-color: orange;
+  background-color: #005DB3;
   padding: 15px 10px 15px 10px;
   font-size: 1.3em;
   font-weight: bold;
   text-transform: uppercase;
   text-decoration: none;
   letter-spacing: 1px;
+  color: #F9F9F9;
+}
+
+#menu a:hover {
+  color: #F9F9F9;
+  background-color: #5BC236;
 }
 
 #forums_menu {
@@ -53,11 +65,87 @@
 }
 
 #forums_menu a {
-  background-color: orange;
+  background-color: #005DB3;
   padding: 15px 10px 15px 10px;
   font-size: 1.3em;
   font-weight: bold;
   text-transform: uppercase;
   text-decoration: none;
   letter-spacing: 1px;
+  color: #F9F9F9;
+}
+
+#forums_menu a:hover {
+  color: #F9F9F9;
+  background-color: #5BC236;
+}
+
+label {
+  display: block;
+  font-size: 1.2em;
+  font-weight: normal;
+  text-transform: uppercase;
+  color: #02243C;
+}
+
+.small {
+  color: grey;
+  font-weight: normal;
+  text-transform: none;
+}
+
+#forms h1 {
+  text-transform: uppercase;
+  color: grey;
+}
+
+input[type="text"] {
+   font-size: 1.6em;
+}
+
+input[type="submit"] {
+  padding: 10px;
+  background-color: grey;
+  color: #F9F9F9;
+  border: 0px;
+  font-size: 1.6em;
+  font-weight: normal;
+}
+
+input[type="submit"]:hover {
+  color: #F9F9F9;
+  background-color: #5BC236;
+}
+
+.cancel {
+  padding: 12px;
+  background-color: #E6E6E6;
+  font-size: 1.6em;
+  text-decoration: none;
+  color: grey;
+}
+
+.cancel:hover {
+  background-color: #5BC236;
+  color: #F9F9F9;
+}
+
+table th {
+ background-color: #5195CE;
+ color: #F9F9F9;
+ font-size: 1.1em;
+ text-transform: uppercase;
+ font-stretch: wider;
+}
+
+.odd, .even {
+ padding: 2px;
+}
+
+.odd {
+  background-color: #F9F9F9;
+}
+
+.even {
+  
 }

@@ -31,8 +31,16 @@
           <th>Description</th>
           <th>Created At</th>
         </tr>
-        <c:forEach items="${forums}" var="forum">
-        <tr>
+        <c:forEach items="${forums}" var="forum" varStatus="index">
+        <c:choose>
+          <c:when test="${index.index % 2 == 0}">
+           <c:set var="is" value="odd" />
+          </c:when>
+          <c:otherwise>
+           <c:set var="is" value="even" />
+          </c:otherwise>
+        </c:choose>
+        <tr class="${is}">
           <td><a href="<c:url value="/view/forum/" /><url:encode value="${forum.name}" />">${forum.name}</a></td>
           <td>${forum.description}</td>
           <td>${forum.createdAt}</td>
