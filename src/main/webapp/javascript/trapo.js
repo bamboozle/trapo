@@ -8,16 +8,16 @@ function areyousure(message) {
 	}
 }
 
-function askedit(form_id, action) {
+function askedit(form_id, url) {
 	var form = $(form_id);
-	form.action = action;
+	form.action = url;
 	form.submit();
 }
 
-function askdeletion(form_id, message, action) {
+function askdeletion(form_id, message, url) {
 	if(confirm(message)) {
 		var form = $(form_id);
-		form.action = action;
+		form.action = url;
 		form.submit();
 	}
 }

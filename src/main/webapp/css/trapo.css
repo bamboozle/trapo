@@ -123,10 +123,12 @@ input[type="submit"]:hover {
   font-size: 1.6em;
   text-decoration: none;
   color: grey;
+  margin-left: 10px;
+  margin-bottom: 
 }
 
 .cancel:hover {
-  background-color: #5BC236;
+  background-color: rgb(255, 70, 70);;
   color: #F9F9F9;
 }
 
@@ -146,6 +148,22 @@ table th {
   background-color: #F9F9F9;
 }
 
-.even {
-  
+.action {
+  text-decoration: none;
+  padding: 10px;
+  background-color: grey;
+  color: #F9F9F9;
+  border: 0px;
+  font-size: 1.6em;
+  font-weight: normal;
+}
+
+.action:hover {
+  color: #F9F9F9;
+  background-color: #5BC236;
+}
+
+#footer {
+  margin-top: 10px;
+  float: left;
 }
