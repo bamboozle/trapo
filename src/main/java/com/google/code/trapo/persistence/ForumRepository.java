@@ -58,6 +58,8 @@ public class ForumRepository {
 		
 		HibernateTemplate template = template();
 		template.setMaxResults(1);
+		template.setCacheQueries(true);
+		template.setQueryCacheRegion("forums.byName");
 		
 		List<Forum> forums = template.findByNamedParam("from Forum f where f.name = :name", "name", name);
 		
@@ -75,7 +77,12 @@ public class ForumRepository {
 	}
 
 	public List<Forum> listAll() {
-		return template().loadAll(Forum.class);
+		
+		HibernateTemplate template = template();
+		template.setCacheQueries(true);
+		template.setQueryCacheRegion("forums.listAll");
+		
+		return template.loadAll(Forum.class);
 	}
 	
 }
