@@ -4,21 +4,38 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>com.google.code</groupId>
   <artifactId>trapo</artifactId>
+  <packaging>war</packaging>
   <name>Trapo</name>
   <version>0.0.1-SNAPSHOT</version>
   <description>A Java Forum: Oh, really?</description>
   <url>http://github.com/bamboozle/trapo</url>
+  <issueManagement>
+    <system>Lighthouseapp</system>
+    <url>http://trapo.lighthouseapp.com/projects/39159-trapo/overview</url>
+  </issueManagement>
   <scm>
-  	<connection>git@github.com/bamboozle/trapo.git</connection>
-  	<developerConnection>bamboozle</developerConnection>
-  	<url>http://github.com/bamboozle/trapo</url>
+    <connection>git@github.com/bamboozle/trapo.git</connection>
+    <developerConnection>bamboozle</developerConnection>
+    <url>scm:git:http://github.com/bamboozle/trapo</url>
   </scm>
   <organization>
-  	<name>Bamboozle Who</name>
-  	<url>http://trapo.posterous.com</url>
+    <name>Bamboozle Who</name>
+    <url>http://trapo.posterous.com</url>
   </organization>
   <repositories>
     <repository>
+      <name>Sonatype SourceForge Releases</name>
+      <id>org.sonatype.oss</id>
+      <url>http://oss.sonatype.org/content/repositories/sourceforge-releases/</url>
+      <releases>
+        <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </repository>
+    <repository>
+      <name>SpringSource Repository</name>
       <id>repository.springframework.org</id>
       <url>http://maven.springframework.org/milestone</url>
       <releases>
@@ -29,8 +46,8 @@
       </snapshots>
     </repository>
     <repository>
-      <id>maven2-repository.dev.java.net</id>
       <name>Java.net Repository for Maven</name>
+      <id>maven2-repository.dev.java.net</id>
       <url>http://download.java.net/maven/2</url>
       <layout>default</layout>
       <releases>
@@ -41,6 +58,7 @@
       </snapshots>
     </repository>
     <repository>
+      <name>JBoss Repository</name>
       <id>com.jboss.repository.main</id>
       <url>http://repository.jboss.com/maven2</url>
       <releases>
@@ -51,6 +69,7 @@
       </snapshots>
     </repository>
     <repository>
+      <name>JBoss Snapshots Repository</name>
       <id>com.jboss.repository.snapshots</id>
       <url>http://snapshots.jboss.org/maven2</url>
       <releases>
@@ -207,6 +226,26 @@
   <build>
     <plugins>
       <plugin>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>copy-config-files</id>
+            <phase>process-resources</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <inherited>false</inherited>
+            <configuration>
+              <tasks>
+                <copy todir="src/main/webapp/WEB-INF/" verbose="true" outputencoding="utf-8">
+                  <fileset dir="src/main/resources/" />
+                </copy>
+              </tasks>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
         <version>2.4.3</version>
@@ -286,7 +325,7 @@
     </profile>
   </profiles>
   <properties>
-    <spring.version>3.0.0.M3</spring.version>
+    <spring.version>3.0.0.RC1</spring.version>
     <project.build.sourceEncoding>utf-8</project.build.sourceEncoding>
   </properties>
   <reports>
