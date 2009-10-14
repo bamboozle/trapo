@@ -7,6 +7,16 @@
   <name>Trapo</name>
   <version>0.0.1-SNAPSHOT</version>
   <description>A Java Forum: Oh, really?</description>
+  <url>http://github.com/bamboozle/trapo</url>
+  <scm>
+  	<connection>git@github.com/bamboozle/trapo.git</connection>
+  	<developerConnection>bamboozle</developerConnection>
+  	<url>http://github.com/bamboozle/trapo</url>
+  </scm>
+  <organization>
+  	<name>Bamboozle Who</name>
+  	<url>http://trapo.posterous.com</url>
+  </organization>
   <repositories>
     <repository>
       <id>repository.springframework.org</id>
