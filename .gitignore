@@ -3,4 +3,9 @@ target
 .classpath
 .project
 .springBeans
-
+src/main/webapp/WEB-INF/decorators.xml
+src/main/webapp/WEB-INF/ehcache.xml
+src/main/webapp/WEB-INF/exceptions-views-mapping.properties
+src/main/webapp/WEB-INF/hibernate.cfg.xml
+src/main/webapp/WEB-INF/sitemesh.xml
+src/main/webapp/WEB-INF/trapo-servlet.xml
