@@ -48,13 +48,10 @@ public class ForumControllerTests {
 	@Test
 	public void should_update_a_existent_forum() {
 		
-		ForumRepository repository = this.repository();
-		
 		Forum forum = forum();
 		
-		ForumsController controller = new ForumsController();
-		controller.setForumRepository(repository);
-		
+		ForumRepository repository = this.repository();
+		ForumsController controller = controllerWith(repository);
 		
 		String result = controller.update(forum, model());
 		assertThat(result, equalTo("forums/show"));
@@ -66,8 +63,7 @@ public class ForumControllerTests {
 	public void verify_that_update_method_add_a_information_message() {
 		
 		Model model = this.model();
-		ForumsController controller = new ForumsController();
-		controller.setForumRepository(this.repository());
+		ForumsController controller = controllerWith(repository());
 		controller.update(forum(), model);
 		
 		Message message = (Message)model.asMap().get("message");
@@ -77,8 +73,7 @@ public class ForumControllerTests {
 	@Test
 	public void should_redirect_to_show_page_when_saving_a_new_forum() {
 		
-		ForumsController controller = new ForumsController();
-		controller.setForumRepository(repository());
+		ForumsController controller = controllerWith(repository());
 		String result = controller.save(forum(), model());
 		
 		assertThat(result, equalTo("forums/show"));
@@ -89,8 +84,7 @@ public class ForumControllerTests {
 		
 		Forum forum = forum();
 		
-		ForumsController controller = new ForumsController();
-		controller.setForumRepository(repositoryFor(forum));
+		ForumsController controller = controllerWith(repositoryFor(forum));
 		
 		controller.save(forum, model());
 		
@@ -102,8 +96,7 @@ public class ForumControllerTests {
 		
 		Model model = model();
 		
-		ForumsController controller = new ForumsController();
-		controller.setForumRepository(repository());
+		ForumsController controller = controllerWith(repository());
 		
 		controller.save(forum(), model);
 		
@@ -117,8 +110,7 @@ public class ForumControllerTests {
 		ForumRepository repository = mock(ForumRepository.class);
 		when(repository.listAll()).thenReturn(asList(forum(), forum(), forum()));
 		
-		ForumsController controller = new ForumsController();
-		controller.setForumRepository(repository);
+		ForumsController controller = controllerWith(repository);
 		
 		controller.list(model);
 		
@@ -131,8 +123,7 @@ public class ForumControllerTests {
 	@Test
 	public void should_redirect_to_list_page_when_listing_all_forums() {
 		
-		ForumsController controller = new ForumsController();
-		controller.setForumRepository(this.repository());
+		ForumsController controller = controllerWith(repository());
 		
 		String result = controller.list(model());
 		assertThat(result, equalTo("forums/list"));
@@ -141,8 +132,7 @@ public class ForumControllerTests {
 	@Test
 	public void should_redirect_to_create_page_when_asking_to_create_a_new_forum() {
 		
-		ForumsController controller = new ForumsController();
-		controller.setForumRepository(this.repository());
+		ForumsController controller = controllerWith(repository());
 		
 		String result = controller.create();
 		assertThat(result, equalTo("forums/create"));
@@ -154,11 +144,10 @@ public class ForumControllerTests {
 		Forum forum = forum();
 		Model model = model();
 		
-		ForumsController controller = new ForumsController();
 		ForumRepository repository = mock(ForumRepository.class);
 		when(repository.byName("my new forum")).thenReturn(forum);
-		controller.setForumRepository(repository);
 		
+		ForumsController controller = controllerWith(repository);
 		controller.show("my new forum", model);
 		
 		assertThat(model.containsAttribute("forum"), is(true));
@@ -167,7 +156,7 @@ public class ForumControllerTests {
 	@Test
 	public void should_redirect_to_list_when_trying_to_edit_a_forum_that_not_exists() {
 		
-		ForumsController controller = editingControllerForNonExistentForum();
+		ForumsController controller = controllerForNonExistentForum();
 		
 		String result = controller.edit("to edit", model());
 		assertThat(result, equalTo("forums/list"));
@@ -178,7 +167,7 @@ public class ForumControllerTests {
 		
 		Model model = model();
 		
-		ForumsController controller = editingControllerForNonExistentForum();
+		ForumsController controller = controllerForNonExistentForum();
 		controller.edit("to edit", model);
 		
 		Message message = (Message)model.asMap().get("message");
@@ -187,7 +176,7 @@ public class ForumControllerTests {
 	
 	@Test
 	public void should_redirects_to_create_page_when_editing_a_existent_forum() {
-		ForumsController controller = editingControllerToExistentForum(forum());
+		ForumsController controller = controllerToExistentForum(forum());
 		assertThat(controller.edit("to edit", model()), equalTo("forums/create"));
 	}
 	
@@ -197,20 +186,52 @@ public class ForumControllerTests {
 		Forum forum = forum();
 		Model model = model();
 		
-		ForumsController controller = editingControllerToExistentForum(forum);
+		ForumsController controller = controllerToExistentForum(forum);
 		controller.edit("to edit", model);
 		
 		assertThat((Forum)model.asMap().get("forum"), equalTo(forum));
 	}
-
-	private ForumsController editingControllerToExistentForum(Forum forum) {
-		ForumRepository forumRepository = mock(ForumRepository.class);
-		when(forumRepository.get("to edit")).thenReturn(forum);
-		ForumsController controller = new ForumsController();
-		controller.setForumRepository(forumRepository);
-		return controller;
+	
+	@Test
+	public void should_delete_a_existent_forum() {
+		
+		ForumRepository repository = repository();
+		when(repository.get("1234")).thenReturn(forum());
+		
+		ForumsController controller = controllerWith(repository);
+		
+		Model model = model();
+		
+		String result = controller.delete("1234", model);
+		assertThat(result, equalTo("forums/list"));
+		
+		Message message = (Message) model.asMap().get("message");
+		assertThat(message.isInformation(), is(true));
 	}
 	
+	@Test
+	public void should_redirect_to_list_with_message_when_trying_to_delete_a_non_existent_forum() {
+		ForumRepository repository = repository();
+		when(repository.get("1234")).thenReturn(null);
+		
+		ForumsController controller = controllerWith(repository);
+		
+		Model model = model();
+		
+		String result = controller.delete("1234", model);
+		assertThat(result, equalTo("forums/list"));
+		
+		Message message = (Message) model.asMap().get("message");
+		assertThat(message.isWarning(), is(true));
+	}
+	
+
+	private ForumsController controllerWith(ForumRepository repository) {
+		ForumsController controller = new ForumsController();
+		controller.setForumRepository(repository);
+		return controller;
+	}
+
 	private Forum forum() {
 		Forum forum = new Forum();
 		forum.setName("my new name");
@@ -234,11 +255,17 @@ public class ForumControllerTests {
 		return repository;
 	}
 	
-	private ForumsController editingControllerForNonExistentForum() {
+	private ForumsController controllerToExistentForum(Forum forum) {
+		ForumRepository forumRepository = mock(ForumRepository.class);
+		when(forumRepository.get("to edit")).thenReturn(forum);
+		ForumsController controller = controllerWith(forumRepository);
+		return controller;
+	}
+	
+	private ForumsController controllerForNonExistentForum() {
 		ForumRepository repository = mock(ForumRepository.class);
 		when(repository.byName("to edit")).thenReturn(null);
-		ForumsController controller = new ForumsController();
-		controller.setForumRepository(repository);
+		ForumsController controller = controllerWith(repository);
 		return controller;
 	}
 	
