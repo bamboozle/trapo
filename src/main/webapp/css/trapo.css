@@ -161,6 +161,7 @@ table th {
 .action:hover {
   color: #F9F9F9;
   background-color: #5BC236;
+  cursor: pointer;
 }
 
 #footer {

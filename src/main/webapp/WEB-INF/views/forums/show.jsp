@@ -9,6 +9,20 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>${forum.name} Forum - Trapo</title>
+    <script type="text/javascript">
+      $(document).ready(function() {
+        $("#editaction").click(function() {
+          $("#sform").attr("action", "<c:url value="/view/forum/edit/" />");
+          $("#sform").submit();
+        });
+        $("#deleteaction").click(function() {
+          if(confirm("Did you really want to delete this forum?")) {
+            $("#sform").attr("action", "<c:url value="/view/forum/delete/" />");
+            $("#sform").submit();
+          }
+        });
+      });
+    </script>
   </head>
   <body>
     <div class="span-11 last">
@@ -46,11 +60,11 @@
       </table>
     </div>
     <div class="span-24">
-      <form id="sform" action="" method="post">
+      <form id="sform" name="sform" method="post">
         <input name="id" type="hidden" value="${forum.id}">
+        <a class="action" id="editaction">Edit</a>
+        <a class="action" id="deleteaction">Delete</a>
       </form>
-      <a class="action" href="javascript:askedit('sform', '<c:url value="/view/forum/edit/" />');">Edit</a>
-      <a class="action" href="javascript:askdeletion('sform', 'Are you sure you want to delete the forum?', '<c:url value="/view/forum/delete/" />');">Delete</a>
     </div>
   </body>
 </html>
