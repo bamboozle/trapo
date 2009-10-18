@@ -47,7 +47,7 @@ public class ForumRepositoryTests {
 	
 	@Before
 	public void addForumsToDatabase() {
-		Forum forum = new Forum("A Mock forum");
+		Forum forum = forum("A Mock forum");
 		forum.setDescription("My new java forum");
 		forum.setCreatedAt(new Date());
 		forumRepository.save(forum.open());
@@ -68,8 +68,7 @@ public class ForumRepositoryTests {
 	@Test
 	public final void should_save_a_forum_in_database() {
 
-		Forum forum = new Forum().withName("Trapo").open();
-		forum.setDescription("the forum's description");
+		Forum forum = forum("Trapo");
 		forumRepository.save(forum);
 		
 		assertThat(forum.getId(), notNullValue());
@@ -79,8 +78,7 @@ public class ForumRepositoryTests {
 	@Test
 	public final void should_update_a_forum_to_the_database() {
 		
-		Forum forum = new Forum().withName("A New Forum").open();
-		forum.setDescription("the new forum's description");
+		Forum forum = forum();
 		forumRepository.save(forum);
 		
 		forum.withName("A New Name");
@@ -99,5 +97,29 @@ public class ForumRepositoryTests {
 	@Test
 	public final void should_return_null_when_there_is_no_forum_for_the_given_id() {
 		assertThat(forumRepository.get("no-existent-id"), nullValue());
+	}
+	
+	@Test
+	public final void should_delete_a_forum() {
+	
+		Forum forum = forum();
+		this.forumRepository.save(forum);
+		
+		assertThat(forumRepository.get(forum.getId()), notNullValue());
+		
+		this.forumRepository.delete(forum);
+		
+		assertThat(forumRepository.get(forum.getId()), nullValue());
+		
+	}
+
+	private Forum forum() {
+		return forum("A New Forum");
+	}
+	
+	private Forum forum(String name) {
+		Forum forum = new Forum().withName(name).open();
+		forum.setDescription("some description");
+		return forum;
 	}
 }
