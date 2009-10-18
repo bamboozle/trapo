@@ -84,6 +84,9 @@ public class ForumsController {
 	@RequestMapping({"/forum/{name}"})
 	public String show(@PathVariable String name, Model model) {
 		Forum forum = forum(name);
+		if(forum == null) {
+			return redirectsToList("Forum with name "+ name + " not found", model);
+		}
 		model.addAttribute("forum", forum);
 		return "forums/show";
 	}

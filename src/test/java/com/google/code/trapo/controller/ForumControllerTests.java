@@ -154,6 +154,33 @@ public class ForumControllerTests {
 	}
 	
 	@Test
+	public void should_redirect_to_list_when_trying_to_show_a_forum_that_not_exists() {
+		
+		ForumRepository repository = repository();
+		when(repository.byName("non existent forum")).thenReturn(null);
+		
+		ForumsController controller = controllerWith(repository);
+		String result = controller.show("non existent forum", model());
+		
+		assertThat(result, equalTo("forums/list"));
+	}
+	
+	@Test
+	public void should_warning_the_user_when_trying_to_show_a_forum_that_not_exists() {
+		
+		ForumRepository repository = repository();
+		when(repository.byName("non existent forum")).thenReturn(null);
+		
+		Model model = model();
+		
+		ForumsController controller = controllerWith(repository);
+		controller.show("non existent forum", model);
+		
+		Message message = (Message) model.asMap().get("message");
+		assertThat(message.isWarning(), is(true));
+	}
+	
+	@Test
 	public void should_redirect_to_list_when_trying_to_edit_a_forum_that_not_exists() {
 		
 		ForumsController controller = controllerForNonExistentForum();
