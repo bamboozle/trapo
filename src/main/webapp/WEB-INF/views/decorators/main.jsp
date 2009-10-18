@@ -15,7 +15,6 @@
     <link rel="stylesheet" href="<c:url value="/css/forms.css" />" type="text/css">
     <!--[if lt IE 8]><link rel="stylesheet" href="<c:url value="/css/ie.css" />" type="text/css" media="screen, projection"><![endif]-->
     <link rel="stylesheet" href="<c:url value="/css/trapo.css" />" type="text/css">
-    <script type="text/javascript" src="<c:url value="/javascript/trapo.js" />" ></script>
     <script type="text/javascript" src="<c:url value="/javascript/jquery-1.3.2.js" />" ></script>
     <sm:head />
   </head>
