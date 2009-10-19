@@ -15,6 +15,7 @@
  */
 package com.google.code.trapo.controller;
 
+import static com.google.code.trapo.web.Message.error;
 import static com.google.code.trapo.web.Message.information;
 import static com.google.code.trapo.web.Message.warning;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
@@ -27,6 +28,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -48,17 +50,27 @@ public class ForumsController {
 	
 	@RequestMapping(value = { "/forum/save", "/forum/update" }, method = POST)
 	public String save(Forum forum, Model model) {
-		if(forum.getId() != null) {
+		
+		Errors errors = validator.validate(forum);
+		if(errors.hasErrors()) {
+			model.addAttribute("errors", errors);
+			model.addAttribute("forum", forum);
+			model.addAttribute("message", error("There are validation errors in form"));
+			return create(model);
+		}
+		
+		if(exists(forum)) {
 			forumRepository.update(forum);
 			model.addAttribute("message", information("Forum was updated"));
 		} else {
 			forumRepository.save(forum);
 			model.addAttribute("message", information("New forum was created"));
 		}
+		
 		model.addAttribute("forum", forum);
 		return "forums/show";
 	}
-	
+
 	@RequestMapping(value = "/forum/delete", method = POST)
 	public String delete(String id, Model model) {
 		
@@ -90,7 +102,7 @@ public class ForumsController {
 	}
 	
 	@RequestMapping("/forum/create")
-	public String create() {
+	public String create(Model model) {
 		return "forums/create";
 	}
 	
@@ -108,15 +120,22 @@ public class ForumsController {
 		this.forumRepository = forumRepository;
 	}
 	
+	protected void setValidator(TrapoValidator validator) {
+		this.validator = validator;
+	}
+	
 	private String redirectsToList(String message, Model model) {
 		model.addAttribute("message", warning(message));
 		return this.list(model);
 	}
 	
-	
 	private Forum forum(String name) {
 		Forum forum = forumRepository.byName(decode(name));
 		return forum;
+	}
+	
+	private boolean exists(Forum forum) {
+		return forum.getId() != null;
 	}
 
 	private String decode(String string) {

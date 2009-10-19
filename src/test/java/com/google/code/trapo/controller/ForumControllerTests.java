@@ -33,10 +33,13 @@ import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.springframework.ui.ExtendedModelMap;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindException;
+import org.springframework.validation.Errors;
 
 import com.google.code.trapo.domain.Forum;
 import com.google.code.trapo.persistence.ForumRepository;
 import com.google.code.trapo.web.Message;
+import com.google.code.trapo.web.validation.TrapoValidator;
 
 /**
  * @author Bamboozle Who
@@ -53,11 +56,21 @@ public class ForumControllerTests {
 		
 		ForumRepository repository = this.repository();
 		ForumsController controller = controllerWith(repository);
+
+		TrapoValidator validator = validator(forum);
+		controller.setValidator(validator);
 		
 		String result = controller.save(forum, model());
 		assertThat(result, equalTo("forums/show"));
 		
 		verify(repository).update(forum);
+	}
+
+	private TrapoValidator validator(Forum forum) {
+		Errors errors = new BindException(forum, "forum");
+		TrapoValidator validator = mock(TrapoValidator.class);
+		when(validator.validate(forum)).thenReturn(errors);
+		return validator;
 	}
 	
 	@Test
@@ -71,6 +84,8 @@ public class ForumControllerTests {
 		ForumRepository repository = repository();
 		
 		ForumsController controller = controllerWith(repository);
+		TrapoValidator validator = validator(forum);
+		controller.setValidator(validator);
 		controller.save(forum, model);
 		
 		Message message = (Message)model.asMap().get("message");
@@ -82,8 +97,13 @@ public class ForumControllerTests {
 	@Test
 	public void should_redirect_to_show_page_when_saving_a_new_forum() {
 		
+		Forum forum = forum();
+		
 		ForumsController controller = controllerWith(repository());
-		String result = controller.save(forum(), model());
+		TrapoValidator validator = validator(forum);
+		controller.setValidator(validator);
+		
+		String result = controller.save(forum, model());
 		
 		assertThat(result, equalTo("forums/show"));
 	}
@@ -94,6 +114,8 @@ public class ForumControllerTests {
 		Forum forum = forum();
 		
 		ForumsController controller = controllerWith(repositoryFor(forum));
+		TrapoValidator validator = validator(forum);
+		controller.setValidator(validator);
 		
 		controller.save(forum, model());
 		
@@ -104,10 +126,13 @@ public class ForumControllerTests {
 	public void should_add_forum_attribute_to_model_when_saving_with_success() {
 		
 		Model model = model();
+		Forum forum = forum();
 		
 		ForumsController controller = controllerWith(repository());
+		TrapoValidator validator = validator(forum);
+		controller.setValidator(validator);
 		
-		controller.save(forum(), model);
+		controller.save(forum, model);
 		
 		assertThat(model.containsAttribute("forum"), is(true));
 	}
@@ -143,7 +168,7 @@ public class ForumControllerTests {
 		
 		ForumsController controller = controllerWith(repository());
 		
-		String result = controller.create();
+		String result = controller.create(model());
 		assertThat(result, equalTo("forums/create"));
 	}
 	

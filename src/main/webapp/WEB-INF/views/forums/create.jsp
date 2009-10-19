@@ -41,7 +41,6 @@
             <h1>New Forum</h1>
           </c:otherwise>
         </c:choose>
-          
         <label>Name
         <span class="small">What is the forum name?</span>
         </label>
