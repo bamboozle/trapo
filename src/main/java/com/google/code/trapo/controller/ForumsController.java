@@ -15,7 +15,6 @@
  */
 package com.google.code.trapo.controller;
 
-import static com.google.code.trapo.web.Message.error;
 import static com.google.code.trapo.web.Message.information;
 import static com.google.code.trapo.web.Message.warning;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
@@ -24,17 +23,17 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
-import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.google.code.trapo.domain.Forum;
 import com.google.code.trapo.persistence.ForumRepository;
-import com.google.code.trapo.web.validation.TrapoValidator;
 
 /**
  * @author Bamboozle Who
@@ -46,19 +45,10 @@ import com.google.code.trapo.web.validation.TrapoValidator;
 public class ForumsController {
 
 	@Autowired private ForumRepository forumRepository;
-	@Autowired private TrapoValidator trapoValidator;
 	
 	@RequestMapping(value = { "/forum/save", "/forum/update" }, method = POST)
-	public String save(Forum forum, Model model) {
-		
-		Errors errors = trapoValidator.validate(forum);
-		if(errors.hasErrors()) {
-			model.addAttribute("errors", errors);
-			model.addAttribute("forum", forum);
-			model.addAttribute("message", error("There are validation errors in form"));
-			return create(model);
-		}
-		
+	public String save(@Valid Forum forum, Model model) {
+
 		if(exists(forum)) {
 			forumRepository.update(forum);
 			model.addAttribute("message", information("Forum was updated"));
@@ -118,10 +108,6 @@ public class ForumsController {
 	
 	protected void setForumRepository(ForumRepository forumRepository) {
 		this.forumRepository = forumRepository;
-	}
-	
-	protected void setTrapoValidator(TrapoValidator validator) {
-		this.trapoValidator = validator;
 	}
 	
 	private String redirectsToList(String message, Model model) {

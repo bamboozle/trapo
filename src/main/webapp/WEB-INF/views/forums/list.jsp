@@ -15,11 +15,15 @@
       .fff { 
         padding: 5px;
         margin-bottom: 10px;
+        border: solid 1px #5bc236;
+        border-top: none;
       }
       
       .fff h2 {
         padding: 10px;
         margin-left: -5px;
+        margin-right: -5px;
+        margin-top: -5px;
         background-color: #5BC236;
         text-decoration: none;
       }

@@ -20,7 +20,6 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
-import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -34,14 +33,10 @@ import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.springframework.ui.ExtendedModelMap;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindException;
-import org.springframework.validation.Errors;
-import org.springframework.validation.FieldError;
 
 import com.google.code.trapo.domain.Forum;
 import com.google.code.trapo.persistence.ForumRepository;
 import com.google.code.trapo.web.Message;
-import com.google.code.trapo.web.validation.TrapoValidator;
 
 /**
  * @author Bamboozle Who
@@ -58,9 +53,6 @@ public class ForumControllerTests {
 		
 		ForumRepository repository = this.repository();
 		ForumsController controller = controllerWith(repository);
-
-		TrapoValidator validator = validator(forum);
-		controller.setTrapoValidator(validator);
 		
 		String result = controller.save(forum, model());
 		assertThat(result, equalTo("forums/show"));
@@ -68,13 +60,6 @@ public class ForumControllerTests {
 		verify(repository).update(forum);
 	}
 
-	private TrapoValidator validator(Forum forum) {
-		Errors errors = new BindException(forum, "forum");
-		TrapoValidator validator = mock(TrapoValidator.class);
-		when(validator.validate(forum)).thenReturn(errors);
-		return validator;
-	}
-	
 	@Test
 	public void verify_that_update_method_add_a_information_message() {
 		
@@ -86,8 +71,6 @@ public class ForumControllerTests {
 		ForumRepository repository = repository();
 		
 		ForumsController controller = controllerWith(repository);
-		TrapoValidator validator = validator(forum);
-		controller.setTrapoValidator(validator);
 		controller.save(forum, model);
 		
 		Message message = (Message)model.asMap().get("message");
@@ -102,9 +85,6 @@ public class ForumControllerTests {
 		Forum forum = forum();
 		
 		ForumsController controller = controllerWith(repository());
-		TrapoValidator validator = validator(forum);
-		controller.setTrapoValidator(validator);
-		
 		String result = controller.save(forum, model());
 		
 		assertThat(result, equalTo("forums/show"));
@@ -116,9 +96,6 @@ public class ForumControllerTests {
 		Forum forum = forum();
 		
 		ForumsController controller = controllerWith(repositoryFor(forum));
-		TrapoValidator validator = validator(forum);
-		controller.setTrapoValidator(validator);
-		
 		controller.save(forum, model());
 		
 		assertThat(forum.getId(), notNullValue());
@@ -131,9 +108,6 @@ public class ForumControllerTests {
 		Forum forum = forum();
 		
 		ForumsController controller = controllerWith(repository());
-		TrapoValidator validator = validator(forum);
-		controller.setTrapoValidator(validator);
-		
 		controller.save(forum, model);
 		
 		assertThat(model.containsAttribute("forum"), is(true));
@@ -288,51 +262,6 @@ public class ForumControllerTests {
 		assertThat(message.isWarning(), is(true));
 	}
 	
-	@Test
-	public void should_report_errors_when_trying_to_save_invalid_forums() {
-
-		Model model = model();
-		
-		Forum forum = forum();
-		forum.setName(null);
-		
-		ForumsController controller = controllerWith(repository());
-		TrapoValidator validator = Mockito.mock(TrapoValidator.class);
-		
-		given(validator.validate(forum)).willReturn(errors(forum, "name"));
-		controller.setTrapoValidator(validator);
-		
-		controller.save(forum, model);
-		
-		assertThat(model.containsAttribute("errors"), is(true));
-	}
-	
-	@Test
-	public void should_put_a_error_message_in_model_when_trying_to_save_a_invalid_forum() {
-		
-		Model model = model();
-		
-		Forum forum = forum();
-		forum.setName(null);
-		
-		ForumsController controller = controllerWith(repository());
-		TrapoValidator validator = Mockito.mock(TrapoValidator.class);
-		
-		given(validator.validate(forum)).willReturn(errors(forum, "name"));
-		controller.setTrapoValidator(validator);
-		
-		controller.save(forum, model);
-		
-		assertThat(model.containsAttribute("message"), is(true));
-	}
-
-	private Errors errors(Forum forum, String field) {
-		BindException bindException = new BindException(forum, "forum");
-		bindException.addError(new FieldError("forum", field, "not valid"));
-		Errors errors = bindException;
-		return errors;
-	}
-
 	private ForumsController controllerWith(ForumRepository repository) {
 		ForumsController controller = new ForumsController();
 		controller.setForumRepository(repository);

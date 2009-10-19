@@ -55,11 +55,12 @@
         class="org.hibernate.jmx.StatisticsService" 
         autowire="byName"/>
 
-  <bean name="validatorFactory" 
-        class="javax.validation.Validation"
-        factory-method="buildDefaultValidatorFactory" />
-  <bean name="validator" 
-        factory-bean="validatorFactory" 
-        factory-method="getValidator" />
+  <bean id="validator" 
+        class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
+  <bean id="webBindingInitializer"
+        class="org.springframework.web.bind.support.ConfigurableWebBindingInitializer"
+        p:validator-ref="validator" />
+  <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter"
+        p:webBindingInitializer-ref="webBindingInitializer" />
   
 </beans>
