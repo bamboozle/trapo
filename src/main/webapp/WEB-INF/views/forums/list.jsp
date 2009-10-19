@@ -11,6 +11,47 @@
 <html>
   <head>
     <title>Forums List</title>
+    <style type="text/css">
+      .fff { 
+        padding: 5px;
+        margin-bottom: 10px;
+      }
+      
+      .fff h2 {
+        padding: 10px;
+        margin-left: -5px;
+        background-color: #5BC236;
+        text-decoration: none;
+      }
+      
+      .fff h2 a {
+        text-decoration: none;
+        color: #F9F9F9
+      }
+
+      .fff h2:hover {
+         background-color: #5BA000;
+         cursor: pointer;
+      }
+      
+      .createdAt {
+        margin: 0px;
+        padding: 0px;
+      }
+      .description {
+        margin-bottom: 0px;
+        padding-bottom: 0px;
+        text-align: justify;
+      }
+    </style>
+    <script type="text/javascript">
+      $(function() {
+        $("h2").click(function() {
+            window.location = $(this).find("a").attr("href");
+            return false; 
+        });
+      });
+    </script>
   </head>
   <body>
     <div class="span-11 last">
@@ -25,28 +66,13 @@
       </c:if>
     </div>
     <div class="span-24">
-      <table cellpadding="0" cellspacing="0">
-        <tr>
-          <th>Name</th>
-          <th>Description</th>
-          <th>Created At</th>
-        </tr>
-        <c:forEach items="${forums}" var="forum" varStatus="index">
-        <c:choose>
-          <c:when test="${index.index % 2 == 0}">
-           <c:set var="is" value="odd" />
-          </c:when>
-          <c:otherwise>
-           <c:set var="is" value="even" />
-          </c:otherwise>
-        </c:choose>
-        <tr class="${is}">
-          <td><a href="<c:url value="/view/forum/" /><url:encode value="${forum.name}" />">${forum.name}</a></td>
-          <td>${forum.description}</td>
-          <td>${forum.createdAt}</td>
-        </tr>
-        </c:forEach>
-      </table>
+      <c:forEach items="${forums}" var="forum" varStatus="index">
+      <div class="span-24 last fff">
+        <h2><a href="<c:url value="/view/forum/" /><url:encode value="${forum.name}" />">${forum.name}</a></h2>
+        <p class="description">${forum.description}</p>
+        <p class="createdAt">Created at ${forum.createdAt}</p>
+      </div>
+      </c:forEach>
     </div>
   </body>
 </html>
