@@ -232,7 +232,7 @@
             <inherited>false</inherited>
             <configuration>
               <tasks>
-                <copy todir="src/main/webapp/WEB-INF/" verbose="true" outputencoding="utf-8">
+                <copy todir="src/main/webapp/WEB-INF/" verbose="true" outputencoding="utf-8" overwrite="true">
                   <fileset dir="src/main/resources/" />
                 </copy>
               </tasks>
