@@ -6,6 +6,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
   <head>
@@ -14,13 +15,17 @@
     <c:choose>
       <c:when test="${updating}">
         <title>Updating forum ${forum.name}</title>
-        <c:set var="action" value="/view/forum/update/" />
+        <c:set var="action" value="/trapo/view/forum/update/" />
       </c:when>
       <c:otherwise>
         <title>Creating a new forum</title>
-        <c:set var="action" value="/view/forum/save/" />
+        <c:set var="action" value="/trapo/view/forum/save/" />
       </c:otherwise>
     </c:choose>
+    <script type="text/javascript">
+      $(function() { $("#cancelaction").click(function() { window.location = '<c:url value="/view/forums" />'}); });
+      
+    </script>
   </head>
   <body>
     <div class="span-11 last">
@@ -30,7 +35,7 @@
       </ul>
     </div>
     <div class="forum_form">
-      <form id="forms" action="<c:url value="${action}" />" method="post">
+      <form:form id="forms" action="${action}" method="post" commandName="forum" >
         <c:if test="${updating}">
         <input type="hidden" name="id" value="${forum.id}" />
         </c:if>
@@ -45,13 +50,11 @@
         <label>Name
         <span class="small">What is the forum name?</span>
         </label>
-        <input type="text" name="name" id="name" value="${forum.name}" />
-          
+        <form:input path="name" id="name"/>
         <label>Description
         <span class="small">Describe your forum</span>
         </label>
-        <textarea name="description" id="description">${forum.description}</textarea>
-          
+        <form:textarea path="description" id="description"/>
         <div id="actions">          
         <c:choose>
           <c:when test="${updating}">
@@ -61,9 +64,9 @@
             <input type="submit" value="Save Forum" />
           </c:otherwise>
         </c:choose>
-        <a class="cancel" href="javascript:areyousure('Do you really want to cancel?');">Cancel</a>
+        <a class="cancel" id="cancelaction">Cancel</a>
         </div>
-      </form>
+      </form:form>
     </div>
   </body>
 </html>
