@@ -27,7 +27,7 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.validator.NotEmpty;
+import org.hibernate.validator.constraints.NotEmpty;
 
 /**
  * @author Bamboozle Who
@@ -45,6 +45,7 @@ public class Forum implements Serializable, Comparable<Forum> {
 	@GenericGenerator(name = "system-uuid", strategy = "uuid")
 	private String id;
 	@NotEmpty
+	// must be unique
 	private String name;
 	@NotEmpty
 	private String description;
