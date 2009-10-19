@@ -93,6 +93,7 @@ public class ForumsController {
 	
 	@RequestMapping("/forum/create")
 	public String create(Model model) {
+		model.addAttribute("forum", new Forum());
 		return "forums/create";
 	}
 	
