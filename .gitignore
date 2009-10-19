@@ -3,6 +3,8 @@ target
 .classpath
 .project
 .springBeans
+.clover
+report
 src/main/webapp/WEB-INF/decorators.xml
 src/main/webapp/WEB-INF/ehcache.xml
 src/main/webapp/WEB-INF/exceptions-views-mapping.properties

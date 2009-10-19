@@ -16,11 +16,13 @@
 package com.google.code.trapo.persistence;
 
 import static org.hamcrest.CoreMatchers.equalTo;
+import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
 
 import java.util.Date;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -28,6 +30,8 @@ import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.test.context.transaction.TransactionConfiguration;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.google.code.trapo.domain.Forum;
 
@@ -40,6 +44,8 @@ import com.google.code.trapo.domain.Forum;
 @ContextConfiguration(locations = { 
 	"classpath:/trapo-servlet.xml" 
 })
+@Transactional
+@TransactionConfiguration(transactionManager = "txManager")
 public class ForumRepositoryTests {
 
 	@Autowired
@@ -51,6 +57,15 @@ public class ForumRepositoryTests {
 		forum.setDescription("My new java forum");
 		forum.setCreatedAt(new Date());
 		forumRepository.save(forum.open());
+	}
+	
+	@Test
+	public void should_list_all_forums() {
+		List<Forum> forums = this.forumRepository.listAll();
+		for (Forum forum : forums) {
+			System.out.println(forum.getName());
+		}
+		assertThat(forums.isEmpty(), is(false));
 	}
 	
 	@Test

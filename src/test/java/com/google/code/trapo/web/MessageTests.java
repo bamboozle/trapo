@@ -99,4 +99,25 @@ public class MessageTests {
 		Message message = Message.error("my message");
 		assertThat(message.isInformation(), is(false));
 	}
+	
+	@Test
+	public void message_type_must_match_with_is_methods() {
+		Message message = Message.error("error");
+		boolean matchError = message.getType() == Message.Type.ERROR && message.isError();
+		assertThat(matchError, is(true));
+		
+		message = Message.information("information");
+		matchError = message.getType() == Message.Type.INFORMATION && message.isInformation();
+		assertThat(matchError, is(true));
+		
+		message = Message.warning("warning");
+		matchError = message.getType() == Message.Type.WARNING && message.isWarning();
+		assertThat(matchError, is(true));
+	}
+	
+	@Test
+	public void message_to_string_must_print_the_text_message() {
+		Message message = Message.error("error message");
+		assertThat(message.toString(), equalTo("error message"));
+	}
 }

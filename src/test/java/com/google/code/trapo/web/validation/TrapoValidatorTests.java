@@ -64,16 +64,18 @@ public class TrapoValidatorTests {
 		assertThat(errors.getFieldError("bar"), notNullValue());
 	}
 	
+	@Test(expected = IllegalArgumentException.class)
+	public void should_throws_a_illegal_argument_exception_when_trying_to_validate_a_null_object() {
+		trapoValidator.validate(null);
+	}
+	
 	public static class Foo {
 		
-		@NotEmpty private String bar;
+		@NotEmpty String bar;
 
 		public Foo(String bar) {
 			this.bar = bar;
 		}
 		
-		public String getBar() {
-			return bar;
-		}
 	}
 }
