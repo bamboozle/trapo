@@ -15,11 +15,16 @@
  */
 package com.google.code.trapo.web.validation;
 
+import static javax.validation.Validation.buildDefaultValidatorFactory;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
 
+import javax.validation.Validator;
+import javax.validation.ValidatorFactory;
+
 import org.hibernate.validator.constraints.NotEmpty;
+import org.junit.Before;
 import org.junit.Test;
 import org.springframework.validation.Errors;
 
@@ -30,24 +35,32 @@ import org.springframework.validation.Errors;
  */
 public class TrapoValidatorTests {
 
-	@Test
-	public void should_validate_find_validation_errors() {
-		TrapoValidator validator = new TrapoValidator();
-		Errors errors = validator.validate(new Foo(null));
-		assertThat(errors.getErrorCount(), equalTo(1));
+	private TrapoValidator trapoValidator;
+	
+	@Before
+	public void initValidator() {
+		ValidatorFactory validatorFactory = buildDefaultValidatorFactory();
+		Validator validator = validatorFactory.getValidator();
+		
+		this.trapoValidator = new TrapoValidator(validator);
 	}
 	
 	@Test
+	public void validator_should_find_validation_errors() {
+		Errors errors = trapoValidator.validate(new Foo(null));
+		assertThat(errors.getErrorCount(), equalTo(1));
+	}
+
+	
+	@Test
 	public void should_return_a_empty_errors_when_object_is_valid() {
-		TrapoValidator validator = new TrapoValidator();
-		Errors errors = validator.validate(new Foo("value"));
+		Errors errors = trapoValidator.validate(new Foo("value"));
 		assertThat(errors.getErrorCount(), equalTo(0));
 	}
 	
 	@Test
 	public void should_return_an_error_for_specific_field() {
-		TrapoValidator validator = new TrapoValidator();
-		Errors errors = validator.validate(new Foo(null));
+		Errors errors = trapoValidator.validate(new Foo(null));
 		assertThat(errors.getFieldError("bar"), notNullValue());
 	}
 	

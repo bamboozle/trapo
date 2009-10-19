@@ -55,9 +55,8 @@
         class="org.hibernate.jmx.StatisticsService" 
         autowire="byName"/>
 
-  <bean name="validation" abstract="true" class="javax.validation.Validation" />
   <bean name="validatorFactory" 
-        factory-bean="validation" 
+        class="javax.validation.Validation"
         factory-method="buildDefaultValidatorFactory" />
   <bean name="validator" 
         factory-bean="validatorFactory" 

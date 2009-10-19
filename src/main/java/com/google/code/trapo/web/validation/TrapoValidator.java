@@ -39,8 +39,12 @@ import org.springframework.validation.ObjectError;
 @Component
 public class TrapoValidator {
 
-	@Autowired
 	private Validator validator;
+	
+	@Autowired
+	public TrapoValidator(Validator validator) {
+		this.validator = validator;
+	}
 	
 	public Errors validate(Object bean) {
 		
