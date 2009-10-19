@@ -46,12 +46,12 @@ import com.google.code.trapo.web.validation.TrapoValidator;
 public class ForumsController {
 
 	@Autowired private ForumRepository forumRepository;
-	@Autowired private TrapoValidator validator;
+	@Autowired private TrapoValidator trapoValidator;
 	
 	@RequestMapping(value = { "/forum/save", "/forum/update" }, method = POST)
 	public String save(Forum forum, Model model) {
 		
-		Errors errors = validator.validate(forum);
+		Errors errors = trapoValidator.validate(forum);
 		if(errors.hasErrors()) {
 			model.addAttribute("errors", errors);
 			model.addAttribute("forum", forum);
@@ -120,8 +120,8 @@ public class ForumsController {
 		this.forumRepository = forumRepository;
 	}
 	
-	protected void setValidator(TrapoValidator validator) {
-		this.validator = validator;
+	protected void setTrapoValidator(TrapoValidator validator) {
+		this.trapoValidator = validator;
 	}
 	
 	private String redirectsToList(String message, Model model) {

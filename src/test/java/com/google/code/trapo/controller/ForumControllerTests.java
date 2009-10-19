@@ -58,7 +58,7 @@ public class ForumControllerTests {
 		ForumsController controller = controllerWith(repository);
 
 		TrapoValidator validator = validator(forum);
-		controller.setValidator(validator);
+		controller.setTrapoValidator(validator);
 		
 		String result = controller.save(forum, model());
 		assertThat(result, equalTo("forums/show"));
@@ -85,7 +85,7 @@ public class ForumControllerTests {
 		
 		ForumsController controller = controllerWith(repository);
 		TrapoValidator validator = validator(forum);
-		controller.setValidator(validator);
+		controller.setTrapoValidator(validator);
 		controller.save(forum, model);
 		
 		Message message = (Message)model.asMap().get("message");
@@ -101,7 +101,7 @@ public class ForumControllerTests {
 		
 		ForumsController controller = controllerWith(repository());
 		TrapoValidator validator = validator(forum);
-		controller.setValidator(validator);
+		controller.setTrapoValidator(validator);
 		
 		String result = controller.save(forum, model());
 		
@@ -115,7 +115,7 @@ public class ForumControllerTests {
 		
 		ForumsController controller = controllerWith(repositoryFor(forum));
 		TrapoValidator validator = validator(forum);
-		controller.setValidator(validator);
+		controller.setTrapoValidator(validator);
 		
 		controller.save(forum, model());
 		
@@ -130,7 +130,7 @@ public class ForumControllerTests {
 		
 		ForumsController controller = controllerWith(repository());
 		TrapoValidator validator = validator(forum);
-		controller.setValidator(validator);
+		controller.setTrapoValidator(validator);
 		
 		controller.save(forum, model);
 		
