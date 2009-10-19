@@ -27,6 +27,7 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.NotEmpty;
 
 /**
@@ -47,7 +48,7 @@ public class Forum implements Serializable, Comparable<Forum> {
 	@NotEmpty
 	// must be unique
 	private String name;
-	@NotEmpty
+	@NotEmpty @Type(type = "text")
 	private String description;
 	private Date createdAt = new Date();
 	private boolean open;
