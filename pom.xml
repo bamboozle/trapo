@@ -113,6 +113,11 @@
     </dependency>
     <dependency>
       <groupId>org.hibernate</groupId>
+      <artifactId>hibernate-c3p0</artifactId>
+      <version>3.3.2.GA</version>
+    </dependency>
+    <dependency>
+      <groupId>org.hibernate</groupId>
       <artifactId>hibernate-annotations</artifactId>
       <version>3.4.0.GA</version>
     </dependency>
@@ -232,7 +237,8 @@
             <inherited>false</inherited>
             <configuration>
               <tasks>
-                <copy todir="src/main/webapp/WEB-INF/" verbose="true" outputencoding="utf-8" overwrite="true">
+                <copy todir="src/main/webapp/WEB-INF/" verbose="true" outputencoding="utf-8"
+                  overwrite="true">
                   <fileset dir="src/main/resources/" />
                 </copy>
               </tasks>
