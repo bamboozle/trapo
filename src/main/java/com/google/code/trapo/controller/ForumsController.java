@@ -32,6 +32,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.google.code.trapo.domain.Forum;
 import com.google.code.trapo.persistence.ForumRepository;
+import com.google.code.trapo.web.validation.TrapoValidator;
 
 /**
  * @author Bamboozle Who
@@ -42,26 +43,23 @@ import com.google.code.trapo.persistence.ForumRepository;
 @Transactional
 public class ForumsController {
 
-	@Autowired
-	private ForumRepository forumRepository;
+	@Autowired private ForumRepository forumRepository;
+	@Autowired private TrapoValidator validator;
 	
-	@RequestMapping(value = "/forum/save/", method = POST)
+	@RequestMapping(value = { "/forum/save", "/forum/update" }, method = POST)
 	public String save(Forum forum, Model model) {
-		forumRepository.save(forum);
+		if(forum.getId() != null) {
+			forumRepository.update(forum);
+			model.addAttribute("message", information("Forum was updated"));
+		} else {
+			forumRepository.save(forum);
+			model.addAttribute("message", information("New forum was created"));
+		}
 		model.addAttribute("forum", forum);
-		model.addAttribute("message", information("New forum was created"));
 		return "forums/show";
 	}
 	
-	@RequestMapping(value = "/forum/update/", method = POST)
-	public String update(Forum forum, Model model) {
-		forumRepository.update(forum);
-		model.addAttribute("forum", forum);
-		model.addAttribute("message", information("Forum was updated"));
-		return "forums/show";
-	}
-	
-	@RequestMapping(value = "/forum/delete/", method = POST)
+	@RequestMapping(value = "/forum/delete", method = POST)
 	public String delete(String id, Model model) {
 		
 		Forum forum = this.forumRepository.get(id);
@@ -74,7 +72,7 @@ public class ForumsController {
 		return list(model);
 	}
 	
-	@RequestMapping({"/forums/", "/forums", "/forums/list"})
+	@RequestMapping( { "/forums", "/forums/list" })
 	public String list(Model model) {
 		List<Forum> forums = forumRepository.listAll();
 		model.addAttribute("forums", forums);
@@ -96,7 +94,7 @@ public class ForumsController {
 		return "forums/create";
 	}
 	
-	@RequestMapping(value = "/forum/edit/", method = POST)
+	@RequestMapping(value = "/forum/edit", method = POST)
 	public String edit(String id, Model model) {
 		Forum forum = this.forumRepository.get(id);
 		if(forum == null) {

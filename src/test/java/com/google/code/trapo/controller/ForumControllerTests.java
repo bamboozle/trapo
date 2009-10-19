@@ -49,11 +49,12 @@ public class ForumControllerTests {
 	public void should_update_a_existent_forum() {
 		
 		Forum forum = forum();
+		forum.setId("1234"); // already on database
 		
 		ForumRepository repository = this.repository();
 		ForumsController controller = controllerWith(repository);
 		
-		String result = controller.update(forum, model());
+		String result = controller.save(forum, model());
 		assertThat(result, equalTo("forums/show"));
 		
 		verify(repository).update(forum);
@@ -62,12 +63,20 @@ public class ForumControllerTests {
 	@Test
 	public void verify_that_update_method_add_a_information_message() {
 		
+		Forum forum = forum();
+		forum.setId("1234");
+		
 		Model model = this.model();
-		ForumsController controller = controllerWith(repository());
-		controller.update(forum(), model);
+		
+		ForumRepository repository = repository();
+		
+		ForumsController controller = controllerWith(repository);
+		controller.save(forum, model);
 		
 		Message message = (Message)model.asMap().get("message");
 		assertThat(message, notNullValue());
+		verify(repository).update(forum);
+		
 	}
 	
 	@Test
@@ -273,7 +282,7 @@ public class ForumControllerTests {
 	
 	private ForumRepository repositoryFor(final Forum forum) {
 		ForumRepository repository = Mockito.mock(ForumRepository.class);
-		Mockito.when(repository.save(forum)).thenAnswer(new Answer<Forum>() {
+		when(repository.save(forum)).thenAnswer(new Answer<Forum>() {
 			public Forum answer(InvocationOnMock invocation) throws Throwable {
 				forum.setId("1234");
 				return forum;
