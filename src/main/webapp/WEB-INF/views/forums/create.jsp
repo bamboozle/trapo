@@ -35,7 +35,7 @@
       </ul>
     </div>
     <div class="forum_form">
-      <form:form id="forms" action="${action}" method="post" commandName="forum" >
+      <form:form id="forms" action="${action}" method="post" commandName="forum" modelAttribute="forum">
         <c:if test="${updating}">
         <input type="hidden" name="id" value="${forum.id}" />
         </c:if>
