@@ -6,14 +6,12 @@
   background-color: #02243C;
 }
 
-#header h1,#header p {
-  padding: 10px;
+#header h1, #header p, #header a {
   color: #F9F9F9;
 }
 
-#header a {
-  color: #F9F9F9;
-  text-decoration: none;
+#header h1, #header p{
+  padding: 10px;
 }
 
 #header h1 {
@@ -26,30 +24,14 @@
   padding-left: 5.7em;
 }
 
+#header a {
+  text-decoration: none;
+}
+
 #menu {
   margin-top: 5px;
   padding-top: 15px;
   margin-left: -40px;
-}
-
-#menu li {
-  display: inline;
-}
-
-#menu a {
-  background-color: #005DB3;
-  padding: 15px 10px 15px 10px;
-  font-size: 1.3em;
-  font-weight: bold;
-  text-transform: uppercase;
-  text-decoration: none;
-  letter-spacing: 1px;
-  color: #F9F9F9;
-}
-
-#menu a:hover {
-  color: #F9F9F9;
-  background-color: #5BC236;
 }
 
 #forums_menu {
@@ -60,11 +42,16 @@
   margin-right: -90px;
 }
 
-#forums_menu li {
+#menu li, #forums_menu li {
   display: inline;
 }
 
-#forums_menu a {
+#menu a, #forums_menu a, input[type="submit"], .cancel, .action {
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+}
+
+#menu a, #forums_menu a {
   background-color: #005DB3;
   padding: 15px 10px 15px 10px;
   font-size: 1.3em;
@@ -75,7 +62,24 @@
   color: #F9F9F9;
 }
 
-#forums_menu a:hover {
+#menu a:hover, #forums_menu a:hover {
+  color: #F9F9F9;
+  background-color: #5BC236;
+}
+
+input[type="text"], input[type="submit"], .cancel, .action {
+  font-size: 1.6em;
+}
+
+input[type="submit"] {
+  padding: 10px;
+  background-color: grey;
+  color: #F9F9F9;
+  border: 0px;
+  font-weight: normal;
+}
+
+input[type="submit"]:hover {
   color: #F9F9F9;
   background-color: #5BC236;
 }
@@ -99,49 +103,30 @@ label {
   color: grey;
 }
 
-input[type="text"] {
-   font-size: 1.6em;
-}
-
-input[type="submit"] {
-  padding: 10px;
-  background-color: grey;
-  color: #F9F9F9;
-  border: 0px;
-  font-size: 1.6em;
-  font-weight: normal;
-}
-
-input[type="submit"]:hover {
-  color: #F9F9F9;
-  background-color: #5BC236;
-}
-
 .cancel {
   padding: 12px;
   background-color: #E6E6E6;
-  font-size: 1.6em;
   text-decoration: none;
   color: grey;
   margin-left: 10px;
-  margin-bottom: 
 }
 
 .cancel:hover {
   background-color: rgb(255, 70, 70);;
   color: #F9F9F9;
+  cursor: pointer;
 }
 
 table th {
- background-color: #5195CE;
- color: #F9F9F9;
- font-size: 1.1em;
- text-transform: uppercase;
- font-stretch: wider;
+  background-color: #5195CE;
+  color: #F9F9F9;
+  font-size: 1.1em;
+  text-transform: uppercase;
+  font-stretch: wider;
 }
 
-.odd, .even {
- padding: 2px;
+.odd,.even {
+  padding: 2px;
 }
 
 .odd {
@@ -154,7 +139,6 @@ table th {
   background-color: grey;
   color: #F9F9F9;
   border: 0px;
-  font-size: 1.6em;
   font-weight: normal;
 }
 
