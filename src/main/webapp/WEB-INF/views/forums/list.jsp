@@ -2,7 +2,6 @@
   language="java"
   contentType="text/html; charset=UTF-8"
   pageEncoding="UTF-8"%>
-
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib uri="http://www.opensymphony.com/sitemesh/decorator" prefix="sm" %>
@@ -11,43 +10,7 @@
 <html>
   <head>
     <title>Forums List</title>
-    <style type="text/css">
-      .fff { 
-        padding: 5px;
-        margin-bottom: 10px;
-        border: solid 1px #5bc236;
-        border-top: none;
-      }
-      
-      .fff h2 {
-        padding: 10px;
-        margin-left: -5px;
-        margin-right: -5px;
-        margin-top: -5px;
-        background-color: #5BC236;
-        text-decoration: none;
-      }
-      
-      .fff h2 a {
-        text-decoration: none;
-        color: #F9F9F9
-      }
-
-      .fff h2:hover {
-         background-color: #5BA000;
-         cursor: pointer;
-      }
-      
-      .createdAt {
-        margin: 0px;
-        padding: 0px;
-      }
-      .description {
-        margin-bottom: 0px;
-        padding-bottom: 0px;
-        text-align: justify;
-      }
-    </style>
+    <link rel="stylesheet" type="text/css" media="screen" href="<c:url value="/css/forums/list.css" />" charset="utf-8">
     <script type="text/javascript">
       $(function() {
         $("h2").click(function() {
