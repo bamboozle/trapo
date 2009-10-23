@@ -152,3 +152,11 @@ table th {
   margin-top: 10px;
   float: left;
 }
+
+.fieldError {
+  display: block;
+  color: red;
+  text-transform: none;
+  padding: 0px;
+  margin-bottom: -5px;
+}

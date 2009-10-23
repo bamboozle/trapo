@@ -11,3 +11,4 @@ src/main/webapp/WEB-INF/exceptions-views-mapping.properties
 src/main/webapp/WEB-INF/hibernate.cfg.xml
 src/main/webapp/WEB-INF/sitemesh.xml
 src/main/webapp/WEB-INF/trapo-servlet.xml
+src/main/webapp/WEB-INF/i18n

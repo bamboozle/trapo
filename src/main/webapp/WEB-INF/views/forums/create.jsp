@@ -14,17 +14,16 @@
     <c:set var="updating" value="${forum.id != null}" />
     <c:choose>
       <c:when test="${updating}">
-        <title>Updating forum ${forum.name}</title>
+        <title><spring:message code="Forum.create.title.update" /> ${forum.name}</title>
         <c:set var="action" value="/trapo/view/forum/update/" />
       </c:when>
       <c:otherwise>
-        <title>Creating a new forum</title>
+        <title><spring:message code="Forum.create.title.save" /></title>
         <c:set var="action" value="/trapo/view/forum/save/" />
       </c:otherwise>
     </c:choose>
     <script type="text/javascript">
       $(function() { $("#cancelaction").click(function() { window.location = '<c:url value="/view/forums" />'}); });
-      
     </script>
   </head>
   <body>
@@ -49,10 +48,12 @@
         </c:choose>
         <label>Name
         <span class="small">What is the forum name?</span>
+        <form:errors path="name" cssClass="fieldError" />
         </label>
         <form:input path="name" id="name"/>
         <label>Description
         <span class="small">Describe your forum</span>
+        <form:errors path="description" cssClass="fieldError" />
         </label>
         <form:textarea path="description" id="description"/>
         <div id="actions">          
