@@ -20,6 +20,7 @@ import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -28,11 +29,14 @@ import java.util.List;
 
 import org.hamcrest.CoreMatchers;
 import org.junit.Test;
+import org.mockito.BDDMockito;
 import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.springframework.ui.ExtendedModelMap;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 
 import com.google.code.trapo.domain.Forum;
 import com.google.code.trapo.persistence.ForumRepository;
@@ -51,13 +55,30 @@ public class ForumControllerTests {
 		Forum forum = forum();
 		forum.setId("1234"); // already on database
 		
-		ForumRepository repository = this.repository();
-		ForumsController controller = controllerWith(repository);
+		Validator validator = mock(Validator.class);
 		
-		String result = controller.save(forum, model());
+		ForumRepository repository = this.repository();
+		ForumsController controller = controllerWith(repository, validator);
+		
+		String result = controller.save(forum, errors(), model());
 		assertThat(result, equalTo("forums/show"));
 		
 		verify(repository).update(forum);
+	}
+	
+	@Test
+	public void should_not_update_forum_when_there_are_invalid_field_values() {
+		
+		Validator validator = mock(Validator.class);
+		
+		ForumRepository repository = this.repository();
+		ForumsController controller = controllerWith(repository, validator);
+		
+		BindingResult errors = errors();
+		BDDMockito.given(errors.hasErrors()).willReturn(true);
+		
+		String result = controller.save(forum(), errors, model());
+		assertThat(result, equalTo("forums/create"));
 	}
 
 	@Test
@@ -69,9 +90,9 @@ public class ForumControllerTests {
 		Model model = this.model();
 		
 		ForumRepository repository = repository();
-		
-		ForumsController controller = controllerWith(repository);
-		controller.save(forum, model);
+		Validator validator = mock(Validator.class);
+		ForumsController controller = controllerWith(repository, validator);
+		controller.save(forum, errors(), model);
 		
 		Message message = (Message)model.asMap().get("message");
 		assertThat(message, notNullValue());
@@ -83,9 +104,9 @@ public class ForumControllerTests {
 	public void should_redirect_to_show_page_when_saving_a_new_forum() {
 		
 		Forum forum = forum();
-		
-		ForumsController controller = controllerWith(repository());
-		String result = controller.save(forum, model());
+		Validator validator = mock(Validator.class);
+		ForumsController controller = controllerWith(repository(), validator);
+		String result = controller.save(forum, errors(), model());
 		
 		assertThat(result, equalTo("forums/show"));
 	}
@@ -94,9 +115,13 @@ public class ForumControllerTests {
 	public void should_save_a_forum_when_all_properties_are_ok() {
 		
 		Forum forum = forum();
+		BindingResult errors = errors();
 		
-		ForumsController controller = controllerWith(repositoryFor(forum));
-		controller.save(forum, model());
+		given(errors.hasErrors()).willReturn(false);
+		
+		Validator validator = mock(Validator.class);
+		ForumsController controller = controllerWith(repositoryFor(forum), validator);
+		controller.save(forum, errors, model());
 		
 		assertThat(forum.getId(), notNullValue());
 	}
@@ -106,9 +131,9 @@ public class ForumControllerTests {
 		
 		Model model = model();
 		Forum forum = forum();
-		
-		ForumsController controller = controllerWith(repository());
-		controller.save(forum, model);
+		Validator validator = mock(Validator.class);
+		ForumsController controller = controllerWith(repository(), validator);
+		controller.save(forum, errors(), model);
 		
 		assertThat(model.containsAttribute("forum"), is(true));
 	}
@@ -262,6 +287,12 @@ public class ForumControllerTests {
 		assertThat(message.isWarning(), is(true));
 	}
 	
+	private ForumsController controllerWith(ForumRepository repository, Validator validator) {
+		ForumsController controller = controllerWith(repository);
+		controller.setValidator(validator);
+		return controller;
+	}
+	
 	private ForumsController controllerWith(ForumRepository repository) {
 		ForumsController controller = new ForumsController();
 		controller.setForumRepository(repository);
@@ -307,5 +338,9 @@ public class ForumControllerTests {
 	
 	private Model model() {
 		return new ExtendedModelMap();
+	}
+	
+	private BindingResult errors() {
+		return mock(BindingResult.class);
 	}
 }

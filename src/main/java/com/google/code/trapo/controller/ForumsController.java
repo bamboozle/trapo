@@ -23,12 +23,13 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.List;
 
-import javax.validation.Valid;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -45,10 +46,16 @@ import com.google.code.trapo.persistence.ForumRepository;
 public class ForumsController {
 
 	@Autowired private ForumRepository forumRepository;
+	@Autowired private Validator validator;
 	
 	@RequestMapping(value = { "/forum/save", "/forum/update" }, method = POST)
-	public String save(@Valid Forum forum, Model model) {
-
+	public String save(@ModelAttribute Forum forum, BindingResult errors, Model model) {
+		
+		if(this.hasErrors(forum, errors)) {
+			model.addAttribute("forum", forum);
+			return "forums/create";
+		}
+		
 		if(exists(forum)) {
 			forumRepository.update(forum);
 			model.addAttribute("message", information("Forum was updated"));
@@ -59,6 +66,11 @@ public class ForumsController {
 		
 		model.addAttribute("forum", forum);
 		return "forums/show";
+	}
+
+	private boolean hasErrors(Forum forum, BindingResult errors) {
+		validator.validate(forum, errors);
+		return errors.hasErrors();
 	}
 
 	@RequestMapping(value = "/forum/delete", method = POST)
@@ -109,6 +121,10 @@ public class ForumsController {
 	
 	protected void setForumRepository(ForumRepository forumRepository) {
 		this.forumRepository = forumRepository;
+	}
+	
+	protected void setValidator(Validator validator) {
+		this.validator = validator;
 	}
 	
 	private String redirectsToList(String message, Model model) {
