@@ -29,6 +29,7 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.NotEmpty;
+import org.joda.time.DateTime;
 
 /**
  * @author Bamboozle Who
@@ -74,6 +75,13 @@ public class Forum implements Serializable, Comparable<Forum> {
 	public Forum close() {
 		this.open = false;
 		return this;
+	}
+	
+	public Topic openTopic(String title, String text) {
+		Topic topic = new Topic(title, text);
+		topic.setCreatedAt(new DateTime());
+		topic.setForum(this);
+		return topic;
 	}
 
 	public int compareTo(Forum forum) {

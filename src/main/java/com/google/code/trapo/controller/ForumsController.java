@@ -63,24 +63,16 @@ public class ForumsController {
 			forumRepository.save(forum);
 			model.addAttribute("message", information("New forum was created"));
 		}
-		
 		model.addAttribute("forum", forum);
 		return "forums/show";
 	}
 
-	private boolean hasErrors(Forum forum, BindingResult errors) {
-		validator.validate(forum, errors);
-		return errors.hasErrors();
-	}
-
 	@RequestMapping(value = "/forum/delete", method = POST)
 	public String delete(String id, Model model) {
-		
 		Forum forum = this.forumRepository.get(id);
 		if(forum == null) {
 			return redirectsToList("Forum to delete was not found.", model);
 		}
-		
 		forumRepository.delete(forum);
 		model.addAttribute("message", information("Forum was successfull deleted"));
 		return list(model);
@@ -147,5 +139,10 @@ public class ForumsController {
 		} catch (UnsupportedEncodingException e) {
 			return string;
 		}
+	}
+	
+	private boolean hasErrors(Forum forum, BindingResult errors) {
+		validator.validate(forum, errors);
+		return errors.hasErrors();
 	}
 }

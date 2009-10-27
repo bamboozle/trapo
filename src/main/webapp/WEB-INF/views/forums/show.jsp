@@ -9,20 +9,6 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>${forum.name} Forum - Trapo</title>
-    <script type="text/javascript">
-      $(document).ready(function() {
-        $("#editaction").click(function() {
-          $("#sform").attr("action", "<c:url value="/view/forum/edit/" />");
-          $("#sform").submit();
-        });
-        $("#deleteaction").click(function() {
-          if(confirm("Did you really want to delete this forum?")) {
-            $("#sform").attr("action", "<c:url value="/view/forum/delete/" />");
-            $("#sform").submit();
-          }
-        });
-      });
-    </script>
   </head>
   <body>
     <div class="span-11 last">
@@ -37,33 +23,19 @@
       </c:if>
     </div>
     <div class="span-24">
-      <table cellpadding="0" cellspacing="0">
-        <tr>
-          <th colspan="2"><h1>${forum.name}</h1></th>
-        </tr>
-        <tr>
-          <td>Forum Name:</td>
-          <td>${forum.name}</td>
-        </tr>
-        <tr>
-          <td>Description:</td>
-          <td>${forum.description}</td>
-        </tr>
-        <tr>
-          <td>Created At:</td>
-          <td>${forum.createdAt}</td>
-        </tr>
-        <tr>
-          <td>Open:</td>
-          <td>${forum.open}</td>
-        </tr>
-      </table>
+      <h1>${forum.name}</h1>
+      <p>${forum.description}</p>
+      <c:forEach items="${topics}" var="topic">
+        <h2>${topic.title}</h2>
+        <div class="span-24 topic_info">
+          <p>Posted at: ${topic.createdAt}</p>
+        </div>
+      </c:forEach>
     </div>
     <div class="span-24">
-      <form id="sform" name="sform" method="post">
-        <input name="id" type="hidden" value="${forum.id}">
-        <a class="action" id="editaction">Edit</a>
-        <a class="action" id="deleteaction">Delete</a>
+      <form action="<c:url value="/view/topic/create/" />" method="post" id="formtopic">
+        <input type="hidden" name="id" value="${forum.id}">
+        <input type="submit" value="Create new Topic" />
       </form>
     </div>
   </body>

@@ -17,6 +17,7 @@ package com.google.code.trapo.domain;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.junit.Assert.assertThat;
 
 import java.util.Date;
@@ -110,6 +111,19 @@ public class ForumTests {
 		assertThat(forum.getName(), equalTo("A Forum"));
 		assertThat(forum.isOpen(), is(true));
 		
+	}
+	
+	@Test
+	public void should_open_topics_in_a_forum() {
+		
+		Forum forum = new Forum().withName("A Forum").open();
+		
+		Topic topic = forum.openTopic("title", "text");
+
+		assertThat(topic.getTitle(), equalTo("title"));
+		assertThat(topic.getText(), equalTo("text"));
+		assertThat(topic.getCreatedAt(), notNullValue());
+		assertThat(topic.getForum(), equalTo(forum));
 	}
 
 }

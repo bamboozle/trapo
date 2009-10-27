@@ -17,23 +17,41 @@ package com.google.code.trapo.controller;
 
 import static com.google.code.trapo.web.Message.error;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.google.code.trapo.domain.Forum;
+import com.google.code.trapo.persistence.ForumRepository;
 
 /**
  * @author Bamboozle Who
- *
+ * 
  * @since 23/10/2009
  */
+@Controller
 public class TopicsController {
 
-	public String create(Forum forum, Model model) {
-		if (!forum.isOpen()) {
-			model.addAttribute("message", error("Forum is not open"));
-			return "redirect:forums/list";
+	@Autowired private ForumRepository forumRepository;
+	
+	@RequestMapping(value = "/topic/create")
+	public String create(@RequestParam("id") String id, Model model) {
+		if (!forum(id).isOpen()) {
+			model.addAttribute("message", error("You can't post in this forum. It is not open or it does not exists."));
+			return "redirect:/view/forums/list";
 		}
 		return "topics/create";
+	}
+	
+	protected void setForumRepository(ForumRepository forumRepository) {
+		this.forumRepository = forumRepository;
+	}
+	
+	private Forum forum(String id) {
+		Forum forum = this.forumRepository.get(id);
+		return forum != null ? forum : new Forum().close();
 	}
 
 }
