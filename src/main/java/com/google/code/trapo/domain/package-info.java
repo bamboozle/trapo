@@ -1,5 +1,5 @@
 @TypeDefs({
-	@TypeDef(name = "datetime", typeClass = PersistentLocalDateTime.class),
+	@TypeDef(name = "datetime", typeClass = PersistentDateTime.class),
 	@TypeDef(name = "datetimetz", typeClass = PersistentDateTimeTZ.class),
 	@TypeDef(name = "duration", typeClass = PersistentDuration.class),
 	@TypeDef(name = "interval", typeClass = PersistentInterval.class),	
@@ -16,6 +16,7 @@ package com.google.code.trapo.domain;
 
 import org.hibernate.annotations.TypeDef;
 import org.hibernate.annotations.TypeDefs;
+import org.joda.time.contrib.hibernate.PersistentDateTime;
 import org.joda.time.contrib.hibernate.PersistentDateTimeTZ;
 import org.joda.time.contrib.hibernate.PersistentDuration;
 import org.joda.time.contrib.hibernate.PersistentInterval;
