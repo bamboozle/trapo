@@ -19,8 +19,6 @@ import static com.google.code.trapo.web.Message.information;
 import static com.google.code.trapo.web.Message.warning;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +32,9 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.google.code.trapo.domain.Forum;
+import com.google.code.trapo.domain.Topic;
 import com.google.code.trapo.persistence.ForumRepository;
+import com.google.code.trapo.persistence.TopicRepository;
 
 /**
  * @author Bamboozle Who
@@ -43,9 +43,10 @@ import com.google.code.trapo.persistence.ForumRepository;
  */
 @Controller
 @Transactional
-public class ForumsController {
+public class ForumsController extends AbstractController<Forum> {
 
 	@Autowired private ForumRepository forumRepository;
+	@Autowired private TopicRepository topicRepository;
 	@Autowired private Validator validator;
 	
 	@RequestMapping(value = { "/forum/save", "/forum/update" }, method = POST)
@@ -60,7 +61,7 @@ public class ForumsController {
 			forumRepository.update(forum);
 			model.addAttribute("message", information("Forum was updated"));
 		} else {
-			forumRepository.save(forum);
+			forumRepository.add(forum.open());
 			model.addAttribute("message", information("New forum was created"));
 		}
 		model.addAttribute("forum", forum);
@@ -73,7 +74,7 @@ public class ForumsController {
 		if(forum == null) {
 			return redirectsToList("Forum to delete was not found.", model);
 		}
-		forumRepository.delete(forum);
+		forumRepository.remove(forum);
 		model.addAttribute("message", information("Forum was successfull deleted"));
 		return list(model);
 	}
@@ -91,6 +92,7 @@ public class ForumsController {
 		if(forum == null) {
 			return redirectsToList("Forum with name "+ name + " not found", model);
 		}
+		model.addAttribute("topics", topics(forum));
 		model.addAttribute("forum", forum);
 		return "forums/show";
 	}
@@ -111,6 +113,11 @@ public class ForumsController {
 		return "forums/create";
 	}
 	
+	@Override
+	public Validator validator() {
+		return validator;
+	}
+	
 	protected void setForumRepository(ForumRepository forumRepository) {
 		this.forumRepository = forumRepository;
 	}
@@ -128,21 +135,9 @@ public class ForumsController {
 		Forum forum = forumRepository.byName(decode(name));
 		return forum;
 	}
-	
-	private boolean exists(Forum forum) {
-		return forum.getId() != null;
-	}
 
-	private String decode(String string) {
-		try {
-			return URLDecoder.decode(string, "utf-8");
-		} catch (UnsupportedEncodingException e) {
-			return string;
-		}
+	private List<Topic> topics(Forum forum) {
+		return this.topicRepository.topicsFor(forum);
 	}
 	
-	private boolean hasErrors(Forum forum, BindingResult errors) {
-		validator.validate(forum, errors);
-		return errors.hasErrors();
-	}
 }

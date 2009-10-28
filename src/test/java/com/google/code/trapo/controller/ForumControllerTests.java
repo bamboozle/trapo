@@ -127,6 +127,15 @@ public class ForumControllerTests {
 	}
 	
 	@Test
+	public void should_open_forums_when_saving() {
+		Forum forum = forum();
+		Validator validator = mock(Validator.class);
+		ForumsController controller = controllerWith(repositoryFor(forum), validator);
+		controller.save(forum, errors(), model());
+		assertThat(forum.isOpen(), is(true));
+	}
+	
+	@Test
 	public void should_add_forum_attribute_to_model_when_saving_with_success() {
 		
 		Model model = model();
@@ -313,7 +322,7 @@ public class ForumControllerTests {
 	
 	private ForumRepository repositoryFor(final Forum forum) {
 		ForumRepository repository = Mockito.mock(ForumRepository.class);
-		when(repository.save(forum)).thenAnswer(new Answer<Forum>() {
+		when(repository.add(forum)).thenAnswer(new Answer<Forum>() {
 			public Forum answer(InvocationOnMock invocation) throws Throwable {
 				forum.setId("1234");
 				return forum;

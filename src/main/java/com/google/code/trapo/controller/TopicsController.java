@@ -16,15 +16,22 @@
 package com.google.code.trapo.controller;
 
 import static com.google.code.trapo.web.Message.error;
+import static com.google.code.trapo.web.Message.information;
+import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.google.code.trapo.domain.Forum;
+import com.google.code.trapo.domain.Topic;
 import com.google.code.trapo.persistence.ForumRepository;
+import com.google.code.trapo.persistence.TopicRepository;
 
 /**
  * @author Bamboozle Who
@@ -32,17 +39,40 @@ import com.google.code.trapo.persistence.ForumRepository;
  * @since 23/10/2009
  */
 @Controller
-public class TopicsController {
+@Transactional
+public class TopicsController extends AbstractController<Topic> {
 
 	@Autowired private ForumRepository forumRepository;
+	@Autowired private TopicRepository topicRepository;
+	@Autowired private Validator validator;
 	
-	@RequestMapping(value = "/topic/create")
-	public String create(@RequestParam("id") String id, Model model) {
-		if (!forum(id).isOpen()) {
+	@RequestMapping(value = "/topic/create", method = POST)
+	public String create(String id, Model model) {
+		Forum forum = forum(id);
+		if (!forum.isOpen()) {
 			model.addAttribute("message", error("You can't post in this forum. It is not open or it does not exists."));
 			return "redirect:/view/forums/list";
 		}
+		model.addAttribute("forum", forum);
+		model.addAttribute("topic", new Topic());
 		return "topics/create";
+	}
+	
+	@RequestMapping(value = { "/topic/save", "/topic/update" }, method = POST)
+	public String save(@ModelAttribute Topic topic, BindingResult errors, Model model) {
+		if(this.hasErrors(topic, errors)) {
+			model.addAttribute("topic", topic);
+			return "topics/create";
+		}
+		if(exists(topic)) {
+			topicRepository.update(topic);
+			model.addAttribute("message", information("Topic was updated"));
+		} else {
+			topicRepository.add(topic);
+			model.addAttribute("message", information("New Topic was created"));
+		}
+		model.addAttribute("topic", topic);
+		return "topics/show";
 	}
 	
 	protected void setForumRepository(ForumRepository forumRepository) {
@@ -52,6 +82,11 @@ public class TopicsController {
 	private Forum forum(String id) {
 		Forum forum = this.forumRepository.get(id);
 		return forum != null ? forum : new Forum().close();
+	}
+
+	@Override
+	public Validator validator() {
+		return validator;
 	}
 
 }
