@@ -51,7 +51,7 @@ public class Topic implements Comparable<Topic> {
 	private DateTime createdAt = new DateTime();
 	
 	@ManyToOne
-	private Forum forum;
+	private Forum forum = new Forum();
 	
 	public Topic() {
 		// hibernate is happy
