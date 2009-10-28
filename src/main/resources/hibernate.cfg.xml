@@ -34,6 +34,7 @@
     <property name="validator.autoregister_listeners">false</property>
 
     <mapping class="com.google.code.trapo.domain.Forum" />
+    <mapping class="com.google.code.trapo.domain.Topic" />
 
   </session-factory>
 </hibernate-configuration>

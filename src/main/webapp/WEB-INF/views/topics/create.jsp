@@ -7,15 +7,11 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ taglib uri="http://trapo.posterous.com/taglib" prefix="url" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Creating new post in forum ${forum.name}</title>
-    <script type="text/javascript">
-      $(function() { $("#cancelaction").click(function() { window.location = '<c:url value="/view/forum/" /><url:encode value="${forum.name}" />'}); });
-    </script>
   </head>
   <body>
     <div class="span-11 last">
@@ -25,8 +21,9 @@
       </ul>
     </div>
     <div class="topic_form">
-      <form:form id="forms" action="/view/topic/save" method="post" commandName="topic" modelAttribute="topic">
-        <h1>Creating a new Topic in forum ${forum.name}</h1>
+      <form:form id="forms" action="/trapo/view/topic/save" method="post" commandName="topic" modelAttribute="topic">
+        <input type="hidden" name="forum.id" value="${forum.id}" />
+        <h2>Creating a new Topic in forum ${forum.name}</h2>
         <label for="title">Title
         <form:errors path="title" cssClass="fieldError" />
         </label>

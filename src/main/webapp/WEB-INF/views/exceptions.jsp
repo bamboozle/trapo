@@ -10,6 +10,6 @@
       <title>Unexpected error</title>
     </head>
   <body>
-    
+    ${exception}
   </body>
 </html>

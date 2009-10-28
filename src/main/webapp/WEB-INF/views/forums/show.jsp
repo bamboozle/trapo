@@ -33,7 +33,7 @@
       </c:forEach>
     </div>
     <div class="span-24">
-      <form action="<c:url value="/view/topic/create/" />" method="post" id="formtopic">
+      <form action="<c:url value="/view/topic/create/" />" method="post" name="formtopic">
         <input type="hidden" name="id" value="${forum.id}">
         <input type="submit" value="Create new Topic" />
       </form>
