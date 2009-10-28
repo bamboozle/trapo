@@ -35,7 +35,7 @@
     <div class="span-24">
       <c:forEach items="${forums}" var="forum" varStatus="index">
       <div class="span-24 last fff">
-        <h2><a href="<c:url value="/view/forum/" /><url:encode value="${forum.name}" />">${forum.name}</a></h2>
+        <h2><a href="<c:url value="/view/forum/" /><url:encode value="${forum.name}" />.html">${forum.name}</a></h2>
         <p class="description">${forum.description}</p>
         <p class="createdAt">Created at ${forum.createdAt}</p>
       </div>
