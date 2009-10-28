@@ -10,6 +10,10 @@
       <title>Unexpected error</title>
     </head>
   <body>
+    <div class="span-24">
+    <code>
     ${exception}
+    </code>
+    </div>
   </body>
 </html>
