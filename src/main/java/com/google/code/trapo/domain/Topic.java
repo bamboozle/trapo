@@ -48,6 +48,7 @@ public class Topic implements Comparable<Topic> {
 	@NotEmpty @Type(type = "text")
 	private String text;
 
+	@Type(type = "datetime")
 	private DateTime createdAt = new DateTime();
 	
 	@ManyToOne
