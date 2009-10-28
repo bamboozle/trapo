@@ -56,7 +56,7 @@ public class ForumRepositoryTests {
 		Forum forum = forum("A Mock forum");
 		forum.setDescription("My new java forum");
 		forum.setCreatedAt(new Date());
-		forumRepository.save(forum.open());
+		forumRepository.add(forum.open());
 	}
 	
 	@Test
@@ -84,7 +84,7 @@ public class ForumRepositoryTests {
 	public final void should_save_a_forum_in_database() {
 
 		Forum forum = forum("Trapo");
-		forumRepository.save(forum);
+		forumRepository.add(forum);
 		
 		assertThat(forum.getId(), notNullValue());
 		
@@ -94,7 +94,7 @@ public class ForumRepositoryTests {
 	public final void should_update_a_forum_to_the_database() {
 		
 		Forum forum = forum();
-		forumRepository.save(forum);
+		forumRepository.add(forum);
 		
 		forum.withName("A New Name");
 		forumRepository.update(forum);
@@ -118,11 +118,11 @@ public class ForumRepositoryTests {
 	public final void should_delete_a_forum() {
 	
 		Forum forum = forum();
-		this.forumRepository.save(forum);
+		this.forumRepository.add(forum);
 		
 		assertThat(forumRepository.get(forum.getId()), notNullValue());
 		
-		this.forumRepository.delete(forum);
+		this.forumRepository.remove(forum);
 		
 		assertThat(forumRepository.get(forum.getId()), nullValue());
 		

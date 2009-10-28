@@ -21,36 +21,28 @@ import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.google.code.trapo.domain.Forum;
+import com.google.code.trapo.domain.Topic;
 
 /**
  * @author Bamboozle Who
  *
- * @since 20/08/2009
+ * @since 28/10/2009
  */
 @Repository
-public class ForumRepository extends AbstractRepository<Forum, String> {
-	
-	@SuppressWarnings("unchecked")
-	public Forum byName(String name) {
-		
-		HibernateTemplate template = template();
-		template.setMaxResults(1);
-		template.setCacheQueries(true);
-		template.setQueryCacheRegion("forums.byName");
-		
-		List<Forum> forums = template.findByNamedParam("from Forum f where f.name = :name", "name", name);
-		
-		if(forums.isEmpty()) {
-			return null;
-		}
-		
-		return forums.iterator().next();
-		
-	}
-
-	@SuppressWarnings("unchecked") @Override
+public class TopicRepository extends AbstractRepository<Topic, String> {
+	@Override @SuppressWarnings("unchecked")
 	public Class entityClass() {
-		return Forum.class;
+		return Topic.class;
 	}
 
+	@SuppressWarnings("unchecked")
+	public List<Topic> topicsFor(Forum forum) {
+		HibernateTemplate template = template();
+		template.setCacheQueries(true);
+		template.setQueryCacheRegion("Topics.topicsFor");
+		List<Topic> topics = template.findByNamedParam(
+				"from Topic t where t.forum.id = :forumid", "forumid", 
+				forum.getId());
+		return topics;
+	}
 }
