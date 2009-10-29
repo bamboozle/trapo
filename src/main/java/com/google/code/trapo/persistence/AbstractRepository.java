@@ -20,12 +20,10 @@ import static java.lang.String.valueOf;
 import java.io.Serializable;
 import java.util.List;
 
-import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.orm.hibernate3.HibernateCallback;
-import org.springframework.orm.hibernate3.HibernateTemplate;
 
 /**
  * @author Bamboozle Who
@@ -55,39 +53,42 @@ public abstract class AbstractRepository<Type, KeyType extends Serializable> {
 	
 	@SuppressWarnings("unchecked")
 	public List<Type> listAll() {
-		HibernateTemplate template = template();
-		template.setCacheQueries(true);
-		template.setQueryCacheRegion(queryCacheRegion());
-		return template.loadAll(entityClass());
+		return template()
+			  .usingCachedQueries()
+			  .withCacheRegion(queryCacheRegion())
+			  .loadAll(entityClass());
 	}
 	
 	@SuppressWarnings("unchecked")
 	public List<Type> listAll(final int page) {
-		HibernateTemplate template = template();
-		template.setQueryCacheRegion(queryCacheRegion(page));
-		template.setCacheQueries(true);
-		List<Type> results = template.executeFind(new HibernateCallback<List<Type>>() {
+		return template()
+			   .usingCachedQueries()
+			   .withCacheRegion(queryCacheRegion(page))
+			   .executeFind(pagedQuery(page));
+	}
+
+	@SuppressWarnings("unchecked")
+	private HibernateCallback<List<Type>> pagedQuery(final int page) {
+		return new HibernateCallback<List<Type>>() {
 			public List<Type> doInHibernate(Session session) {
-				Query query = session.createQuery("from ".concat(entityName()));
-				query.setMaxResults(20);
-				query.setFirstResult(page * 20);
-				return query.list();
+				return session.createQuery("from ".concat(entityName()))
+							  .setFirstResult(page * 20)
+							  .setMaxResults(20).list();
 			}
-		});
-		return results;
+		};
 	}
 	
 	@SuppressWarnings("unchecked")
 	public Type get(KeyType id) {
-		HibernateTemplate template = template();
-		template.setCacheQueries(true);
-		template.setQueryCacheRegion(entityName().concat(valueOf(id)));
-		return (Type) template.get(entityClass(), id);
+		Object entity = template()
+					  .usingCachedQueries()
+					  .withCacheRegion(entityName().concat(valueOf(id)))
+					  .get(entityClass(), id);
+		return (Type) entity;
 	}
 	
-	protected HibernateTemplate template() {
-		HibernateTemplate template = new HibernateTemplate(sessionFactory);
-		return template;
+	protected FluentHibernateTemplate template() {
+		return new FluentHibernateTemplate(sessionFactory);
 	}
 	
 	private String entityName() {
