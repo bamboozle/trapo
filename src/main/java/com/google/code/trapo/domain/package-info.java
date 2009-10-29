@@ -5,6 +5,10 @@
 	@NamedQuery(
 		name = "Forum.byName", 
 		query = "from Forum f where f.name = ?"
+	),
+	@NamedQuery(
+		name = "Topic.topicsFor",
+		query = "from Topic t where t.forum.id = ?"
 	)
 })
 package com.google.code.trapo.domain;

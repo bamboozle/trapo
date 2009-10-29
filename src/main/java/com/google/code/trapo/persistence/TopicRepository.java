@@ -39,10 +39,7 @@ public class TopicRepository extends AbstractRepository<Topic, String> {
 	public List<Topic> topicsFor(Forum forum) {
 		return template()
 			  .usingCachedQueries()
-			  .withCacheRegion("Topics.topicsFor")
-			  .findByNamedParam(
-				"from Topic t where t.forum.id = :forumid", "forumid", 
-				forum.getId()
-			  );
+			  .withCacheRegion("Topic.topicsFor")
+			  .findByNamedQuery("Topic.topicsFor", forum.getId());
 	}
 }
