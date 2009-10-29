@@ -17,7 +17,6 @@ package com.google.code.trapo.persistence;
 
 import java.util.List;
 
-import org.springframework.orm.hibernate3.HibernateTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.google.code.trapo.domain.Forum;
@@ -30,6 +29,7 @@ import com.google.code.trapo.domain.Topic;
  */
 @Repository
 public class TopicRepository extends AbstractRepository<Topic, String> {
+	
 	@Override @SuppressWarnings("unchecked")
 	public Class entityClass() {
 		return Topic.class;
@@ -37,12 +37,12 @@ public class TopicRepository extends AbstractRepository<Topic, String> {
 
 	@SuppressWarnings("unchecked")
 	public List<Topic> topicsFor(Forum forum) {
-		HibernateTemplate template = template();
-		template.setCacheQueries(true);
-		template.setQueryCacheRegion("Topics.topicsFor");
-		List<Topic> topics = template.findByNamedParam(
+		return template()
+			  .usingCachedQueries()
+			  .withCacheRegion("Topics.topicsFor")
+			  .findByNamedParam(
 				"from Topic t where t.forum.id = :forumid", "forumid", 
-				forum.getId());
-		return topics;
+				forum.getId()
+			  );
 	}
 }
