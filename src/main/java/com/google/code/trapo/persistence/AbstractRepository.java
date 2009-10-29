@@ -62,9 +62,9 @@ public abstract class AbstractRepository<Type, KeyType extends Serializable> {
 	@SuppressWarnings("unchecked")
 	public List<Type> listAll(final int page) {
 		return template()
-			   .usingCachedQueries()
-			   .withCacheRegion(queryCacheRegion(page))
-			   .executeFind(pagedQuery(page));
+			  .usingCachedQueries()
+			  .withCacheRegion(queryCacheRegion(page))
+			  .executeFind(pagedQuery(page));
 	}
 
 	@SuppressWarnings("unchecked")
