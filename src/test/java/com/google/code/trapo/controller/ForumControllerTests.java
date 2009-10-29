@@ -40,6 +40,7 @@ import org.springframework.validation.Validator;
 
 import com.google.code.trapo.domain.Forum;
 import com.google.code.trapo.persistence.ForumRepository;
+import com.google.code.trapo.persistence.TopicRepository;
 import com.google.code.trapo.web.Message;
 
 /**
@@ -192,6 +193,7 @@ public class ForumControllerTests {
 		when(repository.byName("my new forum")).thenReturn(forum);
 		
 		ForumsController controller = controllerWith(repository);
+		controller.setTopicsRepository(mock(TopicRepository.class));
 		controller.show("my new forum", model);
 		
 		assertThat(model.containsAttribute("forum"), is(true));

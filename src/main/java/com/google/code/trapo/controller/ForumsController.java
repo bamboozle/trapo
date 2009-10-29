@@ -122,6 +122,10 @@ public class ForumsController extends AbstractController<Forum> {
 		this.forumRepository = forumRepository;
 	}
 	
+	protected void setTopicsRepository(TopicRepository topicRepository) {
+		this.topicRepository = topicRepository;
+	}
+	
 	protected void setValidator(Validator validator) {
 		this.validator = validator;
 	}

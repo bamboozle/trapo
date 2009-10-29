@@ -57,7 +57,7 @@ public class TopicControllerTests {
 		controller.setForumRepository(forumRepository(forum));
 		
 		String result = controller.create("1234", model());
-		assertThat(result, equalTo("redirect:/forums/list"));
+		assertThat(result, equalTo("redirect:/view/forums/list"));
 		
 	}
 	
@@ -72,7 +72,7 @@ public class TopicControllerTests {
 		String result = controller.create("1234", model);
 		Message message = (Message) model.asMap().get("message");
 		
-		assertThat(result, equalTo("redirect:/forums/list"));
+		assertThat(result, equalTo("redirect:/view/forums/list"));
 		assertThat(message, notNullValue());
 		assertThat(message.isError(), is(true));
 	}

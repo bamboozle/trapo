@@ -1,5 +1,5 @@
 @TypeDefs({
-	@TypeDef(name = "datetime", typeClass = PersistentDateTime.class),
+	@TypeDef(name = "datetime", typeClass = PersistentDateTime.class)
 })
 @NamedQueries({
 	@NamedQuery(
