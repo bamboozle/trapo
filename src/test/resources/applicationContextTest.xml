@@ -1,0 +1,22 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:p="http://www.springframework.org/schema/p"
+	   xmlns:util="http://www.springframework.org/schema/util"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans 
+           http://www.springframework.org/schema/beans/spring-beans-2.5.xsd
+           http://www.springframework.org/schema/context
+           http://www.springframework.org/schema/context/spring-context-2.5.xsd
+		   http://www.springframework.org/schema/util
+		   http://www.springframework.org/schema/util/spring-util-2.5.xsd">
+  <bean id="testSessionFactory" 
+        class="org.springframework.orm.hibernate3.annotation.AnnotationSessionFactoryBean" 
+        p:annotatedClasses-ref="annotatedClasses" 
+        p:annotatedPackages="com.google.code.trapo.domain"
+        p:hibernateProperties-ref="hibernateProperties" />
+  <util:list id="annotatedClasses">
+    <value>com.google.code.trapo.domain.Forum</value>
+    <value>com.google.code.trapo.domain.Topic</value>
+  </util:list>
+  <util:properties id="hibernateProperties" location="classpath:hibernate.test.properties" />
+</beans>
