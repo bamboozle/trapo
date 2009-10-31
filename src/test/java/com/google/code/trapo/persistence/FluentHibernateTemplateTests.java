@@ -44,8 +44,7 @@ public class FluentHibernateTemplateTests {
 	
 	@Test
 	public void should_set_cached_queries_true() {
-		template.usingCachedQueries();
-		assertThat(template.isCacheQueries(), is(true));
+		assertThat(template.usingCachedQueries().isCacheQueries(), is(true));
 	}
 	
 	@Test
@@ -55,19 +54,16 @@ public class FluentHibernateTemplateTests {
 	
 	@Test
 	public void should_set_the_query_fecth_size() {
-		template.withFetchSize(10);
-		assertEquals(template.getFetchSize(), 10);
+		assertEquals(template.withFetchSize(10).getFetchSize(), 10);
 	}
 	
 	@Test
 	public void should_set_the_cache_region() {
-		template.withCacheRegion("Test.region");
-		assertEquals(template.getQueryCacheRegion(), "Test.region");
+		assertEquals(template.withCacheRegion("Test.region").getQueryCacheRegion(), "Test.region");
 	}
 	
 	@Test
 	public void should_set_max_results() {
-		template.withMaxResults(10);
-		assertEquals(template.getMaxResults(), 10);
+		assertEquals(template.withMaxResults(10).getMaxResults(), 10);
 	}
 }
