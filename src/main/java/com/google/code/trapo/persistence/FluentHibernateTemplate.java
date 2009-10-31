@@ -29,46 +29,11 @@ public class FluentHibernateTemplate extends HibernateTemplate {
 		super(sessionFactory);
 	}
 
-	public FluentHibernateTemplate allowCreate() {
-		super.setAllowCreate(true);
-		return this;
-	}
-	
-	public FluentHibernateTemplate disallowCreate() {
-		super.setAllowCreate(false);
-		return this;
-	}
-
-	public FluentHibernateTemplate alwaysUseNewSession() {
-		super.setAlwaysUseNewSession(true);
-		return this;
-	}
-	
-	public FluentHibernateTemplate dontUserNewSession() {
-		super.setAlwaysUseNewSession(false);
-		return this;
-	}
-
 	public FluentHibernateTemplate usingCachedQueries() {
 		super.setCacheQueries(true);
 		return this;
 	}
 	
-	public FluentHibernateTemplate checkWriteOperations() {
-		super.setCheckWriteOperations(false);
-		return this;
-	}
-	
-	public FluentHibernateTemplate dontCheckWriteOperation() {
-		super.setCheckWriteOperations(false);
-		return this;
-	}
-
-	public FluentHibernateTemplate exposeNativeSession() {
-		super.setExposeNativeSession(true);
-		return this;
-	}
-
 	public FluentHibernateTemplate withFetchSize(int fetchSize) {
 		super.setFetchSize(fetchSize);
 		return this;
