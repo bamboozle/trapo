@@ -37,6 +37,11 @@ public class TopicRepository extends AbstractRepository<Topic, String> {
 
 	@SuppressWarnings("unchecked")
 	public List<Topic> topicsFor(Forum forum) {
+		
+		if(forum == null) {
+			throw new IllegalArgumentException("Forum cannot be null.");
+		}
+		
 		return template()
 			  .usingCachedQueries()
 			  .withCacheRegion("Topic.topicsFor")

@@ -21,17 +21,10 @@ import static org.hamcrest.CoreMatchers.notNullValue;
 import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
 
-import java.util.Date;
 import java.util.List;
 
-import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
-import org.springframework.test.context.transaction.TransactionConfiguration;
-import org.springframework.transaction.annotation.Transactional;
 
 import com.google.code.trapo.domain.Forum;
 
@@ -40,38 +33,37 @@ import com.google.code.trapo.domain.Forum;
  * 
  * @since 22/08/2009
  */
-@RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(locations = { 
-	"classpath:/trapo-servlet.xml" 
-})
-@Transactional
-@TransactionConfiguration(transactionManager = "txManager")
-public class ForumRepositoryTests {
+public class ForumRepositoryTests extends AbstractRepositoryTest<Forum, String> {
 
-	@Autowired
-	private ForumRepository forumRepository;
+	@Autowired private ForumRepository forumRepository;
 	
-	@Before
-	public void addForumsToDatabase() {
-		Forum forum = forum("A Mock forum");
-		forum.setDescription("My new java forum");
-		forum.setCreatedAt(new Date());
-		forumRepository.add(forum.open());
+	@Override @SuppressWarnings("unchecked") 
+	public AbstractRepository repository() {
+		return forumRepository;
+	}
+	
+	@Override
+	public String[] entities() {
+		return new String[]{ "forums" };
 	}
 	
 	@Test
 	public void should_list_all_forums() {
 		List<Forum> forums = this.forumRepository.listAll();
-		for (Forum forum : forums) {
-			System.out.println(forum.getName());
-		}
 		assertThat(forums.isEmpty(), is(false));
 	}
 	
 	@Test
+	public void should_list_just_the_first_forums_page() {
+		List<Forum> forums = this.forumRepository.listAll(0);
+		assertThat(forums.get(0).getId(), equalTo("12300"));
+		assertThat(forums.size(), equalTo(20));
+	}
+	
+	@Test
 	public void should_find_a_forum_by_name() {
-		Forum forum = forumRepository.byName("A Mock forum");
-		assertThat(forum.getName(), equalTo("A Mock forum"));
+		Forum forum = forumRepository.byName("A Forum 12300");
+		assertThat(forum.getDescription(), equalTo("The 12300 forum description"));
 	}
 	
 	@Test
@@ -93,13 +85,12 @@ public class ForumRepositoryTests {
 	@Test
 	public final void should_update_a_forum_to_the_database() {
 		
-		Forum forum = forum();
-		forumRepository.add(forum);
+		Forum forum = forumRepository.get("12300");
 		
 		forum.withName("A New Name");
 		forumRepository.update(forum);
 		
-		Forum updated = forumRepository.get(forum.getId());
+		Forum updated = forumRepository.get("12300");
 		assertThat(updated.getName(), equalTo("A New Name"));
 		
 	}
@@ -118,12 +109,9 @@ public class ForumRepositoryTests {
 	public final void should_delete_a_forum() {
 	
 		Forum forum = forum();
-		this.forumRepository.add(forum);
-		
-		assertThat(forumRepository.get(forum.getId()), notNullValue());
+		forum.setId("12300");
 		
 		this.forumRepository.remove(forum);
-		
 		assertThat(forumRepository.get(forum.getId()), nullValue());
 		
 	}

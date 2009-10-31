@@ -37,6 +37,10 @@ public abstract class AbstractRepository<Type, KeyType extends Serializable> {
 	@SuppressWarnings("unchecked")
 	abstract Class entityClass();
 	
+	protected void setSessionFactory(SessionFactory sessionFactory) {
+		this.sessionFactory = sessionFactory;
+	}
+	
 	public Type add(Type entity) {
 		template().save(entity);
 		return entity;
@@ -81,9 +85,9 @@ public abstract class AbstractRepository<Type, KeyType extends Serializable> {
 	@SuppressWarnings("unchecked")
 	public Type get(KeyType id) {
 		Object entity = template()
-					  .usingCachedQueries()
-					  .withCacheRegion(entityName().concat(valueOf(id)))
-					  .get(entityClass(), id);
+					   .usingCachedQueries()
+					   .withCacheRegion(entityName().concat(valueOf(id)))
+					   .get(entityClass(), id);
 		return (Type) entity;
 	}
 	
