@@ -18,53 +18,56 @@ package com.google.code.trapo.persistence;
 import static junit.framework.Assert.assertEquals;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Mockito.mock;
 
 import org.hibernate.SessionFactory;
+import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 
 /**
  * @author Bamboozle Who
  *
  * @since 31/10/2009
  */
+@RunWith(MockitoJUnitRunner.class) 
 public class FluentHibernateTemplateTests {
 
+	@Mock private SessionFactory sessionFactory;
+	private FluentHibernateTemplate template;
+	
+	@Before
+	public void createTemplate() {
+		this.template = new FluentHibernateTemplate(sessionFactory);
+	}
+	
 	@Test
 	public void should_set_cached_queries_true() {
-		FluentHibernateTemplate template = new FluentHibernateTemplate(sessionFactory());
 		template.usingCachedQueries();
 		assertThat(template.isCacheQueries(), is(true));
 	}
 	
 	@Test
 	public void should_not_use_cached_queries_by_default() {
-		FluentHibernateTemplate template = new FluentHibernateTemplate(sessionFactory());
 		assertThat(template.isCacheQueries(), is(false));
 	}
 	
 	@Test
 	public void should_set_the_query_fecth_size() {
-		FluentHibernateTemplate template = new FluentHibernateTemplate(sessionFactory());
 		template.withFetchSize(10);
 		assertEquals(template.getFetchSize(), 10);
 	}
 	
 	@Test
 	public void should_set_the_cache_region() {
-		FluentHibernateTemplate template = new FluentHibernateTemplate(sessionFactory());
 		template.withCacheRegion("Test.region");
 		assertEquals(template.getQueryCacheRegion(), "Test.region");
 	}
 	
 	@Test
 	public void should_set_max_results() {
-		FluentHibernateTemplate template = new FluentHibernateTemplate(sessionFactory());
 		template.withMaxResults(10);
 		assertEquals(template.getMaxResults(), 10);
-	}
-
-	private SessionFactory sessionFactory() {
-		return mock(SessionFactory.class);
 	}
 }
