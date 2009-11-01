@@ -160,3 +160,42 @@ table th {
   padding: 0px;
   margin-bottom: -5px;
 }
+
+.fff {
+  padding: 5px;
+  margin-bottom: 10px;
+  border: solid 1px #5bc236;
+  border-top: none;
+  -moz-border-radius: 4px;
+  -webkit-border-radius: 4px;
+}
+
+.fff h2 {
+  padding: 10px;
+  margin-left: -5px;
+  margin-right: -5px;
+  margin-top: -5px;
+  background-color: #5BC236;
+  text-decoration: none;
+}
+
+.fff h2 a {
+  text-decoration: none;
+  color: #F9F9F9
+}
+
+.fff h2:hover {
+  background-color: #5BA000;
+  cursor: pointer;
+}
+
+.createdAt {
+  margin: 0px;
+  padding: 0px;
+}
+
+.description {
+  margin-bottom: 0px;
+  padding-bottom: 0px;
+  text-align: justify;
+}
