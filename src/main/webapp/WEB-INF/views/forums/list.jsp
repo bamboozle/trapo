@@ -10,7 +10,6 @@
 <html>
   <head>
     <title>Forums List</title>
-    <link rel="stylesheet" type="text/css" media="screen" href="<c:url value="/css/forums/list.css" />" charset="utf-8">
     <script type="text/javascript">
       $(function() {
         $("h2").click(function() {
@@ -21,20 +20,20 @@
     </script>
   </head>
   <body>
-    <div class="span-11 last">
+    <div class="suffix_1">
       <ul id="forums_menu">
         <li><a href="<c:url value="/view/forums" />">Forums</a></li>
         <li><a href="<c:url value="/view/forum/create" />">Create a new Forum</a></li>
       </ul>
     </div>
-    <div class="span-24">
+    <div class="grid_12">
       <c:if test="${message != null}">
         <p class="${message.type}">${message}</p>
       </c:if>
     </div>
-    <div class="span-24">
+    <div class="grid_24">
       <c:forEach items="${forums}" var="forum" varStatus="index">
-      <div class="span-24 last fff">
+      <div class="grid_11 fff">
         <h2><a href="<c:url value="/view/forum/" /><url:encode value="${forum.name}" />.html">${forum.name}</a></h2>
         <p class="description">${forum.description}</p>
         <p class="createdAt">Created at ${forum.createdAt}</p>

@@ -1,8 +1,6 @@
 @CHARSET "UTF-8";
 
 #header {
-  padding-top: 20px;
-  margin-top: 10px;
   background-color: #02243C;
 }
 
@@ -10,36 +8,8 @@
   color: #F9F9F9;
 }
 
-#header h1, #header p{
-  padding: 10px;
-}
-
-#header h1 {
-  padding-bottom: 0px;
-  margin-bottom: 0px;
-}
-
-#header p {
-  padding-top: 0px;
-  padding-left: 5.7em;
-}
-
 #header a {
   text-decoration: none;
-}
-
-#menu {
-  margin-top: 5px;
-  padding-top: 15px;
-  margin-left: -40px;
-}
-
-#forums_menu {
-  margin-top: 5px;
-  padding-top: 15px;
-  padding-bottom: 18px;
-  padding-left: 146px;
-  margin-right: -90px;
 }
 
 #menu li, #forums_menu li {
@@ -53,7 +23,6 @@
 
 #menu a, #forums_menu a {
   background-color: #005DB3;
-  padding: 15px 10px 15px 10px;
   font-size: 1.3em;
   font-weight: bold;
   text-transform: uppercase;
@@ -72,7 +41,6 @@ input[type="text"], input[type="submit"], .cancel, .action {
 }
 
 input[type="submit"] {
-  padding: 10px;
   background-color: grey;
   color: #F9F9F9;
   border: 0px;
@@ -104,7 +72,6 @@ label {
 }
 
 .cancel {
-  padding: 12px;
   background-color: #E6E6E6;
   text-decoration: none;
   color: grey;
@@ -125,17 +92,12 @@ table th {
   font-stretch: wider;
 }
 
-.odd,.even {
-  padding: 2px;
-}
-
 .odd {
   background-color: #F9F9F9;
 }
 
 .action {
   text-decoration: none;
-  padding: 10px;
   background-color: grey;
   color: #F9F9F9;
   border: 0px;
@@ -149,7 +111,6 @@ table th {
 }
 
 #footer {
-  margin-top: 10px;
   float: left;
 }
 
@@ -157,13 +118,9 @@ table th {
   display: block;
   color: red;
   text-transform: none;
-  padding: 0px;
-  margin-bottom: -5px;
 }
 
 .fff {
-  padding: 5px;
-  margin-bottom: 10px;
   border: solid 1px #5bc236;
   border-top: none;
   -moz-border-radius: 4px;
@@ -171,10 +128,6 @@ table th {
 }
 
 .fff h2 {
-  padding: 10px;
-  margin-left: -5px;
-  margin-right: -5px;
-  margin-top: -5px;
   background-color: #5BC236;
   text-decoration: none;
 }
@@ -189,13 +142,6 @@ table th {
   cursor: pointer;
 }
 
-.createdAt {
-  margin: 0px;
-  padding: 0px;
-}
-
 .description {
-  margin-bottom: 0px;
-  padding-bottom: 0px;
   text-align: justify;
 }

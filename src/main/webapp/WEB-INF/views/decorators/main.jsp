@@ -10,20 +10,17 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" >
     <title><sm:title default="Trapo" /></title>
-    <link rel="stylesheet" href="<c:url value="/css/screen.css" />" type="text/css" media="screen, projection">
-    <link rel="stylesheet" href="<c:url value="/css/print.css" />" type="text/css" media="print">
-    <link rel="stylesheet" href="<c:url value="/css/forms.css" />" type="text/css">
-    <!--[if lt IE 8]><link rel="stylesheet" href="<c:url value="/css/ie.css" />" type="text/css" media="screen, projection"><![endif]-->
+    <link rel="stylesheet" href="<c:url value="/css/layout.css" />" type="text/css" media="screen, projection">
     <link rel="stylesheet" href="<c:url value="/css/trapo.css" />" type="text/css">
     <script type="text/javascript" src="<c:url value="/javascript/jquery-1.3.2.js" />" ></script>
     <sm:head />
   </head>
   <body class="container">
-    <div id="header" class="span-24 last">
+    <div id="header" class="grid_24">
       <h1><a href="<c:url value="/index.html" />">Trapo Forum</a></h1>
       <p>A forum powered by Trapo</p>
     </div>
-    <div id="menu" class="span-13">
+    <div id="menu" class="grid_13">
       <ul>
         <li><a href="<c:url value="/index.html" />">Home</a></li>
         <li><a href="<c:url value="/view/tags/" />">Tags</a></li>
