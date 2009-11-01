@@ -8,6 +8,7 @@
   <html>
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <link rel="stylesheet" type="text/css" media="screen" href="<c:url value="/css/forums/list.css" />" charset="utf-8">
     <title>${forum.name} Forum - Trapo</title>
   </head>
   <body>
@@ -26,8 +27,9 @@
       <h1>${forum.name}</h1>
       <p>${forum.description}</p>
       <c:forEach items="${topics}" var="topic">
-        <h2>${topic.title}</h2>
-        <div class="span-24 topic_info">
+        <div class="span-24 fff">
+          <h2><a>${topic.title}</a></h2>
+          <p>${topic.text}</p>
           <p>Posted at: ${topic.createdAt}</p>
         </div>
       </c:forEach>
