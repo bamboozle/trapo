@@ -18,11 +18,12 @@ package com.google.code.trapo.controller;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
+import static org.mockito.Mockito.doAnswer;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
@@ -104,12 +105,10 @@ public class TopicControllerTests {
 		final Topic topic = topic();
 		final Model model = model();
 		
-		TopicRepository topicRepository = topicRepository(topic);
-		when(topicRepository.add(topic)).thenAnswer(saveTopic(topic));
+		TopicRepository topicRepository = topicRepository();
+		doAnswer(saveTopic(topic)).when(topicRepository).add(topic);
 		
-		TopicsController controller = new TopicsController();
-		controller.setTopicRepository(topicRepository);
-		controller.setValidator(validator());
+		TopicsController controller = topicController(topicRepository);
 		
 		controller.save(topic, errors(), model);
 		assertThat(topic.getId(), equalTo("12345"));
@@ -121,17 +120,14 @@ public class TopicControllerTests {
 		final Topic topic = topic();
 		final Model model = model();
 		
-		TopicRepository topicRepository = topicRepository(topic);
-		when(topicRepository.add(topic)).thenAnswer(updateTopic(topic));
+		TopicRepository topicRepository = topicRepository();
+		when(topicRepository.update(topic)).thenAnswer(updateTopic(topic));
 		
-		TopicsController controller = new TopicsController();
-		controller.setTopicRepository(topicRepository);
-		controller.setValidator(validator());
+		TopicsController controller = topicController(topicRepository);
 		
 		topic.setId("54321");
-		
 		controller.save(topic, errors(), model);
-		assertThat(topic.getId(), equalTo("54321"));
+		assertThat(topic.getId(), equalTo("12345"));
 	}
 	
 	@Test
@@ -140,36 +136,38 @@ public class TopicControllerTests {
 		final Topic topic = topic();
 		final Model model = model();
 		
-		TopicsController controller = new TopicsController();
-		controller.setTopicRepository(topicRepository(topic));
-		controller.setForumRepository(forumRepository(forum()));
-		controller.setValidator(validator());
+		TopicsController controller = topicController(topicRepository());
 		
 		BindingResult errors = errors();
 		when(errors.hasErrors()).thenReturn(true);
 		
 		String result = controller.save(topic, errors, model);
-		Assert.assertEquals("topics/create", result);
-		Assert.assertThat(model.containsAttribute("message"), is(true));
+		assertEquals("topics/create", result);
+		assertThat(model.containsAttribute("message"), is(true));
 	}
-	
+
 	@Test
 	public void when_there_are_validation_errors_forum_object_must_be_available() {
 		
 		final Topic topic = topic();
 		final Model model = model();
 		
-		TopicsController controller = new TopicsController();
-		controller.setTopicRepository(topicRepository(topic));
-		controller.setForumRepository(forumRepository(forum()));
-		controller.setValidator(validator());
+		TopicsController controller = topicController(topicRepository());
 		
 		BindingResult errors = errors();
 		when(errors.hasErrors()).thenReturn(true);
 		
 		controller.save(topic, errors, model);
-		Assert.assertThat(model.containsAttribute("forum"), is(true));
+		assertThat(model.containsAttribute("forum"), is(true));
 		
+	}
+	
+	private TopicsController topicController(final TopicRepository topicRepository) {
+		TopicsController controller = new TopicsController();
+		controller.setTopicRepository(topicRepository);
+		controller.setForumRepository(forumRepository(forum()));
+		controller.setValidator(validator());
+		return controller;
 	}
 
 	private Validator validator() {
@@ -185,7 +183,7 @@ public class TopicControllerTests {
 	}
 	
 	private Answer<Topic> updateTopic(Topic topic) {
-		return persistOperation(topic, "54321");
+		return persistOperation(topic, "12345");
 	}
 	
 	private Answer<Topic> persistOperation(final Topic topic, final String id) {
@@ -197,7 +195,7 @@ public class TopicControllerTests {
 		};
 	}
 	
-	private TopicRepository topicRepository(Topic topic) {
+	private TopicRepository topicRepository() {
 		return Mockito.mock(TopicRepository.class);
 	}
 
