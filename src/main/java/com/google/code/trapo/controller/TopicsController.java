@@ -61,7 +61,7 @@ public class TopicsController extends AbstractController<Topic> {
 	@RequestMapping(value = { "/topic/save", "/topic/update" }, method = POST)
 	public String save(@ModelAttribute Topic topic, BindingResult errors, Model model) {
 		if(this.hasErrors(topic, errors)) {
-			model.addAttribute("topic", topic);
+			model.addAttribute("message", error("Oops, there are some errors in form"));
 			return "topics/create";
 		}
 		if(exists(topic)) {
@@ -77,6 +77,14 @@ public class TopicsController extends AbstractController<Topic> {
 	
 	protected void setForumRepository(ForumRepository forumRepository) {
 		this.forumRepository = forumRepository;
+	}
+	
+	protected void setTopicRepository(TopicRepository topicRepository) {
+		this.topicRepository = topicRepository;
+	}
+	
+	public void setValidator(Validator validator) {
+		this.validator = validator;
 	}
 	
 	private Forum forum(String id) {
