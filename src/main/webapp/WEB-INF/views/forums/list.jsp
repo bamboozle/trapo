@@ -20,7 +20,7 @@
     </script>
   </head>
   <body>
-    <div class="suffix_1">
+    <div class="prefix_10">
       <ul id="forums_menu">
         <li><a href="<c:url value="/view/forums" />">Forums</a></li>
         <li><a href="<c:url value="/view/forum/create" />">Create a new Forum</a></li>
@@ -33,7 +33,8 @@
     </div>
     <div class="grid_24">
       <c:forEach items="${forums}" var="forum" varStatus="index">
-      <div class="grid_11 fff">
+      <c:set var="status" value="${index.count % 2 == 0 ? 'forum_even' : 'forum_odd'}"/>
+      <div class="grid_11 fff ${status}">
         <h2><a href="<trapo:beauty url="/view/forum/" value="${forum.name}" extension="html" />">${forum.name}</a></h2>
         <p class="description">${forum.description}</p>
         <p class="createdAt">Created at ${forum.createdAt}</p>

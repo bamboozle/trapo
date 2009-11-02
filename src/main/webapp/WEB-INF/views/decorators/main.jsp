@@ -21,7 +21,7 @@
       <h1><a href="<c:url value="/index.html" />">Trapo Forum</a></h1>
       <p>A forum powered by Trapo</p>
     </div>
-    <div id="menu" class="grid_13">
+    <div id="menu" class="grid_12">
       <ul>
         <li><a href="<c:url value="/index.html" />">Home</a></li>
         <li><a href="<c:url value="/view/tags/" />">Tags</a></li>

@@ -2,23 +2,34 @@
 
 #header {
   background-color: #02243C;
+  padding-top: 10px;
+  margin-top: 10px;
+  margin-bottom: 20px;
 }
 
 #header h1, #header p, #header a {
   color: #F9F9F9;
+  padding-left: 5px;
+  padding-top: 0px;
+  padding-bottom: 0px;
 }
 
-#header a {
-  text-decoration: none;
+#header p {
+  padding-left: 20px;
+  margin-top: 0px;
 }
 
-#menu li, #forums_menu li {
-  display: inline;
-}
+#header h1 { margin-bottom: 0px; }
+#header a { text-decoration: none; }
 
-#menu a, #forums_menu a, input[type="submit"], .cancel, .action {
+#header, #menu a, #forums_menu a, input[type="submit"], .cancel, .action {
   -moz-border-radius: 4px;
   -webkit-border-radius: 4px;
+}
+
+#menu { margin-left: -13px; }
+#menu li, #forums_menu li { 
+  display: inline;
 }
 
 #menu a, #forums_menu a {
@@ -29,6 +40,8 @@
   text-decoration: none;
   letter-spacing: 1px;
   color: #F9F9F9;
+  padding: 10px;
+  margin-top: 20px;
 }
 
 #menu a:hover, #forums_menu a:hover {
@@ -123,6 +136,7 @@ table th {
 .fff {
   border: solid 1px #5bc236;
   border-top: none;
+  margin-bottom: 10px;
   -moz-border-radius: 4px;
   -webkit-border-radius: 4px;
 }
@@ -145,3 +159,6 @@ table th {
 .description {
   text-align: justify;
 }
+
+.forum_odd {  margin-left: -2px;}
+.forum_even { margin-right: -10px;}
