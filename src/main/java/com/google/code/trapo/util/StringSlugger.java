@@ -29,7 +29,7 @@ public class StringSlugger {
 	private static final String ACCENTED_CHARS = "áàãäâéèêëíìîïóòõôöúùûüñ";
 	private static final String NOT_ACCENTED_CHARS = "aaaaaeeeeiiiiooooouuuun";
 
-	public static String slug(String string) {
+	public String slug(String string) {
 		return new Slugger(string)
 				  .lowercase()
 				  .withoutPunctuations()
