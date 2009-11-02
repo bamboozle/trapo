@@ -15,18 +15,20 @@
  */
 package com.google.code.trapo.controller;
 
+import static com.google.code.trapo.web.Message.error;
 import static com.google.code.trapo.web.Message.information;
 import static com.google.code.trapo.web.Message.warning;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -47,16 +49,13 @@ public class ForumsController extends AbstractController<Forum> {
 
 	@Autowired private ForumRepository forumRepository;
 	@Autowired private TopicRepository topicRepository;
-	@Autowired private Validator validator;
 	
 	@RequestMapping(value = { "/forum/save", "/forum/update" }, method = POST)
-	public String save(@ModelAttribute Forum forum, BindingResult errors, Model model) {
-		
-		if(this.hasErrors(forum, errors)) {
-			model.addAttribute("forum", forum);
+	public String save(@ModelAttribute("forum") @Valid Forum forum, BindingResult errors, Model model) {
+		if (errors.hasErrors()) {
+			model.addAttribute("message", error("Oops! There are some validation errors."));
 			return "forums/create";
 		}
-		
 		if(exists(forum)) {
 			forumRepository.update(forum);
 			model.addAttribute("message", information("Forum was updated"));
@@ -113,21 +112,12 @@ public class ForumsController extends AbstractController<Forum> {
 		return "forums/create";
 	}
 	
-	@Override
-	public Validator validator() {
-		return validator;
-	}
-	
 	protected void setForumRepository(ForumRepository forumRepository) {
 		this.forumRepository = forumRepository;
 	}
 	
 	protected void setTopicsRepository(TopicRepository topicRepository) {
 		this.topicRepository = topicRepository;
-	}
-	
-	protected void setValidator(Validator validator) {
-		this.validator = validator;
 	}
 	
 	private String redirectsToList(String message, Model model) {

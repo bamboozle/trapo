@@ -19,12 +19,13 @@ import static com.google.code.trapo.web.Message.error;
 import static com.google.code.trapo.web.Message.information;
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.Validator;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -44,7 +45,6 @@ public class TopicsController extends AbstractController<Topic> {
 
 	@Autowired private ForumRepository forumRepository;
 	@Autowired private TopicRepository topicRepository;
-	@Autowired private Validator validator;
 	
 	@RequestMapping("/topic/create")
 	public String create(String id, Model model) {
@@ -59,8 +59,8 @@ public class TopicsController extends AbstractController<Topic> {
 	}
 	
 	@RequestMapping(value = { "/topic/save", "/topic/update" }, method = POST)
-	public String save(@ModelAttribute Topic topic, BindingResult errors, Model model) {
-		if(this.hasErrors(topic, errors)) {
+	public String save(@ModelAttribute("topic") @Valid Topic topic, BindingResult errors, Model model) {
+		if(errors.hasErrors()) {
 			model.addAttribute("forum", forum(topic.getForum().getId()));
 			model.addAttribute("message", error("Oops, there are some errors in form"));
 			return "topics/create";
@@ -84,18 +84,9 @@ public class TopicsController extends AbstractController<Topic> {
 		this.topicRepository = topicRepository;
 	}
 	
-	public void setValidator(Validator validator) {
-		this.validator = validator;
-	}
-	
 	private Forum forum(String id) {
 		Forum forum = this.forumRepository.get(id);
 		return forum != null ? forum : new Forum().close();
-	}
-
-	@Override
-	public Validator validator() {
-		return validator;
 	}
 
 }

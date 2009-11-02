@@ -300,7 +300,6 @@ public class ForumControllerTests {
 	
 	private ForumsController controllerWith(ForumRepository repository, Validator validator) {
 		ForumsController controller = controllerWith(repository);
-		controller.setValidator(validator);
 		return controller;
 	}
 	

@@ -21,9 +21,6 @@ import java.io.UnsupportedEncodingException;
 import java.lang.reflect.Field;
 import java.net.URLDecoder;
 
-import org.springframework.validation.BindingResult;
-import org.springframework.validation.Validator;
-
 /**
  * @author Bamboozle Who
  *
@@ -31,8 +28,6 @@ import org.springframework.validation.Validator;
  */
 public abstract class AbstractController<Type> {
 
-	public abstract Validator validator();
-	
 	protected boolean exists(Type bean) {
 		return getField(field("id", bean), bean) != null;
 	}
@@ -55,11 +50,6 @@ public abstract class AbstractController<Type> {
 		} catch (UnsupportedEncodingException e) {
 			return string;
 		}
-	}
-	
-	protected boolean hasErrors(Type bean, BindingResult errors) {
-		validator().validate(bean, errors);
-		return errors.hasErrors();
 	}
 	
 }

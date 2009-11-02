@@ -31,7 +31,6 @@ import org.mockito.stubbing.Answer;
 import org.springframework.ui.ExtendedModelMap;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.Validator;
 
 import com.google.code.trapo.domain.Forum;
 import com.google.code.trapo.domain.Topic;
@@ -160,12 +159,7 @@ public class TopicControllerTests {
 		TopicsController controller = new TopicsController();
 		controller.setTopicRepository(topicRepository);
 		controller.setForumRepository(forumRepository(forum()));
-		controller.setValidator(validator());
 		return controller;
-	}
-
-	private Validator validator() {
-		return Mockito.mock(Validator.class);
 	}
 
 	private BindingResult errors() {
