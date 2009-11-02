@@ -35,7 +35,7 @@
       </c:forEach>
     </div>
     <div class="grid_24">
-      <form action="<c:url value="/view/topic/create/" />" method="post" name="formtopic">
+      <form action="<c:url value="/view/topic/create/" />" method="get" name="formtopic">
         <input type="hidden" name="id" value="${forum.id}">
         <input type="submit" value="Create new Topic" />
       </form>

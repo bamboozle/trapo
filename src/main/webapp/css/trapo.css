@@ -146,6 +146,8 @@ table th {
   text-decoration: none;
 }
 
+.fff h2, .fff p { padding: 2px; }
+
 .fff h2 a {
   text-decoration: none;
   color: #F9F9F9
@@ -159,6 +161,8 @@ table th {
 .description {
   text-align: justify;
 }
+
+.createdAt { margin: 0px;}
 
 .forum_odd {  margin-left: -2px;}
 .forum_even { margin-right: -10px;}
