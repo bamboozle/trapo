@@ -53,17 +53,14 @@ public class TopicControllerTests {
 		controller.setForumRepository(forumRepository(forum()));
 
 		String result = controller.create("1234", model());
-		
 		assertThat(result, equalTo("topics/create"));
 	}
 	
 	@Test
 	public void cannot_create_a_new_topic_in_a_closed_forum() {
 		
-		Forum forum = forum().close();
-		
 		TopicsController controller = new TopicsController();
-		controller.setForumRepository(forumRepository(forum));
+		controller.setForumRepository(forumRepository(forum().close()));
 		
 		String result = controller.create("1234", model());
 		assertThat(result, equalTo("redirect:/view/forums/list"));
@@ -89,11 +86,10 @@ public class TopicControllerTests {
 	@Test
 	public void when_trying_to_create_a_topic_in_closed_forum_should_put_a_message_in_model() {
 		
-		Forum forum = forum().close();
 		Model model = model();
 		
 		TopicsController controller = new TopicsController();
-		controller.setForumRepository(forumRepository(forum));
+		controller.setForumRepository(forumRepository(forum().close()));
 		
 		controller.create("1234", model);
 		assertThat(model.containsAttribute("message"), is(true));
@@ -103,14 +99,13 @@ public class TopicControllerTests {
 	public void should_save_a_topic_when_all_data_is_ok() {
 		
 		final Topic topic = topic();
-		final Model model = model();
 		
 		TopicRepository topicRepository = topicRepository();
 		doAnswer(saveTopic(topic)).when(topicRepository).add(topic);
 		
 		TopicsController controller = topicController(topicRepository);
 		
-		controller.save(topic, errors(), model);
+		controller.save(topic, errors(), model());
 		assertThat(topic.getId(), equalTo("12345"));
 	}
 	
@@ -118,7 +113,6 @@ public class TopicControllerTests {
 	public void should_update_a_topic_when_id_is_already_setted() {
 		
 		final Topic topic = topic();
-		final Model model = model();
 		
 		TopicRepository topicRepository = topicRepository();
 		when(topicRepository.update(topic)).thenAnswer(updateTopic(topic));
@@ -126,7 +120,7 @@ public class TopicControllerTests {
 		TopicsController controller = topicController(topicRepository);
 		
 		topic.setId("54321");
-		controller.save(topic, errors(), model);
+		controller.save(topic, errors(), model());
 		assertThat(topic.getId(), equalTo("12345"));
 	}
 	
