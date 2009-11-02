@@ -22,6 +22,7 @@ import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import org.junit.Assert;
 import org.junit.Test;
 import org.mockito.Mockito;
 import org.mockito.invocation.InvocationOnMock;
@@ -116,6 +117,7 @@ public class TopicControllerTests {
 	
 	@Test
 	public void should_update_a_topic_when_id_is_already_setted() {
+		
 		final Topic topic = topic();
 		final Model model = model();
 		
@@ -126,8 +128,28 @@ public class TopicControllerTests {
 		controller.setTopicRepository(topicRepository);
 		controller.setValidator(validator());
 		
+		topic.setId("54321");
+		
 		controller.save(topic, errors(), model);
 		assertThat(topic.getId(), equalTo("54321"));
+	}
+	
+	@Test
+	public void should_add_errors_when_there_are_invalid_data_in_topic() {
+		
+		final Topic topic = topic();
+		final Model model = model();
+		
+		TopicsController controller = new TopicsController();
+		controller.setTopicRepository(topicRepository(topic));
+		controller.setValidator(validator());
+		
+		BindingResult errors = errors();
+		when(errors.hasErrors()).thenReturn(true);
+		
+		String result = controller.save(topic, errors, model);
+		Assert.assertEquals("topics/create", result);
+		Assert.assertThat(model.containsAttribute("message"), is(true));
 	}
 
 	private Validator validator() {

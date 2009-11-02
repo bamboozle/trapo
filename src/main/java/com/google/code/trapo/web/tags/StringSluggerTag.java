@@ -29,7 +29,7 @@ public class StringSluggerTag extends AbstractTrapoTag {
 
 	@Override
 	public String transformValue() {
-		return StringSlugger.slug(getValue());
+		return new StringSlugger().slug(getValue());
 	}
 	
 }
