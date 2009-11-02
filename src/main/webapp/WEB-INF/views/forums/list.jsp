@@ -5,7 +5,7 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib uri="http://www.opensymphony.com/sitemesh/decorator" prefix="sm" %>
-<%@ taglib uri="http://trapo.posterous.com/taglib" prefix="url" %>
+<%@ taglib uri="http://trapo.posterous.com/taglib" prefix="trapo" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
   <head>
@@ -34,7 +34,7 @@
     <div class="grid_24">
       <c:forEach items="${forums}" var="forum" varStatus="index">
       <div class="grid_11 fff">
-        <h2><a href="<c:url value="/view/forum/" /><url:encode value="${forum.name}" />.html">${forum.name}</a></h2>
+        <h2><a href="<c:url value="/view/forum/" /><trapo:urlEncode value="${forum.name}" />.html">${forum.name}</a></h2>
         <p class="description">${forum.description}</p>
         <p class="createdAt">Created at ${forum.createdAt}</p>
       </div>

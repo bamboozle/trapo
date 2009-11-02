@@ -10,6 +10,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" >
     <title><sm:title default="Trapo" /></title>
+    <link rel="stylesheet" href="<c:url value="/css/reset.css" />" type="text/css" media="screen, projection">
     <link rel="stylesheet" href="<c:url value="/css/layout.css" />" type="text/css" media="screen, projection">
     <link rel="stylesheet" href="<c:url value="/css/trapo.css" />" type="text/css">
     <script type="text/javascript" src="<c:url value="/javascript/jquery-1.3.2.js" />" ></script>

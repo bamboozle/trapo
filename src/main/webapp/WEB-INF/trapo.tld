@@ -9,7 +9,7 @@
       title="Linkification: http://trapo.posterous.com/urlencoder">http://trapo.posterous.com/urlencoder</a>
   </uri>
   <tag>
-    <name>encode</name>
+    <name>urlEncode</name>
     <tagclass>com.google.code.trapo.web.tags.UrlEncoderTag</tagclass>
     <info>URL Encoder function</info>
     <attribute>

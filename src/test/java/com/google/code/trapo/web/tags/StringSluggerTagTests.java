@@ -16,7 +16,6 @@
 package com.google.code.trapo.web.tags;
 
 import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -25,41 +24,41 @@ import java.io.IOException;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.PageContext;
+import javax.servlet.jsp.tagext.TagSupport;
 
 import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.mockito.Mock;
+import org.mockito.runners.MockitoJUnitRunner;
 
 /**
  * @author Bamboozle Who
  *
- * @since 31/08/2009
+ * @since 01/11/2009
  */
-public class UrlEncoderTagTests {
-
-	private UrlEncoderTag tag = new UrlEncoderTag();
+@RunWith(MockitoJUnitRunner.class)
+public class StringSluggerTagTests {
 	
+	private StringSluggerTag tag = new StringSluggerTag();
+	@Mock private JspWriter writer;
+	@Mock private PageContext context;
+
 	@Test
 	public void should_encode_a_url_using_default_encoding() throws Exception {
-		
 		tag.setEncoding("utf-8");
 		tag.setValue("trapo is a cool forum");
 		this.runAgainstTag(tag);
-		
 	}
 	
 	@Test
 	public void should_encode_a_url_when_no_encoding_is_informed() throws Exception {
-		
 		tag.setValue("trapo is a cool forum");
 		this.runAgainstTag(tag);
-		
 	}
 	
 	@Test
 	public void should_render_empty_when_the_value_is_null() throws Exception {
 		
-		JspWriter writer = mock(JspWriter.class);
-
-		PageContext context = mock(PageContext.class);
 		when(context.getOut()).thenReturn(writer);
 		
 		tag.setValue(null);
@@ -70,22 +69,28 @@ public class UrlEncoderTagTests {
 		
 	}
 	
-	@Test(expected = JspException.class)
-	public void should_throws_a_exception_when_informed_encoding_is_not_supported() throws Exception {
-		
-		tag.setEncoding("non-existent-encoding");
-		tag.setValue("trapo is a cool forum");
-		
+	@Test
+	public void should_lower_case_value_when_slugging() throws Exception {
+		tag.setValue("Trapo Is A Cool Forum");
+		this.runAgainstTag(tag);
+	}
+	
+	@Test
+	public void should_replace_more_than_one_space_with_just_one_separator() throws Exception {
+		tag.setValue("trapo      is a cool forum");
+		this.runAgainstTag(tag);
+	}
+	
+	@Test
+	public void should_replace_accented_chars_with_their_counter_parts() throws Exception {
+		tag.setValue("trápô is a cöol forum");
 		this.runAgainstTag(tag);
 	}
 	
 	@Test(expected = JspException.class)
 	public void should_throws_a_exception_when_a_io_exception_happens() throws Exception {
 		
-		JspWriter writer = mock(JspWriter.class);
-		doThrow(new IOException()).when(writer).write("trapo+is+a+cool+forum");
-		
-		PageContext context = mock(PageContext.class);
+		doThrow(new IOException()).when(writer).write("trapo-is-a-cool-forum");
 		when(context.getOut()).thenReturn(writer);
 
 		tag.setPageContext(context);
@@ -94,17 +99,14 @@ public class UrlEncoderTagTests {
 		
 	}
 	
-	private void runAgainstTag(UrlEncoderTag tag) throws Exception {
+	private void runAgainstTag(TagSupport tag) throws Exception {
 		
-		JspWriter writer = mock(JspWriter.class);
-
-		PageContext context = mock(PageContext.class);
 		when(context.getOut()).thenReturn(writer);
 		
 		tag.setPageContext(context);
 		tag.doStartTag();
 		
-		verify(writer).write("trapo+is+a+cool+forum");
+		verify(writer).write("trapo-is-a-cool-forum");
 		
 	}
 }
