@@ -36,7 +36,6 @@ public abstract class AbstractTrapoTag extends TagSupport {
 	private String extension;
 	private String encoding = "utf-8";
 	
-	
 	public abstract String transformValue() throws JspException;
 	
 	@Override
