@@ -76,8 +76,8 @@
   
   <jsp-config>
     <taglib>
-      <taglib-uri>http://trapo.posterous.com/taglib</taglib-uri>
-      <taglib-location>/WEB-INF/UrlEncoder.tld</taglib-location>
+      <taglib-uri>http://trapo.posterous.com/tags</taglib-uri>
+      <taglib-location>/WEB-INF/trapo.tld</taglib-location>
     </taglib>
   </jsp-config>
   

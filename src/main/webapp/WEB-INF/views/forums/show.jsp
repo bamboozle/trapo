@@ -12,18 +12,18 @@
     <title>${forum.name} Forum - Trapo</title>
   </head>
   <body>
-    <div class="span-11 last">
+    <div class="suffix_1">
       <ul id="forums_menu">
         <li><a href="<c:url value="/view/forums" />">Forums</a></li>
         <li><a href="<c:url value="/view/forum/create" />">Create a new Forum</a></li>
       </ul>
     </div>
-    <div class="span-24">
+    <div class="grid_24">
       <c:if test="${message != null}">
-        <p class="${message.type}">${message}</p>
+        <p class="grid_12 ${message.type}">${message}</p>
       </c:if>
     </div>
-    <div class="span-24">
+    <div class="grid_24">
       <h1>${forum.name}</h1>
       <p>${forum.description}</p>
       <c:forEach items="${topics}" var="topic">
@@ -34,8 +34,8 @@
         </div>
       </c:forEach>
     </div>
-    <div class="span-24">
-      <form action="<c:url value="/view/topic/create/" />" method="post" name="formtopic">
+    <div class="grid_24">
+      <form action="<c:url value="/view/topic/create/" />" method="get" name="formtopic">
         <input type="hidden" name="id" value="${forum.id}">
         <input type="submit" value="Create new Topic" />
       </form>

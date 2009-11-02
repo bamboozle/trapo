@@ -22,12 +22,20 @@ import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import org.junit.Assert;
 import org.junit.Test;
+import org.mockito.Mockito;
+import org.mockito.invocation.InvocationOnMock;
+import org.mockito.stubbing.Answer;
 import org.springframework.ui.ExtendedModelMap;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.Validator;
 
 import com.google.code.trapo.domain.Forum;
+import com.google.code.trapo.domain.Topic;
 import com.google.code.trapo.persistence.ForumRepository;
+import com.google.code.trapo.persistence.TopicRepository;
 import com.google.code.trapo.web.Message;
 
 /**
@@ -90,6 +98,115 @@ public class TopicControllerTests {
 		assertThat(model.containsAttribute("message"), is(true));
 	}
 	
+	@Test
+	public void should_save_a_topic_when_all_data_is_ok() {
+		
+		final Topic topic = topic();
+		final Model model = model();
+		
+		TopicRepository topicRepository = topicRepository(topic);
+		when(topicRepository.add(topic)).thenAnswer(saveTopic(topic));
+		
+		TopicsController controller = new TopicsController();
+		controller.setTopicRepository(topicRepository);
+		controller.setValidator(validator());
+		
+		controller.save(topic, errors(), model);
+		assertThat(topic.getId(), equalTo("12345"));
+	}
+	
+	@Test
+	public void should_update_a_topic_when_id_is_already_setted() {
+		
+		final Topic topic = topic();
+		final Model model = model();
+		
+		TopicRepository topicRepository = topicRepository(topic);
+		when(topicRepository.add(topic)).thenAnswer(updateTopic(topic));
+		
+		TopicsController controller = new TopicsController();
+		controller.setTopicRepository(topicRepository);
+		controller.setValidator(validator());
+		
+		topic.setId("54321");
+		
+		controller.save(topic, errors(), model);
+		assertThat(topic.getId(), equalTo("54321"));
+	}
+	
+	@Test
+	public void should_add_errors_when_there_are_invalid_data_in_topic() {
+		
+		final Topic topic = topic();
+		final Model model = model();
+		
+		TopicsController controller = new TopicsController();
+		controller.setTopicRepository(topicRepository(topic));
+		controller.setForumRepository(forumRepository(forum()));
+		controller.setValidator(validator());
+		
+		BindingResult errors = errors();
+		when(errors.hasErrors()).thenReturn(true);
+		
+		String result = controller.save(topic, errors, model);
+		Assert.assertEquals("topics/create", result);
+		Assert.assertThat(model.containsAttribute("message"), is(true));
+	}
+	
+	@Test
+	public void when_there_are_validation_errors_forum_object_must_be_available() {
+		
+		final Topic topic = topic();
+		final Model model = model();
+		
+		TopicsController controller = new TopicsController();
+		controller.setTopicRepository(topicRepository(topic));
+		controller.setForumRepository(forumRepository(forum()));
+		controller.setValidator(validator());
+		
+		BindingResult errors = errors();
+		when(errors.hasErrors()).thenReturn(true);
+		
+		controller.save(topic, errors, model);
+		Assert.assertThat(model.containsAttribute("forum"), is(true));
+		
+	}
+
+	private Validator validator() {
+		return Mockito.mock(Validator.class);
+	}
+
+	private BindingResult errors() {
+		return Mockito.mock(BindingResult.class);
+	}
+
+	private Answer<Topic> saveTopic(Topic topic) {
+		return persistOperation(topic, "12345");
+	}
+	
+	private Answer<Topic> updateTopic(Topic topic) {
+		return persistOperation(topic, "54321");
+	}
+	
+	private Answer<Topic> persistOperation(final Topic topic, final String id) {
+		return new Answer<Topic>() {
+			public Topic answer(InvocationOnMock invocation) throws Throwable {
+				topic.setId(id);
+				return topic;
+			}
+		};
+	}
+	
+	private TopicRepository topicRepository(Topic topic) {
+		return Mockito.mock(TopicRepository.class);
+	}
+
+	private Topic topic() {
+		Topic topic = new Topic("The topic title", "The topic text");
+		topic.setForum(forum());
+		return topic;
+	}
+
 	private ForumRepository forumRepository(Forum forum) {
 		ForumRepository forumRepository = mock(ForumRepository.class);
 		when(forumRepository.get("1234")).thenReturn(forum);

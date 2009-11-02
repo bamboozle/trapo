@@ -15,30 +15,21 @@
  */
 package com.google.code.trapo.web.tags;
 
-import static java.net.URLEncoder.encode;
+import com.google.code.trapo.util.StringSlugger;
 
-import java.io.UnsupportedEncodingException;
 
-import javax.servlet.jsp.JspException;
 
 /**
  * @author Bamboozle Who
- *
- * @since 31/08/2009
+ * 
+ * @since 01/11/2009
  */
 @SuppressWarnings("serial")
-public class UrlEncoderTag extends AbstractTrapoTag {
+public class StringSluggerTag extends AbstractTrapoTag {
 
 	@Override
-	public String transformValue() throws JspException {
-		if(getValue() == null) {
-			return "";
-		}
-		try {
-			return encode(getValue(), getEncoding());
-		} catch (UnsupportedEncodingException ex) {
-			throw new JspException(ex.getMessage(), ex);
-		}
+	public String transformValue() {
+		return new StringSlugger().slug(getValue());
 	}
 	
 }
