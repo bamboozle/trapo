@@ -15,12 +15,9 @@
  */
 package com.google.code.trapo.web.tags;
 
-import java.io.IOException;
-import java.util.Locale;
+import com.google.code.trapo.util.StringSlugger;
 
-import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.tagext.BodyTag;
-import javax.servlet.jsp.tagext.TagSupport;
+
 
 /**
  * @author Bamboozle Who
@@ -28,50 +25,11 @@ import javax.servlet.jsp.tagext.TagSupport;
  * @since 01/11/2009
  */
 @SuppressWarnings("serial")
-public class StringSluggerTag extends TagSupport {
+public class StringSluggerTag extends AbstractTrapoTag {
 
-	private String value;
-	private String encoding = "utf-8";
-	
-	private static final String ACCENTED_CHARS = "";
-	private static final String NOT_ACCENTED_CHARS = "";
-	
 	@Override
-	public int doStartTag() throws JspException {
-		try {
-			write(slug(value));
-			return BodyTag.SKIP_BODY;
-		} catch (IOException ex) {
-			throw new JspException(ex.getMessage(), ex);
-		}
+	public String transformValue() {
+		return StringSlugger.slug(getValue());
 	}
 	
-	private String slug(String string) {
-		if(string == null) {
-			return "";
-		}
-		String temp = string.toLowerCase(Locale.getDefault());
-		return temp.replaceAll("\\s+", "-");
-	}
-	
-	private void write(String value) throws IOException {
-		this.pageContext.getOut().write(value);
-	}
-
-	public String getValue() {
-		return value;
-	}
-
-	public String getEncoding() {
-		return encoding;
-	}
-
-	public void setValue(String value) {
-		this.value = value;
-	}
-
-	public void setEncoding(String encoding) {
-		this.encoding = encoding;
-	}
-
 }

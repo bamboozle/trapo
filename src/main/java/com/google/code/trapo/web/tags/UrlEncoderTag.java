@@ -17,12 +17,9 @@ package com.google.code.trapo.web.tags;
 
 import static java.net.URLEncoder.encode;
 
-import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 
 import javax.servlet.jsp.JspException;
-import javax.servlet.jsp.tagext.BodyTag;
-import javax.servlet.jsp.tagext.TagSupport;
 
 /**
  * @author Bamboozle Who
@@ -30,39 +27,18 @@ import javax.servlet.jsp.tagext.TagSupport;
  * @since 31/08/2009
  */
 @SuppressWarnings("serial")
-public class UrlEncoderTag extends TagSupport {
+public class UrlEncoderTag extends AbstractTrapoTag {
 
-	private String value;
-	private String encoding = "utf-8";
-	
 	@Override
-	public final int doStartTag() throws JspException {
-		try {
-			
-			if(this.value == null) {
-				this.value = "";
-			}
-			
-			write(encode(this.value, this.encoding));
-			return BodyTag.SKIP_BODY;
-			
-		} catch (UnsupportedEncodingException ex) {
-			throw new JspException(ex);
-		} catch (IOException ex) {
-			throw new JspException(ex);
+	public String transformValue() throws JspException {
+		if(getValue() == null) {
+			return "";
 		}
-	}
-	
-	private void write(String value) throws IOException {
-		this.pageContext.getOut().write(value);
-	}
-
-	public void setValue(String value) {
-		this.value = value;
-	}
-
-	public void setEncoding(String encoding) {
-		this.encoding = encoding;
+		try {
+			return encode(getValue(), getEncoding());
+		} catch (UnsupportedEncodingException ex) {
+			throw new JspException(ex.getMessage(), ex);
+		}
 	}
 	
 }

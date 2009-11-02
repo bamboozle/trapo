@@ -21,10 +21,10 @@ import static org.mockito.Mockito.when;
 
 import java.io.IOException;
 
+import javax.servlet.ServletContext;
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.PageContext;
-import javax.servlet.jsp.tagext.TagSupport;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -41,7 +41,8 @@ public class StringSluggerTagTests {
 	
 	private StringSluggerTag tag = new StringSluggerTag();
 	@Mock private JspWriter writer;
-	@Mock private PageContext context;
+	@Mock private PageContext pageContext;
+	@Mock private ServletContext servletContext;
 
 	@Test
 	public void should_encode_a_url_using_default_encoding() throws Exception {
@@ -59,13 +60,14 @@ public class StringSluggerTagTests {
 	@Test
 	public void should_render_empty_when_the_value_is_null() throws Exception {
 		
-		when(context.getOut()).thenReturn(writer);
+		setupMocks();
 		
 		tag.setValue(null);
-		tag.setPageContext(context);
+		tag.setPageContext(pageContext);
+		tag.setUrl("");
 		tag.doStartTag();
 		
-		verify(writer).write("");
+		verify(writer).write("trapo/");
 		
 	}
 	
@@ -90,23 +92,32 @@ public class StringSluggerTagTests {
 	@Test(expected = JspException.class)
 	public void should_throws_a_exception_when_a_io_exception_happens() throws Exception {
 		
-		doThrow(new IOException()).when(writer).write("trapo-is-a-cool-forum");
-		when(context.getOut()).thenReturn(writer);
+		doThrow(new IOException()).when(writer).write("trapo/view/trapo-is-a-cool-forum");
 
-		tag.setPageContext(context);
+		setupMocks();
+		
+		tag.setPageContext(pageContext);
 		tag.setValue("trapo is a cool forum");
+		tag.setUrl("view/");
 		tag.doStartTag();
 		
 	}
 	
-	private void runAgainstTag(TagSupport tag) throws Exception {
+	private void runAgainstTag(AbstractTrapoTag tag) throws Exception {
 		
-		when(context.getOut()).thenReturn(writer);
+		setupMocks();
 		
-		tag.setPageContext(context);
+		tag.setPageContext(pageContext);
+		tag.setUrl("view/");
 		tag.doStartTag();
 		
-		verify(writer).write("trapo-is-a-cool-forum");
+		verify(writer).write("trapo/view/trapo-is-a-cool-forum");
 		
+	}
+	
+	private void setupMocks() {
+		when(pageContext.getOut()).thenReturn(writer);
+		when(pageContext.getServletContext()).thenReturn(servletContext);
+		when(servletContext.getContextPath()).thenReturn("trapo/");
 	}
 }
