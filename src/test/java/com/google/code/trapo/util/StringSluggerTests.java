@@ -29,35 +29,39 @@ public class StringSluggerTests {
 	@Test
 	public void should_replace_empty_spaces_with_a_separator() {
 		String string = "a simple string to test";
-		assertEquals("a-simple-string-to-test", StringSlugger.slug(string));
+		assertEquals("a-simple-string-to-test", slug(string));
 	}
 	
 	@Test
 	public void should_lowercase_all_characters_when_slugging_the_string() {
 		String string = "I Have A Lot OF UpperCases";
-		assertEquals("i-have-a-lot-of-uppercases", StringSlugger.slug(string));
+		assertEquals("i-have-a-lot-of-uppercases", slug(string));
 	}
 	
 	@Test
 	public void should_replace_continuous_empty_spaces_with_just_one_separator() {
 		String string = "Some             whitespaces between";
-		assertEquals("some-whitespaces-between", StringSlugger.slug(string));
+		assertEquals("some-whitespaces-between", slug(string));
 	}
 	
 	@Test
 	public void should_return_empty_when_trying_to_slug_a_null_string() {
-		assertEquals("", StringSlugger.slug(null));
+		assertEquals("", slug(null));
 	}
 	
 	@Test
 	public void should_replace_punctuations_with_separator() {
 		String string = "I have some punctuations. Period. Did you believe that, right?";
-		assertEquals("i-have-some-punctuations-period-did-you-believe-that-right", StringSlugger.slug(string));
+		assertEquals("i-have-some-punctuations-period-did-you-believe-that-right", slug(string));
 	}
 	
 	@Test
 	public void should_replace_accented_chars_by_their_counter_parts() {
 		String string = "áccênted chàrs in this string: áàãäâéèêëíìîïóòõôöúùûüñ";
-		assertEquals("accented-chars-in-this-string-aaaaaeeeeiiiiooooouuuun", StringSlugger.slug(string));
+		assertEquals("accented-chars-in-this-string-aaaaaeeeeiiiiooooouuuun", slug(string));
+	}
+	
+	private String slug(String string) {
+		return new StringSlugger().slug(string);
 	}
 }
