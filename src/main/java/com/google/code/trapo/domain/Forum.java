@@ -31,6 +31,8 @@ import org.hibernate.annotations.Type;
 import org.hibernate.validator.constraints.NotEmpty;
 import org.joda.time.DateTime;
 
+import com.google.code.trapo.validation.Unique;
+
 /**
  * @author Bamboozle Who
  * 
@@ -46,11 +48,13 @@ public class Forum implements Serializable, Comparable<Forum> {
 	@GeneratedValue(generator = "system-uuid")
 	@GenericGenerator(name = "system-uuid", strategy = "uuid")
 	private String id;
-	@NotEmpty
-	// must be unique
+	
+	@NotEmpty @Unique(entity = Forum.class, field = "name")
 	private String name;
+	
 	@NotEmpty @Type(type = "text")
 	private String description;
+	
 	private Date createdAt = new Date();
 	private boolean open;
 

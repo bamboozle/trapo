@@ -7,6 +7,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib uri="http://trapo.posterous.com/tags" prefix="trapo" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
   <head>
@@ -49,6 +50,7 @@
         <label>Name
         <span class="small">What is the forum name?</span>
         <form:errors path="name" cssClass="fieldError" />
+        <!-- <form:errors path="name" cssClass="fieldError"><span><a href="<trapo:beauty url="/view/forum/" value="${forum.name}" extension="html" />">see it</a></span></form:errors> -->
         </label>
         <form:input path="name" id="name"/>
         <label>Description
