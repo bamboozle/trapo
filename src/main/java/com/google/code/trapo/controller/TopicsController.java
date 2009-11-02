@@ -46,7 +46,7 @@ public class TopicsController extends AbstractController<Topic> {
 	@Autowired private TopicRepository topicRepository;
 	@Autowired private Validator validator;
 	
-	@RequestMapping(value = "/topic/create", method = POST)
+	@RequestMapping("/topic/create")
 	public String create(String id, Model model) {
 		Forum forum = forum(id);
 		if (!forum.isOpen()) {
@@ -61,6 +61,7 @@ public class TopicsController extends AbstractController<Topic> {
 	@RequestMapping(value = { "/topic/save", "/topic/update" }, method = POST)
 	public String save(@ModelAttribute Topic topic, BindingResult errors, Model model) {
 		if(this.hasErrors(topic, errors)) {
+			model.addAttribute("forum", forum(topic.getForum().getId()));
 			model.addAttribute("message", error("Oops, there are some errors in form"));
 			return "topics/create";
 		}

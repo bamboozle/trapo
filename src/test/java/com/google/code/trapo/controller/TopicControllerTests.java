@@ -142,6 +142,7 @@ public class TopicControllerTests {
 		
 		TopicsController controller = new TopicsController();
 		controller.setTopicRepository(topicRepository(topic));
+		controller.setForumRepository(forumRepository(forum()));
 		controller.setValidator(validator());
 		
 		BindingResult errors = errors();
@@ -150,6 +151,25 @@ public class TopicControllerTests {
 		String result = controller.save(topic, errors, model);
 		Assert.assertEquals("topics/create", result);
 		Assert.assertThat(model.containsAttribute("message"), is(true));
+	}
+	
+	@Test
+	public void when_there_are_validation_errors_forum_object_must_be_available() {
+		
+		final Topic topic = topic();
+		final Model model = model();
+		
+		TopicsController controller = new TopicsController();
+		controller.setTopicRepository(topicRepository(topic));
+		controller.setForumRepository(forumRepository(forum()));
+		controller.setValidator(validator());
+		
+		BindingResult errors = errors();
+		when(errors.hasErrors()).thenReturn(true);
+		
+		controller.save(topic, errors, model);
+		Assert.assertThat(model.containsAttribute("forum"), is(true));
+		
 	}
 
 	private Validator validator() {
