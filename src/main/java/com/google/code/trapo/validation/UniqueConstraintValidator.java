@@ -51,6 +51,10 @@ public class UniqueConstraintValidator implements ConstraintValidator<Unique, St
 		}
 		return query(value).intValue() == 0;
 	}
+	
+	protected void setSessionFactory(SessionFactory sessionFactory) {
+		this.sessionFactory = sessionFactory;
+	}
 
 	private Number query(String value) {
 		HibernateTemplate template = new HibernateTemplate(sessionFactory);

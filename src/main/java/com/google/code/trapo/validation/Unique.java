@@ -37,7 +37,8 @@ public @interface Unique {
 	
 	String message() default "{constraints.unique}";
 	
-	Class<?> entity();
+	@SuppressWarnings("unchecked")
+	Class entity();
 	
 	String field();
 	

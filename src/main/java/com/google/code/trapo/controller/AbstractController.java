@@ -15,11 +15,10 @@
  */
 package com.google.code.trapo.controller;
 
-import static org.springframework.util.ReflectionUtils.getField;
-
 import java.io.UnsupportedEncodingException;
-import java.lang.reflect.Field;
 import java.net.URLDecoder;
+
+import net.vidageek.mirror.dsl.Mirror;
 
 /**
  * @author Bamboozle Who
@@ -29,19 +28,7 @@ import java.net.URLDecoder;
 public abstract class AbstractController<Type> {
 
 	protected boolean exists(Type bean) {
-		return getField(field("id", bean), bean) != null;
-	}
-
-	@SuppressWarnings("unchecked")
-	private Field field(String name, Type bean) {
-		try {
-			Class c = bean.getClass();
-			Field field = c.getDeclaredField(name);
-			field.setAccessible(true);
-			return field;
-		} catch (Exception ex) {
-			throw new RuntimeException(ex);
-		}
+		return new Mirror().on(bean).get().field("id") != null;
 	}
 
 	protected String decode(String string) {
