@@ -30,7 +30,7 @@ import org.junit.Test;
  */
 public class UniqueConstraintValidatorTests {
 
-	@Test @SuppressWarnings("unchecked")
+	@Test
 	public void should_initialize_whit_values_coming_from_annotation() {
 		UniqueConstraintValidator validator = new UniqueConstraintValidator();
 		validator.initialize(unique(String.class, "value"));
@@ -44,15 +44,15 @@ public class UniqueConstraintValidatorTests {
 		when(unique.entity()).thenReturn(entity);
 		when(unique.field()).thenReturn(field);
 		return unique;
-	}
+	}	
 	
 	private String field(UniqueConstraintValidator validator) {
 		return (String)new Mirror().on(validator).get().field("field");
 	}
 	
 	@SuppressWarnings("unchecked")
-	private Class entity(Object target) {
-		return (Class) new Mirror().on(target).get().field("entity");
+	private Class<String> entity(Object target) {
+		return (Class<String>) new Mirror().on(target).get().field("entity");
 	}
 	
 }
