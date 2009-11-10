@@ -7,6 +7,15 @@
   <description>A Java Forum System: Oh Really?</description>
 
   <filter>
+    <filter-name>jamon</filter-name>
+    <filter-class>com.jamonapi.http.JAMonServletFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>jamon</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+
+  <filter>
     <filter-name>characterEncodingFilter</filter-name>
     <filter-class>org.springframework.web.filter.CharacterEncodingFilter</filter-class>
     <init-param>
