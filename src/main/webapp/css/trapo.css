@@ -22,17 +22,17 @@
 #header h1 { margin-bottom: 0px; }
 #header a { text-decoration: none; }
 
-#header, #menu a, #forums_menu a, input[type="submit"], .cancel, .action {
+#header, #menu a, input[type="submit"], .cancel, .action {
   -moz-border-radius: 4px;
   -webkit-border-radius: 4px;
 }
 
 #menu { margin-left: -13px; }
-#menu li, #forums_menu li { 
+#menu li { 
   display: inline;
 }
 
-#menu a, #forums_menu a {
+#menu a {
   background-color: #005DB3;
   font-size: 1.3em;
   font-weight: bold;
@@ -44,7 +44,7 @@
   margin-top: 20px;
 }
 
-#menu a:hover, #forums_menu a:hover {
+#menu a:hover {
   color: #F9F9F9;
   background-color: #5BC236;
 }

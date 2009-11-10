@@ -12,12 +12,6 @@
     <title>${forum.name} Forum - Trapo</title>
   </head>
   <body>
-    <div class="suffix_1">
-      <ul id="forums_menu">
-        <li><a href="<c:url value="/view/forums" />">Forums</a></li>
-        <li><a href="<c:url value="/view/forum/create" />">Create a new Forum</a></li>
-      </ul>
-    </div>
     <div class="grid_24">
       <c:if test="${message != null}">
         <p class="grid_12 ${message.type}">${message}</p>

@@ -20,12 +20,6 @@
     </script>
   </head>
   <body>
-    <div class="prefix_10">
-      <ul id="forums_menu">
-        <li><a href="<c:url value="/view/forums" />">Forums</a></li>
-        <li><a href="<c:url value="/view/forum/create" />">Create a new Forum</a></li>
-      </ul>
-    </div>
     <div class="grid_12">
       <c:if test="${message != null}">
         <p class="${message.type}">${message}</p>

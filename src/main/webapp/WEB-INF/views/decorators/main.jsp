@@ -21,13 +21,13 @@
       <h1><a href="<c:url value="/index.html" />">Trapo Forum</a></h1>
       <p>A forum powered by Trapo</p>
     </div>
-    <div id="menu" class="grid_12">
+    <div id="menu" class="grid_24">
       <ul>
         <li><a href="<c:url value="/index.html" />">Home</a></li>
         <li><a href="<c:url value="/view/tags/" />">Tags</a></li>
         <li><a href="<c:url value="/view/search/" />">Advanced Search</a></li>
         <c:choose>
-          <c:when test="${user != null}">
+          <c:when test="${user == null}">
             <li><a href="<c:url value="/view/profile/" />">Profile</a></li>
             <li><a href="<c:url value="/view/logout/" />">Logout</a></li>
           </c:when>
@@ -35,6 +35,8 @@
             <li><a href="<c:url value="/view/login/" />">Login</a></li>
           </c:otherwise>
         </c:choose>
+        <li><a href="<c:url value="/view/forums" />">Forums</a></li>
+        <li><a href="<c:url value="/view/forum/create" />">Create a new Forum</a></li>
       </ul>
     </div>
     <div id="main">
