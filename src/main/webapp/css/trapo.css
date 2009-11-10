@@ -4,7 +4,6 @@
   background-color: #02243C;
   padding-top: 10px;
   margin-top: 10px;
-  margin-bottom: 20px;
 }
 
 #header h1, #header p, #header a {
@@ -27,7 +26,11 @@
   -webkit-border-radius: 4px;
 }
 
-#menu { margin-left: -13px; }
+#menu { 
+  margin-left: -10px;
+  position: static;
+}
+
 #menu li { 
   display: inline;
 }
