@@ -27,6 +27,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.google.code.trapo.domain.Forum;
@@ -72,8 +73,21 @@ public class TopicsController extends AbstractController<Topic> {
 			topicRepository.add(topic);
 			model.addAttribute("message", information("New Topic was created"));
 		}
+		model.addAttribute("forum", forum(topic.getForum()));
 		model.addAttribute("topic", topic);
 		return "topics/show";
+	}
+	
+	@RequestMapping({"/topic/{title}"})
+	public String show(@PathVariable String title, Model model) {
+		Topic topic = topic(title);
+		if(topic == null) {
+			model.addAttribute("message", "Topic with title "+ title + " not found");
+			return "redirect:/view/forums/list";
+		}
+		model.addAttribute("topic", topic);
+		model.addAttribute("forum", topic.getForum());
+		return "forums/show";
 	}
 	
 	protected void setForumRepository(ForumRepository forumRepository) {
@@ -84,9 +98,18 @@ public class TopicsController extends AbstractController<Topic> {
 		this.topicRepository = topicRepository;
 	}
 	
+	private Forum forum(Forum forum) {
+		return forum(forum.getId());
+	}
+	
 	private Forum forum(String id) {
 		Forum forum = this.forumRepository.get(id);
 		return forum != null ? forum : new Forum().close();
+	}
+	
+	private Topic topic(String title) {
+		Topic topic = this.topicRepository.byTitle(decode(title));
+		return topic;
 	}
 
 }

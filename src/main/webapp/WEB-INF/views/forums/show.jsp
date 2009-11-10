@@ -4,6 +4,7 @@
   pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib uri="http://trapo.posterous.com/tags" prefix="trapo" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
   <html>
   <head>
@@ -22,7 +23,7 @@
       <p>${forum.description}</p>
       <c:forEach items="${topics}" var="topic">
         <div class="span-24 fff">
-          <h2><a>${topic.title}</a></h2>
+          <h2><a href="<trapo:beauty url="/view/topic/" value="${topic.title}" extension="html"/>">${topic.title}</a></h2>
           <p>${topic.text}</p>
           <p>Posted at: ${topic.createdAt}</p>
         </div>

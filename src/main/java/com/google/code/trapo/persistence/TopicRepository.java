@@ -24,27 +24,42 @@ import com.google.code.trapo.domain.Topic;
 
 /**
  * @author Bamboozle Who
- *
+ * 
  * @since 28/10/2009
  */
 @Repository
 public class TopicRepository extends AbstractRepository<Topic, String> {
-	
-	@Override @SuppressWarnings("unchecked")
+
+	@Override
+	@SuppressWarnings("unchecked")
 	public Class entityClass() {
 		return Topic.class;
 	}
 
 	@SuppressWarnings("unchecked")
 	public List<Topic> topicsFor(Forum forum) {
-		
-		if(forum == null) {
+
+		if (forum == null) {
 			throw new IllegalArgumentException("Forum cannot be null.");
 		}
-		
-		return template()
-			  .usingCachedQueries()
-			  .withCacheRegion("Topic.topicsFor")
-			  .findByNamedQuery("Topic.topicsFor", forum.getId());
+
+		return template().usingCachedQueries().withCacheRegion(
+				"Topic.topicsFor").findByNamedQuery("Topic.topicsFor",
+				forum.getId());
+	}
+
+	@SuppressWarnings("unchecked")
+	public Topic byTitle(String title) {
+		List<Topic> topics = template()
+							.usingCachedQueries()
+							.withCacheRegion("Topic.byTitle")
+							.withMaxResults(1)
+							.findByNamedQuery("Topic.byTitle", title);
+
+		if (topics.isEmpty()) {
+			return null;
+		}
+
+		return topics.iterator().next();
 	}
 }

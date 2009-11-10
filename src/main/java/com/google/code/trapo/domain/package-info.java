@@ -9,6 +9,10 @@
 	@NamedQuery(
 		name = "Topic.topicsFor",
 		query = "from Topic t where t.forum.id = ?"
+	),
+	@NamedQuery(
+		name = "Topic.byTitle", 
+		query="from Topic t where t.title = ?"
 	)
 })
 package com.google.code.trapo.domain;
