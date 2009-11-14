@@ -87,7 +87,7 @@ public class TopicsController extends AbstractController<Topic> {
 		}
 		model.addAttribute("topic", topic);
 		model.addAttribute("forum", topic.getForum());
-		return "forums/show";
+		return "topics/show";
 	}
 	
 	protected void setForumRepository(ForumRepository forumRepository) {
@@ -108,7 +108,7 @@ public class TopicsController extends AbstractController<Topic> {
 	}
 	
 	private Topic topic(String title) {
-		Topic topic = this.topicRepository.byTitle(decode(title));
+		Topic topic = this.topicRepository.byTitle(title);
 		return topic;
 	}
 
