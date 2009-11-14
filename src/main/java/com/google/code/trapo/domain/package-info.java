@@ -8,7 +8,7 @@
 	),
 	@NamedQuery(
 		name = "Topic.topicsFor",
-		query = "from Topic t where t.forum.id = ?"
+		query = "from Topic t where t.forum.id = ? order by createdAt desc"
 	),
 	@NamedQuery(
 		name = "Topic.byTitle", 
