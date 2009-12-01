@@ -16,11 +16,13 @@
 package com.google.code.trapo.persistence;
 
 import static org.hamcrest.CoreMatchers.is;
+import static org.hamcrest.CoreMatchers.nullValue;
 import static org.junit.Assert.assertThat;
 
 import java.util.List;
 
 import org.dbunit.operation.DatabaseOperation;
+import org.hamcrest.CoreMatchers;
 import org.junit.After;
 import org.junit.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -67,6 +69,17 @@ public class TopicsRepositoryTests extends AbstractRepositoryTest<Topic, String>
 		forum.setId("non existent");
 		List<Topic> topics = this.topicRepository.topicsFor(forum);
 		assertThat(topics.isEmpty(), is(true));
+	}
+	
+	@Test
+	public void should_find_topics_by_title() {
+		Topic topic = this.topicRepository.byTitle("Topic 123400 Title");
+		assertThat(topic.getId(), CoreMatchers.equalTo("123400"));
+	}
+	
+	@Test
+	public void should_return_null_when_there_is_no_topic_with_title() {
+		assertThat(this.topicRepository.byTitle("non-existent"), nullValue());
 	}
 	
 	@After
