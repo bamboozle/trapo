@@ -17,6 +17,7 @@
   <util:list id="annotatedClasses">
     <value>com.google.code.trapo.domain.Forum</value>
     <value>com.google.code.trapo.domain.Topic</value>
+    <value>com.google.code.trapo.domain.Reply</value>
   </util:list>
   <util:properties id="hibernateProperties" location="classpath:hibernate.test.properties" />
 </beans>

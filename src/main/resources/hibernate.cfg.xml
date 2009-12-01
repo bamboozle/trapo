@@ -35,6 +35,7 @@
 
     <mapping class="com.google.code.trapo.domain.Forum" />
     <mapping class="com.google.code.trapo.domain.Topic" />
+    <mapping class="com.google.code.trapo.domain.Reply" />
 	<mapping package="com.google.code.trapo.domain"/>
 
   </session-factory>
