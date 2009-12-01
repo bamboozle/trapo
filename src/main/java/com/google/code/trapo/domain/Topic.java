@@ -54,6 +54,9 @@ public class Topic implements Comparable<Topic> {
 	@ManyToOne
 	private Forum forum = new Forum();
 	
+	@ManyToOne
+	private Reply lastReply;
+	
 	public Topic() {
 		// hibernate is happy
 	}
@@ -61,6 +64,16 @@ public class Topic implements Comparable<Topic> {
 	public Topic(String title, String text) {
 		this.title = title;
 		this.text = text;
+	}
+	
+	public Reply reply(String replyTitle, String replyText) {
+		
+		Reply reply = new Reply(replyTitle, replyText);
+		reply.inReplyTo(this);
+		
+		this.lastReply = reply;
+		
+		return reply;
 	}
 	
 	public int compareTo(Topic topic) {
